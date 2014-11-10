@@ -34,6 +34,10 @@ models.sequelize.sync({force: true}).success(function (){
 			});
 		});
 	});
+	models.Landlord.create({
+		forename: "Arry",
+		surname: "Noname"
+	});
 
 	var server = app.listen(app.get('port'));
 });
