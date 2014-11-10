@@ -1,13 +1,17 @@
 {
   "name": "TopLets",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Property Management System for TopLets",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tommy Kwan",
   "license": "ISC",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/KwanMan/TopLetsManagementSystem.git"
+  },
   "dependencies": {
     "body-parser": "^1.9.2",
     "express": "^4.10.1",
