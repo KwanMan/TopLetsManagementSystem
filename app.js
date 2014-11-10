@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var models = require('./models');
 
 var landlords = require('./routes/landlords');
+var properties = require('./routes/properties');
 
 var app = express();
 
@@ -10,6 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({entended: false}));
 
 app.use('/landlords', landlords);
+app.use('/properties', properties);
 
 app.set('port', process.env.PORT || 3000);
 

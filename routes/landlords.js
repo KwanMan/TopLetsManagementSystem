@@ -12,10 +12,7 @@ router.route('/')
 
 // Create new
 .post(function (req, res){
-	models.Landlord.create({
-		forename: req.body.forename,
-		surname: req.body.surname
-	}).complete(function (err, landlord){
+	models.Landlord.create(req.body).complete(function (err, landlord){
 		if (err){
 			res.status(404);
 			res.send(err);
@@ -27,12 +24,9 @@ router.route('/')
 
 // Delete all
 .delete(function (req, res){
-	models.Landlord.findAll().success(function (landlords){
-		if (landlords){
-			landlords.forEach(function (landlord){
-				landlord.destroy();
-			});
-		}
+	models.Landlord.destroy({
+		truncate: true
+	}).success(function (affectedRows){
 		res.sendStatus(200);
 	});
 });
