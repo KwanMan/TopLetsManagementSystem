@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var models = require('./models');
+var passport = require('passport');
 
 var landlords = require('./routes/landlords');
 var properties = require('./routes/properties');
@@ -8,7 +9,8 @@ var properties = require('./routes/properties');
 var app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({entended: false}));
+app.use(bodyParser.urlencoded({entended: true}));
+app.use(passport.initialize());
 
 app.use('/landlords', landlords);
 app.use('/properties', properties);
@@ -39,6 +41,10 @@ models.sequelize.sync({force: true}).success(function (){
 	models.Landlord.create({
 		forename: "Arry",
 		surname: "Noname"
+	});
+	models.User.create({
+		username: "tommy",
+		password: "password"
 	});
 
 	var server = app.listen(app.get('port'));

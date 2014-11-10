@@ -8,15 +8,19 @@
   },
   "author": "Tommy Kwan",
   "license": "ISC",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/KwanMan/TopLetsManagementSystem.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KwanMan/TopLetsManagementSystem.git"
   },
   "dependencies": {
+    "bcrypt": "^0.8.0",
     "body-parser": "^1.9.2",
     "express": "^4.10.1",
     "mysql": "^2.5.3",
+    "passport": "^0.2.1",
+    "passport-http": "^0.2.2",
     "sequelize": "^2.0.0-rc2",
-    "sequelize-cli": "^0.3.3"
+    "sequelize-cli": "^0.3.3",
+    "t": "^0.5.1"
   }
 }
