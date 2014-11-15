@@ -1,7 +1,25 @@
-var React         = require("react");
+var React  = require("react");
+var Router = require("react-router");
+
+var Route         = Router.Route;
+var Routes        = Router.Routes;
+var NotFoundRoute = Router.NotFoundRoute;
+var DefaultRoute  = Router.DefaultRoute;
+var Redirect      = Router.Redirect;
+
+var App = require("./app.jsx");
+
+var Home = require("./home/home.jsx");
+var Settings = require("./settings/settings.jsx");
 
 window.React = React;
 
 React.render((
-  <h1>TopLets</h1>
+  <Routes location="history">
+    <Route name="app" path="/" handler={App}>
+      <Route name="home" handler={Home} pageTitle="Home" />
+      <Route name="settings" handler={Settings} pageTitle="Settings" />
+      <Redirect from="/" to="home" />
+    </Route>
+  </Routes>
 ), document.body);

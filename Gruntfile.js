@@ -29,13 +29,31 @@ module.exports = function (grunt){
     watch: {
       client: {
         files: ["public/js/**/*.js", "public/js/**/*.jsx", "public/less/**/*.less", "public/static/**/*.html"],
-        tasks: ["build"]
+        tasks: ["build"],
+        options: {
+          livereload: {
+            port: 9000
+          }
+        }
+      }
+    },
+    serve: {
+      port: 8000,
+      livereload: 9000
+    },
+    concurrent: {
+      dev: {
+        tasks: ["serve", "watch:client"],
+        options: {
+          logConcurrentOutput: true
+        }
       }
     }
   });
 
   require("load-grunt-tasks")(grunt);
+  grunt.loadTasks("tasks");
 
   grunt.registerTask("build", ["clean:build", "copy:build", "less:dev", "browserify:dev"]);
-  grunt.registerTask("default", ["build", "watch:client"]);
+  grunt.registerTask("default", ["build", "concurrent:dev"]);
 }
