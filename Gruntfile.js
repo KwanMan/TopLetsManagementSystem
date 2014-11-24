@@ -54,6 +54,6 @@ module.exports = function (grunt){
   require("load-grunt-tasks")(grunt);
   grunt.loadTasks("tasks");
 
-  grunt.registerTask("build", ["clean:build", "copy:build", "less:dev", "browserify:dev"]);
+  grunt.registerTask("build", ["clean:build", "copy:build", "less:dev", "browserify:dev", "sync-database"]);
   grunt.registerTask("default", ["build", "concurrent:dev"]);
 }

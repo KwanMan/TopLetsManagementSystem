@@ -6,5 +6,8 @@
     "username": "root",
     "password": "",
     "dialect": "mysql"
+  },
+  "server": {
+    "port": 3000
   }
 }
