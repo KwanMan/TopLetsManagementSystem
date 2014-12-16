@@ -2,7 +2,7 @@ var React  = require("react");
 var Router = require("react-router");
 var mui    = require("material-ui");
 
-var Nav = require("./nav.jsx");
+var Nav = require("./classes/nav.jsx");
 
 module.exports = React.createClass({
 

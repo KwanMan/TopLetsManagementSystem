@@ -12,7 +12,7 @@ module.exports = function(port) {
 
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({extended: true}));
-  server.use(passport.initialise());
+  server.use(passport.initialize());
 
   server.use("/api", apiRoutes);
 

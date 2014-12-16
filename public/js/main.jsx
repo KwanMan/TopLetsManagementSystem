@@ -9,8 +9,8 @@ var Redirect      = Router.Redirect;
 
 var App = require("./app.jsx");
 
-var Home = require("./home/home.jsx");
-var Settings = require("./settings/settings.jsx");
+var Home     = require("./classes/pages/home/home.jsx");
+var Settings = require("./classes/pages/settings/settings.jsx");
 
 window.React = React;
 
