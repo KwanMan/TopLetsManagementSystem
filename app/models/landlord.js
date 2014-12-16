@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes){
   }, {
     classMethods: {
       associate: function(models){
-        Landlord.hasMany(models.Property)
+        Landlord.hasMany(models.Property);
       }
     }
   });

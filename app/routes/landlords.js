@@ -1,11 +1,11 @@
 var models = require('../models');
 var router = require('express').Router();
-var authController = require('../middleware/auth');
+var checkAccessToken = require('../middleware/checkAccessToken');
 
 router.route('/')
 
   // Get all
-  .get(authController.isAuthenticated, function (req, res){
+  .get(checkAccessToken, function (req, res){
     models.Landlord.findAll().success(function (landlords){
       res.send(landlords);
     });

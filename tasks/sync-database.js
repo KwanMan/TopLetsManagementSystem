@@ -34,6 +34,11 @@ module.exports = function(grunt) {
         password: "password"
       });
 
+      models.Admin.create({
+        username: "admin",
+        password: "adminpass"
+      });
+
 
     });
 
