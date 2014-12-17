@@ -1,4 +1,3 @@
-var bcrypt = require('bcrypt');
 var dateUtils = require('../utils/date');
 
 module.exports = function (sequelize, DataTypes){

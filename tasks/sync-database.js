@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       models.Landlord.create({
         forename: "Mitchell",
         surname: "Smith"
-      }).success(function (landlord){
+      }).then(function (landlord){
         models.Property.bulkCreate([{
           number: 69,
           street: "Rydal Avenue",
@@ -18,10 +18,8 @@ module.exports = function(grunt) {
           number: 108,
           street: "Paget Street",
           postcode: "LE11 5DU"
-        }]).success(function (){
-          models.Property.findAll().success(function (properties){
-            landlord.setProperties(properties);
-          });
+        }]).then(function (properties){
+          landlord.setProperties(properties);
         });
       });
       
@@ -38,6 +36,26 @@ module.exports = function(grunt) {
         username: "admin",
         password: "adminpass"
       });
+
+      models.Tenant.bulkCreate([{
+        forename: "Tommy",
+        surname: "Kwan"
+      }, {
+        forename: "Sophie",
+        surname: "Keen"
+      }, {
+        forename: "Alexander",
+        surname: "Taylor"
+      }, {
+        forename: "Josh",
+        surname: "Roupie"
+      }, {
+        forename: "Harry",
+        surname: "Jenkins"
+      }, {
+        forename: "Rob",
+        surname: "Game"
+      }]);
 
 
     });

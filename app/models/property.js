@@ -20,7 +20,7 @@ module.exports = function (sequelize, DataTypes){
   }, {
     classMethods: {
       associate: function(models) {
-        Property.belongsTo(models.Landlord)
+        Property.belongsTo(models.Landlord);
       }
     }
   });
