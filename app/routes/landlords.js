@@ -58,4 +58,7 @@ router.route('/:id')
     });
   });
 
-module.exports = router;
+module.exports = {
+  mountPath: "/landlord",
+  routes: router
+};

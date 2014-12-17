@@ -50,4 +50,7 @@ router.route('/')
 
 });
 
-module.exports = router;
+module.exports = {
+  mountPath: "/authenticate",
+  routes: router
+};

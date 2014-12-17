@@ -182,4 +182,7 @@ router.route('/')
 
 });
 
-module.exports = router;
+module.exports = {
+  mountPath: "/contract",
+  routes: router
+};

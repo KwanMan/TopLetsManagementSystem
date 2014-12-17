@@ -49,4 +49,7 @@ router.route('/:id')
     });
   });
 
-module.exports = router;
+module.exports = {
+  mountPath: "/property",
+  routes: router
+};
