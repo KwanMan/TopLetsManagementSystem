@@ -2,12 +2,19 @@ var models = require('../models');
 var router = require('express').Router();
 var when = require('when');
 
-router.route('/')
+module.exports = {
+  mountPath: "/contract",
+  routes: router
+};
 
-.post(function (req, res){
+var Contract = models.Contract;
+var Tenant = models.Tenant;
+var RentPayment = models.RentPayment;
+
+router.post('/', function (req, res){
 
   // dummy data
-  var postData = {
+  req.body = {
     houseId: 1,
     startDate: new Date(2014, 7, 1),
     endDate: new Date(2015, 6, 28),
@@ -153,20 +160,24 @@ router.route('/')
   };
 
 
-  // make the contract
-  models.Contract.create({
+  // Create the contract
+  Contract.create({
 
-    startDate: postData.startDate,
-    endDate: postData.endDate
+    startDate: req.body.startDate,
+    endDate: req.body.endDate
 
-  }).then(function (contract){
+  })
 
-    return when.map(postData.tenants, function (tenantData, index){
-      return models.Tenant.find(tenantData.tenantId).then(function (tenant){
+  // Create the rent payments
+  .then(function (contract){
 
-        // Create the rent payments
+    // Find each tenant
+    return when.map(req.body.tenants, function (tenantData, index){
+      return Tenant.find(tenantData.tenantId).then(function (tenant){
+
+        // Create the tenant's rent payments
         return when.map(tenantData.rentPayments, function (rentPaymentData, index){
-          return models.RentPayment.create(rentPaymentData).then(function (rentPayment){
+          return RentPayment.create(rentPaymentData).then(function (rentPayment){
             rentPayment.setTenant(tenant);
             rentPayment.setContract(contract);
             return rentPayment;
@@ -176,13 +187,58 @@ router.route('/')
       });
     });
 
-  }).then(function (rentPayments){
+  })
+
+  // Send the result
+  .then(function (rentPayments){
     res.send(rentPayments);
   });
 
 });
 
-module.exports = {
-  mountPath: "/contract",
-  routes: router
-};
+// Gets contract by id
+router.get('/:id', function (req, res){
+  Contract.find(req.params.id).then(function (contract){
+    res.send(contract);
+  });
+});
+
+// Gets tenants associated with contract
+router.get('/:id/tenants', function (req, res){
+  
+  // Get the contract
+  Contract.find({
+    where: {
+      id: req.params.id
+    },
+    include: [{
+      model: RentPayment,
+      include: [Tenant]
+    }]
+  })
+
+  // Now extract all unique tenants
+  .then(function (contract){
+
+    return when.reduce(contract.RentPayments, function (tenants, rentPayment, index){
+      
+      var tenantMatches = function (incoming, current, index, array){
+        return incoming.id === current.id;
+      };
+      
+      if (!tenants.some(tenantMatches.bind(tenantMatches, rentPayment.Tenant))){
+        // Only add to array if tenant is not already in there
+        return tenants.concat(rentPayment.Tenant);
+      }
+
+      return tenants;
+
+    }, []);
+
+  })
+
+  // Send the result
+  .then(function (tenants){
+    res.send(tenants);
+  });
+});
