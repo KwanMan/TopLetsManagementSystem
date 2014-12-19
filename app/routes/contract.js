@@ -159,13 +159,10 @@ router.post('/', function (req, res){
     }]
   };
 
-
   // Create the contract
   Contract.create({
-
     startDate: req.body.startDate,
     endDate: req.body.endDate
-
   })
 
   // Create the rent payments
@@ -203,42 +200,20 @@ router.get('/:id', function (req, res){
   });
 });
 
+// Gets unpaid rent payments
+router.get('/:id/unpaid', function(req, res){
+  Contract.findOne(req.params.id).then(function (contract){
+    return contract.getUnpaidPayments();
+  }).then(function (payments){
+    res.send(payments);
+  });
+});
+
 // Gets tenants associated with contract
 router.get('/:id/tenants', function (req, res){
-  
-  // Get the contract
-  Contract.find({
-    where: {
-      id: req.params.id
-    },
-    include: [{
-      model: RentPayment,
-      include: [Tenant]
-    }]
-  })
-
-  // Now extract all unique tenants
-  .then(function (contract){
-
-    return when.reduce(contract.RentPayments, function (tenants, rentPayment, index){
-      
-      var tenantMatches = function (incoming, current, index, array){
-        return incoming.id === current.id;
-      };
-      
-      if (!tenants.some(tenantMatches.bind(tenantMatches, rentPayment.Tenant))){
-        // Only add to array if tenant is not already in there
-        return tenants.concat(rentPayment.Tenant);
-      }
-
-      return tenants;
-
-    }, []);
-
-  })
-
-  // Send the result
-  .then(function (tenants){
+  Contract.findOne(req.params.id).then(function (contract){
+    return contract.getTenants();
+  }).then(function (tenants){
     res.send(tenants);
   });
 });

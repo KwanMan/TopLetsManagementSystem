@@ -15,14 +15,6 @@ router.route('/')
     models.Property.create(req.body).complete(function (property){
       res.send(property);
     });
-  })
-
-  .delete(function (req, res){
-    models.Property.destroy({
-      truncate: true
-    }).success(function (affectedRows){
-      res.sendStatus(200);
-    });
   });
 
 router.route('/:id')

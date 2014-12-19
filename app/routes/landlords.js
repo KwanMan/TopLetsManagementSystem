@@ -21,15 +21,6 @@ router.route('/')
         res.send(landlord);
       }
     });
-  })
-
-  // Delete all
-  .delete(function (req, res){
-    models.Landlord.destroy({
-      truncate: true
-    }).success(function (affectedRows){
-      res.sendStatus(200);
-    });
   });
 
 router.route('/:id')
@@ -57,6 +48,12 @@ router.route('/:id')
       });
     });
   });
+
+router.post('/:id/generateReports', function (req, res){
+
+  res.send(dataGenerator.getData());
+
+});
 
 module.exports = {
   mountPath: "/landlord",

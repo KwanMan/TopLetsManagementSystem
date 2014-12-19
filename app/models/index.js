@@ -2,7 +2,15 @@ var config    = require("config");
 var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
-var sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, config.db);
+
+var options = config.db;
+options.define = {
+  timestamps: true,
+  paranoid: true,
+  underscored: true
+};
+
+var sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, options);
 var models    = {};
 
 fs.readdirSync(__dirname).filter(function (file){

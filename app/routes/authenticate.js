@@ -31,9 +31,8 @@ passport.use(new BasicStrategy(
   }
 ));
 
-router.route('/')
-
-.post(passport.authenticate('basic', {session: false}), function (req, res){
+// Authenticates the user and gives it an access token
+router.post('/', passport.authenticate('basic', {session: false}), function (req, res){
 
   console.log("authenticated");
 
@@ -41,7 +40,7 @@ router.route('/')
 
   models.AccessToken.create({
     token: generatedToken,
-    expiry: dateUtils.getTimeIn({minutes: 10})
+    expiry: dateUtils.getTimeIn(req.body.lifetime)
   }).success(function (token){
     token.setAdmin(req.user);
     res.send({accessToken: token.token});

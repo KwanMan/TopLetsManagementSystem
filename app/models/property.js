@@ -7,7 +7,8 @@ module.exports = function (sequelize, DataTypes){
     },
     number: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 0
     },
     street: {
       type: DataTypes.STRING,
@@ -21,6 +22,8 @@ module.exports = function (sequelize, DataTypes){
     classMethods: {
       associate: function(models) {
         Property.belongsTo(models.Landlord);
+        Property.hasMany(models.Receipt);
+        Property.hasMany(models.PropertyReport);
       }
     }
   });
