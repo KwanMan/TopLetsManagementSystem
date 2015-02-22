@@ -2,24 +2,55 @@ var React  = require("react");
 var Router = require("react-router");
 
 var Route         = Router.Route;
-var Routes        = Router.Routes;
 var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute  = Router.DefaultRoute;
 var Redirect      = Router.Redirect;
+var Link          = Router.Link;
+var RouteHandler  = Router.RouteHandler;
 
-var App = require("./app.jsx");
+var Handlers = {
 
-var Home     = require("./classes/pages/home/home.jsx");
-var Settings = require("./classes/pages/settings/settings.jsx");
+  App: require("./app.jsx"),
 
-window.React = React;
+  Dashboard: require("./classes/pages/home/home.jsx"),
 
-React.render((
-  <Routes location="history">
-    <Route name="app" path="/" handler={App}>
-      <Route name="home" handler={Home} pageTitle="Home" />
-      <Route name="settings" handler={Settings} pageTitle="Settings" />
-      <Redirect from="/" to="home" />
+  PropertyManagement: {
+    Main: require("./classes/pages/property-management/index.jsx"),
+    Browse: require("./classes/pages/property-management/browse.jsx"),
+    EditLandlord: require("./classes/pages/property-management/edit-landlord.jsx"),
+    NewLandlord: require("./classes/pages/property-management/new-landlord.jsx")
+  },
+
+  ContractManagement: {
+    Main: require("./classes/pages/contract-management/index.jsx")
+  },
+
+  Settings: require("./classes/pages/settings/settings.jsx")
+};
+
+var routes = (
+  <Route name="app" path="/" handler={Handlers.App}>
+
+    <Route name="dashboard" handler={Handlers.Dashboard} />
+
+    <Route name="property-management" handler={Handlers.PropertyManagement.Main}>
+      <DefaultRoute handler={Handlers.PropertyManagement.Browse} />
+      <Route name="property-browse" path="browse" handler={Handlers.PropertyManagement.Browse} />
+      <Route name="property-landlord-edit" path="edit-landlord/:id" handler={Handlers.PropertyManagement.EditLandlord} />
+      <Route name="property-landlord-new" path="new-landlord" handler={Handlers.PropertyManagement.NewLandLord} />
     </Route>
-  </Routes>
-), document.body);
+
+    <Route name="contract-management" handler={Handlers.ContractManagement.Main} />
+
+    <Route name="settings" handler={Handlers.Settings} />
+
+    <Redirect from="/" to="dashboard" />
+  </Route>
+);
+
+Router.run(routes, function (Handler, state) {
+  var routes = state.routes.map(function(route) {
+    return route.name;
+  });
+  React.render(<Handler currentPath={routes} params={state.params} />, document.body);
+});

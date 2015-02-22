@@ -1,0 +1,24 @@
+@default-font: 'Roboto', sans-serif;
+@nav-bar-width: 180px;
+@content-padding: 20px;
+
+* {
+  box-sizing: border-box;
+}
+
+.main-wrapper {
+  font-family: @default-font;
+  font-weight: 300;
+  a, u {
+    text-decoration: none;
+  }
+}
+
+.page-heading {
+  padding-bottom: 20px;
+}
+
+.content-wrapper {
+  padding-top: @content-padding;
+  padding-left: @nav-bar-width + @content-padding;
+}

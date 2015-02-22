@@ -1,0 +1,62 @@
+@nav-bar-color-1: rgb(25, 24, 24);
+@nav-bar-color-2: rgb(255, 0, 72);
+@nav-bar-color-3: rgba(255, 255, 255, 0.87);
+
+@nav-bar-color: @nav-bar-color-1;
+
+@nav-bar-logo-height: 80px;
+@nav-bar-logo-width: 140px;
+
+@nav-bar-item-height: 30px;
+@nav-bar-item-text-size: 13px;
+
+@nav-bar-item-text-color: @nav-bar-color-3;
+@nav-bar-item-hover-color: @nav-bar-color-2;
+@nav-bar-item-hover-text-color: @nav-bar-color-3;
+@nav-bar-item-selected-text-color: @nav-bar-color-2;
+@nav-bar-item-hover-selected-color: @nav-bar-color-2;
+@nav-bar-item-hover-selected-text-color: @nav-bar-color-3;
+
+.nav-bar {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: @nav-bar-width;
+  height: 100%;
+  z-index: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23);
+  background-color: @nav-bar-color;
+
+  .logo {
+    width: @nav-bar-logo-width;
+    height: @nav-bar-logo-height;
+    background: url("./img/logo.png") 0 0;
+  }
+
+  .nav-bar-item {
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 10px;
+    text-align: left;
+    line-height: @nav-bar-item-height;
+    font-size: @nav-bar-item-text-size;
+    height: @nav-bar-item-height;
+    a { color: @nav-bar-item-text-color; }
+
+    &:hover {
+      background-color: @nav-bar-item-hover-color;
+      a { color: @nav-bar-item-hover-text-color; }
+    }
+
+    &.is-selected {
+      a { color: @nav-bar-item-selected-text-color; }
+    }
+
+    &:hover.is-selected {
+      background-color: @nav-bar-item-hover-selected-color;
+      a { color: @nav-bar-item-hover-selected-text-color; }
+    }
+  }
+}

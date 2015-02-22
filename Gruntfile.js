@@ -6,7 +6,12 @@ module.exports = function (grunt){
     },
     copy: {
       build: {
-        files: [{expand: true, cwd: "public/static", src: ["**"], dest: "public/build"}]
+        files: [{
+          expand: true,
+          cwd: "public/static",
+          src: ["**"],
+          dest: "public/build"
+        }]
       }
     },
     browserify: {
@@ -22,8 +27,14 @@ module.exports = function (grunt){
     less: {
       dev: {
         files: {
-          "public/build/styles.css": "public/less/main.less"
+          "public/build/temp/styles.css": "public/less/main.less"
         }
+      }
+    },
+    autoprefixer: {
+      build: {
+        src: "public/build/temp/styles.css",
+        dest: "public/build/styles.css"
       }
     },
     watch: {
@@ -54,6 +65,7 @@ module.exports = function (grunt){
   require("load-grunt-tasks")(grunt);
   grunt.loadTasks("tasks");
 
-  grunt.registerTask("build", ["clean:build", "copy:build", "less:dev", "browserify:dev", "sync-database"]);
+  grunt.registerTask("build", ["clean:build", "copy:build", "less:dev", "autoprefixer:build", "browserify:dev", "sync-database"]);
+  grunt.registerTask("test-api", ["sync-database", "serve"]);
   grunt.registerTask("default", ["build", "concurrent:dev"]);
-}
+};
