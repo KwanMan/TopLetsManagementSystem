@@ -43,20 +43,21 @@
     line-height: @nav-bar-item-height;
     font-size: @nav-bar-item-text-size;
     height: @nav-bar-item-height;
-    a { color: @nav-bar-item-text-color; }
+    color: @nav-bar-item-text-color;
+    .clickable;
 
     &:hover {
       background-color: @nav-bar-item-hover-color;
-      a { color: @nav-bar-item-hover-text-color; }
+      color: @nav-bar-item-hover-text-color;
     }
 
     &.is-selected {
-      a { color: @nav-bar-item-selected-text-color; }
+      color: @nav-bar-item-selected-text-color;
     }
 
     &:hover.is-selected {
       background-color: @nav-bar-item-hover-selected-color;
-      a { color: @nav-bar-item-hover-selected-text-color; }
+      color: @nav-bar-item-hover-selected-text-color;
     }
   }
 }

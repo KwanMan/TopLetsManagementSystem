@@ -5,7 +5,7 @@ var Link = Router.Link;
 
 var navLinks = [{
   text: "Dashboard",
-  route: "home"
+  route: "dashboard"
 },{
   text: "Property Management",
   route: "property-management"
@@ -19,6 +19,8 @@ var navLinks = [{
 
 module.exports = React.createClass({
 
+  mixins: [Router.Navigation],
+
   getInitialState: function() {
     return {selectedItem : "contract-management"}
   },
@@ -30,7 +32,7 @@ module.exports = React.createClass({
       if (this.props.currentPath.indexOf(navLink.route) > -1) {
         className += " is-selected";
       }
-      return (<div className={className}><Link to={navLink.route}>{navLink.text}</Link></div>);
+      return (<div className={className} onClick={this.handleNavigation.bind(this, navLink.route)}>{navLink.text}</div>);
     }.bind(this));
 
     return (
@@ -40,6 +42,10 @@ module.exports = React.createClass({
       </div>
     );
 
+  },
+
+  handleNavigation: function(route) {
+    this.transitionTo(route);
   }
 
 });

@@ -35,9 +35,8 @@ var routes = (
 
     <Route name="property-management" handler={Handlers.PropertyManagement.Main}>
       <DefaultRoute handler={Handlers.PropertyManagement.Browse} />
-      <Route name="property-browse" path="browse" handler={Handlers.PropertyManagement.Browse} />
-      <Route name="property-landlord-edit" path="edit-landlord/:id" handler={Handlers.PropertyManagement.EditLandlord} />
-      <Route name="property-landlord-new" path="new-landlord" handler={Handlers.PropertyManagement.NewLandLord} />
+      <Route name="edit-landlord" path="edit-landlord/:id" handler={Handlers.PropertyManagement.EditLandlord} />
+      <Route name="new-landlord" path="new-landlord" handler={Handlers.PropertyManagement.NewLandLord} />
     </Route>
 
     <Route name="contract-management" handler={Handlers.ContractManagement.Main} />
@@ -49,6 +48,7 @@ var routes = (
 );
 
 Router.run(routes, function (Handler, state) {
+  console.log(state)
   var routes = state.routes.map(function(route) {
     return route.name;
   });
