@@ -15,7 +15,6 @@ var SelectedRow = React.createClass({
 
 var ListSelector = React.createClass({
   onChange: function(id) {
-    console.log(id + " clicked");
     this.props.onChange(id);
   },
   
@@ -25,22 +24,22 @@ var ListSelector = React.createClass({
     var rows = [];
 
     this.props.rows.forEach(function(row) {
-      if (row.id === this.props.selectedRow) {
+      if (this.props.selectedRow != null && row.id === this.props.selectedRow.id) {
         selectedRow = (<SelectedRow name={row.text} />);
       } else {
         rows.push(
           <Row 
-            text={row.text} 
-            id={row.id}
+            text={row.text}
             key={row.id}
             onSelect={this.onChange.bind(this, row.id) } />
         );
       }
     }.bind(this));
 
+    var classes = "list-selector " + this.props.className;
+
     return (
-      <div className="list-selector">
-        <div className="list-heading">{this.props.title}</div>
+      <div className={classes}>
         {selectedRow}
         <div className="list-selector-list">
           {rows}

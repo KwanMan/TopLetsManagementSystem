@@ -48,7 +48,6 @@ var routes = (
 );
 
 Router.run(routes, function (Handler, state) {
-  console.log(state)
   var routes = state.routes.map(function(route) {
     return route.name;
   });
