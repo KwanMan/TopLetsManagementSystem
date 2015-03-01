@@ -2,6 +2,8 @@ var React = require("react");
 var Panel = require("../../components/panel.jsx");
 var ListSelector = require("../../components/list-selector.jsx");
 
+var _ = require("lodash");
+
 var getLandlordsFromAPI = function() {
   var landlords = [{
     text: "Arianna Ramirez",
@@ -14,22 +16,22 @@ var getLandlordsFromAPI = function() {
     text: "Sergio Davidson",
     id: "sdavidson",
     properties: [
-      {text: "10 Brook Road", id: "10 Brook Road"},
-      {text: "99 Rudolph Boulevard", id: "99 Rudolph Boulevard"}
+      {text: "8315 W Alexander Rd", id: "8315 W Alexander Rd"},
+      {text: "7966 Saddle Dr", id: "7966 Saddle Dr"}
     ]
   }, {
     text: "Mattie Wheeler",
     id: "mwheeler",
     properties: [
-      {text: "576 Hippie Corner", id: "576 Hippie Corner"},
-      {text: "77 Feet Road", id: "77 Feet Road"}
+      {text: "5634 Hogan St", id: "5634 Hogan St"},
+      {text: "6462 Eason Rd", id: "6462 Eason Rd"}
     ]
   }, {
     text: "Suzanne Burke",
     id: "sburke",
     properties: [
-      {text: "24 His Street", id: "24 His Street"},
-      {text: "997 Another Name", id: "997 Another Name"}
+      {text: "2606 Walnut Hill Ln", id: "2606 Walnut Hill Ln"},
+      {text: "6649 Cedar Dr", id: "6649 Cedar Dr"}
     ]
   }, {
     text: "Harry Cole",
@@ -61,17 +63,24 @@ var getLandlordsFromAPI = function() {
 
   landlords.unshift({text: "View All", id: "viewAll", properties: allProperties});
   return landlords;
-}
+};
 
 var Browse = React.createClass({
   getInitialState: function() {
 
-    this.landlords = getLandlordsFromAPI();
-
     return {
-      selectedLandlord: this.landlords[0],
+      landlords: [],
+      selectedLandlord: null,
       selectedProperty: null};
 
+  },
+
+  componentDidMount: function() {
+    var landlords = getLandlordsFromAPI();
+    this.setState({
+      landlords: landlords,
+      selectedLandlord: landlords[0].id
+    });
   },
 
   render: function() {
@@ -79,7 +88,7 @@ var Browse = React.createClass({
     var finalPanel = null;
     if (this.state.selectedProperty) {
       finalPanel = (
-        <Panel title={this.state.selectedProperty.text}>
+        <Panel title={this.getSelectedProperty().text}>
 
         </Panel>
       );
@@ -90,14 +99,14 @@ var Browse = React.createClass({
         <Panel title="Landlords">
           <ListSelector
             className="landlord-selector"
-            rows={this.landlords} 
+            rows={this.getLandlords()} 
             selectedRow={this.state.selectedLandlord} 
             onChange={this.handleLandlordChange} />
         </Panel>
         <Panel title="Properties">
           <ListSelector
             className="property-selector"
-            rows={this.state.selectedLandlord.properties}
+            rows={this.getProperties()}
             selectedRow={this.state.selectedProperty}
             onChange={this.handlePropertyChange} />
         </Panel>
@@ -105,23 +114,43 @@ var Browse = React.createClass({
       </div>
     );
   },
+
+  getLandlords: function() {
+    return this.state.landlords.map(function(landlord) {
+      return _.omit(landlord, "properties");
+    });
+  },
+
+  getProperties: function() {
+
+    if (this.state.selectedLandlord === null) {
+      return [];
+    }
+
+    return this.state.landlords.filter(function(landlord) {
+      return landlord.id === this.state.selectedLandlord;
+    }.bind(this))[0].properties;
+  },
+
+  getSelectedProperty: function() {
+    return this.state.landlords.filter(function(landlord) {
+      return landlord.id === this.state.selectedLandlord;
+    }.bind(this))[0].properties.filter(function(property) {
+      return property.id === this.state.selectedProperty; 
+    }.bind(this))[0];
+  },
   
   handleLandlordChange: function(id) {
-    var selectedLandlord = this.landlords.filter(function(landlord) {
-      return landlord.id === id;
-    })[0];
 
     this.setState({
-      selectedLandlord: selectedLandlord,
+      selectedLandlord: id,
       selectedProperty: null
     });
   },
 
   handlePropertyChange: function(id) {
-    var selectedProperty = this.state.selectedLandlord.properties.filter(function(property) {
-      return property.id == id;
-    })[0];
-    this.setState({selectedProperty: selectedProperty});
+
+    this.setState({selectedProperty: id});
   }
 
 });

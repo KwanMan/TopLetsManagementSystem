@@ -3,13 +3,13 @@ var cx = React.addons.classSet;
 
 var Row = React.createClass({
   render: function() {
-    return <div className="list-selector-row" onClick={this.props.onSelect}>{this.props.text}</div>
+    return <div className="list-selector-row" onClick={this.props.onSelect}>{this.props.text}</div>;
   }
 });
 
 var SelectedRow = React.createClass({
   render: function() {
-    return <div className="selected-row">{this.props.name}</div>
+    return <div className="selected-row">{this.props.name}</div>;
   }
 });
 
@@ -24,7 +24,7 @@ var ListSelector = React.createClass({
     var rows = [];
 
     this.props.rows.forEach(function(row) {
-      if (this.props.selectedRow != null && row.id === this.props.selectedRow.id) {
+      if (row.id === this.props.selectedRow) {
         selectedRow = (<SelectedRow name={row.text} />);
       } else {
         rows.push(
