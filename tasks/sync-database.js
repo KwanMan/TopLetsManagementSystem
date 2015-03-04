@@ -8,8 +8,8 @@ module.exports = function(grunt) {
 
 
       var landlords = [{
-        forename: "Mitchell",
-        surname: "Smith",
+        forename: "Arianna",
+        surname: "Ramirez",
         properties: [{
           number: 69,
           street: "Rydal Avenue",
@@ -20,16 +20,76 @@ module.exports = function(grunt) {
           postcode: "LE11 3BN"
         }]
       }, {
-        forename: "Arry",
-        surname: "Noname",
+        forename: "Sergio",
+        surname: "Davidson",
         properties: [{
-          number: 108,
-          street: "Paget Street",
-          postcode: "LE11 5DU"
+          number: 8315,
+          street: "W Alexander Rd",
+          postcode: "LE11 3RU"
         }, {
-          number: 14,
-          street: "Oxford Street",
-          postcode: "LE11 5DR"
+          number: 7966,
+          street: "Saddle Dr",
+          postcode: "LE11 3BN"
+        }]
+      }, {
+        forename: "Mattie",
+        surname: "Wheeler",
+        properties: [{
+          number: 5634,
+          street: "Hogan St",
+          postcode: "LE11 3RU"
+        }, {
+          number: 6462,
+          street: "Eason Rd",
+          postcode: "LE11 3BN"
+        }]
+      }, {
+        forename: "Suzanne",
+        surname: "Burke",
+        properties: [{
+          number: 2606,
+          street: "Walnut Hill Ln",
+          postcode: "LE11 3RU"
+        }, {
+          number: 6649,
+          street: "Cedar Dr",
+          postcode: "LE11 3BN"
+        }]
+      }, {
+        forename: "Harry",
+        surname: "Cole",
+        properties: [{
+          number: 2419,
+          street: "Paddington Ct",
+          postcode: "LE11 3RU"
+        }, {
+          number: 8247,
+          street: "Robinson Rd",
+          postcode: "LE11 3BN"
+        }]
+      }, {
+        forename: "Penny",
+        surname: "Perry",
+        properties: [{
+          number: 6803,
+          street: "Adams St",
+          postcode: "LE11 3RU"
+        }, {
+          number: 2806,
+          street: "Lone Wolf Trail",
+          postcode: "LE11 3BN"
+        }]
+      }, {
+        forename: "Bella",
+        surname: "Alvarez",
+        properties: [{
+          number: 5724,
+          street: "Kelly Dr",
+          postcode: "LE11 3RU"
+        }, {
+          number: 6037,
+          street: "Lake View Dr",
+          postcode: "LE11 3BN"
         }]
       }];
 

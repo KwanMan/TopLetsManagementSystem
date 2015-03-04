@@ -1,177 +1,97 @@
 var React = require("react");
+var Router = require("react-router");
+var when = require("when");
+
 var Panel = require("../../components/panel.jsx");
 var ListSelector = require("../../components/list-selector.jsx");
 
+var PropertyDAO = require("../../../dao/property");
+var ContractDAO = require("../../../dao/contract");
+
 var _ = require("lodash");
-
-var getContractsFromAPI = function() {
-  return [
-
-  {
-    text: "Arianna Ramirez",
-    id: "aramirez",
-    properties: [{
-      text: "69 Rydal Avenue",
-      id: "69 Rydal Avenue",
-      contracts:[{
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }, {
-          season: "2015/2016",
-          startDate: "9th Sept 2015",
-          endDate: "30th June 2016"
-        }
-      ]
-    }, {
-      text: "108 Paget Street",
-      id: "108 Paget Street",
-      contracts:[{
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }, {
-          season: "2015/2016",
-          startDate: "9th Sept 2015",
-          endDate: "30th June 2016"
-        }
-      ]
-    }]
-  }, 
-
-  {
-    text: "Sergio Davidson",
-    id: "sdavidson",
-    properties: [
-    {text: "8315 W Alexander Rd", id: "8315 W Alexander Rd",
-      contracts:[{
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]},
-      {text: "7966 Saddle Dr", id: "7966 Saddle Dr",
-      contracts:[{
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]}
-    ]
-  },
-
-  {
-    text: "Mattie Wheeler",
-    id: "mwheeler",
-    properties: [
-      {text: "5634 Hogan St", id: "5634 Hogan St",
-      contracts:[
-        {
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]},
-      {text: "6462 Eason Rd", id: "6462 Eason Rd",
-      contracts:[
-        {
-          season: "2015/2016",
-          startDate: "9th Sept 2015",
-          endDate: "30th June 2016"
-        }, {
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]}
-    ]
-  },
-
-  {
-    text: "Suzanne Burke",
-    id: "sburke",
-    properties: [
-      {text: "2606 Walnut Hill Ln", id: "2606 Walnut Hill Ln",
-      contracts:[
-        {
-          season: "2015/2016",
-          startDate: "9th Sept 2015",
-          endDate: "30th June 2016"
-        }, {
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]},
-      {text: "6649 Cedar Dr", id: "6649 Cedar Dr",
-      contracts:[
-        {
-          season: "2015/2016",
-          startDate: "9th Sept 2015",
-          endDate: "30th June 2016"
-        }, {
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]}
-    ]
-  },
-
-  {
-    text: "Harry Cole",
-    id: "hcole",
-    properties: [
-      {text: "2419 Paddington Ct", id: "2419 Paddington Ct",
-      contracts:[
-        {
-          season: "2015/2016",
-          startDate: "9th Sept 2015",
-          endDate: "30th June 2016"
-        }, {
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]},
-      {text: "8247 Robinson Rd", id: "8247 Robinson Rd",
-      contracts:[
-        {
-          season: "2015/2016",
-          startDate: "9th Sept 2015",
-          endDate: "30th June 2016"
-        }, {
-          season: "2014/2015",
-          startDate: "9th Sept 2014",
-          endDate: "30th June 2015"
-        }
-      ]}
-    ]
-  }];
-};
 
 var Browse = React.createClass({
 
   getInitialState: function() {
     return {
-      landlords: [],
-      occupied: "all",
-      selectedSeason: null,
-      selectedLandlord: null,
-      selectedProperty: null
+      selectedStatus: "all",
+      selectedProperty: null,
+      contractlessProperties: [],
+      contractedProperties: []
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    this.loadData(this.props.params.year);
+  },
+
   componentDidMount: function() {
+    this.loadData(this.props.params.year);
+  },
 
-    this.setState({landlords: getContractsFromAPI()});
+  loadData: function(year) {
+    var self = this;
 
+    var promises = [];
+    promises.push(PropertyDAO.getAllProperties());
+    promises.push(ContractDAO.getAllInYear(year));
+
+    when.all(promises).then(function(res) {
+      var properties = res[0];
+      var contracts = res[1];
+
+      var contracted = [];
+      var contractless = [];
+
+      properties.forEach(function(property) {
+
+        var matchingContracts = contracts.filter(function(contract) {
+          return contract.property_id === property.id;
+        });
+
+        var item = {
+          text: property.number + " " + property.street,
+          id: property.id
+        };
+
+        if (matchingContracts.length === 0) {
+          contractless.push(item);
+        } else {
+          contracted.push(item);
+        }
+
+      });
+
+      self.setState({
+        contractedProperties: contracted,
+        contractlessProperties: contractless,
+        selectedProperty: null
+      });
+
+    });
   },
 
   render: function() {
 
+    var statusOptions = [];
+    statusOptions.push({ text: "Unoccupied", id: "unoccupied" });
+    statusOptions.push({ text: "Occupied", id: "occupied" });
+    statusOptions.push({ text: "All", id: "all" });
+
+    var statusPanel = (
+
+      <Panel title="Status">
+        <ListSelector
+          className="status-selector"
+          rows={statusOptions} 
+          selectedRow={this.state.selectedStatus}
+          onChange={this.handleStatusChange} />
+      </Panel>
+
+    );
+
     var contractPanel = null;
-    var contract = this.getContract();
+    var contract = this.state.contract;
 
     if (this.state.selectedProperty !== null) {
 
@@ -220,28 +140,7 @@ var Browse = React.createClass({
 
     return (
       <div className="contract-browse">
-
-        <Panel title="Season">
-          <select value={this.state.occupied} className="occupied-selector" onChange={this.handleOccupiedChange}>
-            <option value="unoccupied">Unoccupied</option>
-            <option value="occupied">Occupied</option>
-            <option value="all">All</option>
-          </select>
-          <ListSelector
-            className="season-selector"
-            rows={this.getSeasons()} 
-            selectedRow={this.state.selectedSeason}
-            onChange={this.handleSeasonChange} />
-        </Panel>
-
-        <Panel title="Landlord">
-          <ListSelector
-            className="landlord-selector"
-            rows={this.getLandlords()}
-            selectedRow={this.state.selectedLandlord}
-            onChange={this.handleLandlordChange} />
-        </Panel>
-
+        {statusPanel}
         <Panel title="Properties">
           <ListSelector
             className="property-selector"
@@ -249,151 +148,51 @@ var Browse = React.createClass({
             selectedRow={this.state.selectedProperty}
             onChange={this.handlePropertyChange} />
         </Panel>
-
         {contractPanel}
-
       </div>
     );
 
   },
 
-  getSeasons: function() {
-
-    if (this.state.landlords.length === 0){
-      return [];
-    }
-
-    var seasons = _.uniq(this.flattenData(this.state.landlords).map(function(value) {
-      return value.contract.season;
-    }));
-
-    return seasons.map(function(season) {
-      return {
-        text: season,
-        id: season
-      };
-    });
-
-  },
-
-  getLandlords: function() {
-    if (!this.state.selectedSeason){
-      return [];
-    }
-
-    if (this.state.occupied === "all") {
-
-      return this.state.landlords.map(function(landlord) {
-        return _.omit(landlord, "properties");
-      });
-
-    } else if (this.state.occupied === "occupied") {
-
-      return this.flattenData(this.state.landlords).filter(function(value) {
-        return value.contract.season == this.state.selectedSeason;
-      }.bind(this)).map(function(value) {
-        return value.landlord;
-      });
-
-    } else if (this.state.occupied === "unoccupied") {
-
-      // All landlords which have an unoccupied property for current season
-      return this.state.landlords.filter(function(landlord) {
-
-        // Is there a property with no contract for current season?
-        var propertiesWithNoContract = landlord.properties.filter(function(property) {
-
-          // True if no contracts matching current season
-          var contractsForCurrentSeason = property.contracts.filter(function(contract) {
-            return contract.season === this.state.selectedSeason;
-          }.bind(this));
-
-          return contractsForCurrentSeason.length === 0;
-
-        }.bind(this));
-
-        return propertiesWithNoContract.length > 0;
-
-      }.bind(this));
-
-
-    }
-  },
-
   getProperties: function() {
-    if (!this.state.selectedLandlord){
+    if (!this.state.selectedStatus){
       return [];
     }
 
-    var properties = this.state.landlords.filter(function(landlord) {
-        return landlord.id == this.state.selectedLandlord;
-      }.bind(this))[0].properties;
+    switch (this.state.selectedStatus) {
+      case "unoccupied":
+        return this.state.contractlessProperties;
 
-    if (this.state.occupied === "all") {
-      return properties.map(function(property) {
-        return _.omit(property, "contracts");
-      });
-    } else if (this.state.occupied === "occupied") {
+      case "occupied":
+        return this.state.contractedProperties;
 
-      return properties.filter(function(property) {
-        return property.contracts.filter(function(contract) {
-          return contract.season === this.state.selectedSeason;
-        }.bind(this)).length === 1;
-      }.bind(this));
-
-    } else if (this.state.occupied === "unoccupied") {
-      
-      return properties.filter(function(property) {
-        return property.contracts.filter(function(contract) {
-          return contract.season === this.state.selectedSeason;
-        }.bind(this)).length === 0;
-      }.bind(this));
+      case "all":
+        return this.state.contractlessProperties.concat(this.state.contractedProperties);
 
     }
-  },
-
-  getContract: function() {
-
-    if (this.state.selectedProperty === null) {
-      return null;
-    }
-
-    var matchingContracts = this.flattenData(this.state.landlords).filter(function(v) {
-      return v.property.id === this.state.selectedProperty && v.contract.season === this.state.selectedSeason;
-    }.bind(this));
-
-    if (matchingContracts.length === 0 ) {
-      return null;
-    }
-
-    return matchingContracts[0].contract;
 
   },
 
-  handleOccupiedChange: function(e) {
-    this.setState({occupied: e.target.value});
-  },
-
-  handleSeasonChange: function(id) {
+  handleStatusChange: function(id) {
     this.setState({
-      selectedSeason: id,
-      selectedLandlord: null,
-      selectedProperty: null
+      selectedStatus: id,
+      selectedProperty: null,
+      contract: null
     });
-  },
-
-  handleLandlordChange: function(id) {
-    this.setState({
-      selectedLandlord: id,
-      selectedProperty: null
-    });
-
   },
 
   handlePropertyChange: function(id) {
-    this.setState({
-      selectedProperty: id
+
+    var self = this;
+
+    ContractDAO.getForPropertyInYear(self.props.params.year, id).done(function(contract) {
+
+      self.setState({
+        selectedProperty: id,
+        contract: contract
+      });
     });
+    
   },
 
   flattenData: function(data) {
@@ -408,7 +207,7 @@ var Browse = React.createClass({
             landlord: _.omit(landlord, "properties"),
             property: _.omit(property, "contracts"),
             contract: contract,
-            };
+          };
 
         });
 

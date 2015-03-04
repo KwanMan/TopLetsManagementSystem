@@ -9,10 +9,7 @@ module.exports = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <PageHeading title="Property Management" />
-        <RouteHandler params={this.props.params} />
-      </div>
+      <RouteHandler params={this.props.params} />
     );
   }
 

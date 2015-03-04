@@ -2,20 +2,17 @@ var models = require('../models');
 var router = require('express').Router();
 var when = require('when');
 
-module.exports = {
-  mountPath: "/contract",
-  routes: router
-};
-
 var Contract = models.Contract;
 var Tenant = models.Tenant;
 var RentPayment = models.RentPayment;
+var Property = models.Property;
 
 router.post('/', function (req, res){
 
   // dummy data
   req.body = {
     houseId: 1,
+    year: 2014,
     startDate: new Date(2014, 7, 1),
     endDate: new Date(2015, 6, 28),
     tenants: [{
@@ -161,8 +158,17 @@ router.post('/', function (req, res){
 
   // Create the contract
   Contract.create({
+    year: req.body.year,
     startDate: req.body.startDate,
     endDate: req.body.endDate
+  })
+
+  .tap(function (contract) {
+
+    Property.findOne(req.body.houseId).then(function (property) {
+      contract.setProperty(property);
+    });
+
   })
 
   // Create the rent payments
@@ -217,3 +223,19 @@ router.get('/:id/tenants', function (req, res){
     res.send(tenants);
   });
 });
+
+// Gets all contracts for specified year
+router.get('/year/:year', function(req, res) {
+  Contract.findAll({
+    where: {
+      year: req.params.year
+    }
+  }).then(function(contracts) {
+    res.send(contracts);
+  });
+});
+
+module.exports = {
+  mountPath: "/contract",
+  routes: router
+};

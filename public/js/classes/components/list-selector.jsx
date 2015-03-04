@@ -49,11 +49,4 @@ var ListSelector = React.createClass({
   }
 });
 
-/**
-  * title
-  * rows
-  * selectedRow
-  * onSelectedChange
-  */ 
-
 module.exports = ListSelector;

@@ -49,6 +49,22 @@ router.route('/:id')
     });
   });
 
+router.route('/:id/properties')
+
+  .get(function (req, res){
+
+    models.Property.findAll({
+      where: {
+        landlord_id: req.param('id')
+      }
+    }).success(function(properties) {
+
+      res.send(properties);
+
+    });
+
+  });
+
 router.post('/:id/generateReports', function (req, res){
 
   res.send(dataGenerator.getData());

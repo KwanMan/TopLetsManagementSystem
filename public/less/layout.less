@@ -7,6 +7,12 @@
 }
 
 .main-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-width: 1024px;
+  min-height: 280px;
+
   font-family: @default-font;
   font-weight: 300;
   a, u {
@@ -19,6 +25,8 @@
 }
 
 .content-wrapper {
-  padding-top: @content-padding;
-  padding-left: @nav-bar-width + @content-padding;
+  display: flex;
+  padding: @content-padding;
+  flex-grow: 1;
+  overflow: auto;
 }

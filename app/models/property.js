@@ -24,6 +24,7 @@ module.exports = function (sequelize, DataTypes){
         Property.belongsTo(models.Landlord);
         Property.hasMany(models.Receipt);
         Property.hasMany(models.PropertyReport);
+        Property.hasMany(models.Contract);
       }
     }
   });

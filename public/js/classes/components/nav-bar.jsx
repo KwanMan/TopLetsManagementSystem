@@ -22,7 +22,7 @@ module.exports = React.createClass({
   mixins: [Router.Navigation],
 
   getInitialState: function() {
-    return {selectedItem : "contract-management"}
+    return {selectedItem : "contract-management"};
   },
 
   render: function() {

@@ -23,7 +23,8 @@ var Handlers = {
 
   ContractManagement: {
     Main: require("./classes/pages/contract-management/index.jsx"),
-    Browse: require("./classes/pages/contract-management/browse.jsx")
+    Browse: require("./classes/pages/contract-management/browse.jsx"),
+    NewContract: require("./classes/pages/contract-management/new-contract.jsx")
   },
 
   Settings: require("./classes/pages/settings/settings.jsx")
@@ -40,8 +41,9 @@ var routes = (
       <Route name="new-landlord" path="new-landlord" handler={Handlers.PropertyManagement.NewLandlord} />
     </Route>
 
-    <Route name="contract-management" handler={Handlers.ContractManagement.Main}>
+    <Route name="contract-management/:year" handler={Handlers.ContractManagement.Main}>
       <DefaultRoute handler={Handlers.ContractManagement.Browse} />
+      <Route name="new-contract" path="new-contract/:propertyid" handler={Handlers.ContractManagement.NewContract} />
     </Route>
 
     <Route name="settings" handler={Handlers.Settings} />

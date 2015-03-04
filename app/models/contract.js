@@ -3,6 +3,10 @@ var when = require('when');
 module.exports = function (sequelize, DataTypes){
 
   var Contract = sequelize.define("Contract", {
+    year: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     startDate: {
       type: DataTypes.DATE,
       allowNull: false
@@ -15,6 +19,7 @@ module.exports = function (sequelize, DataTypes){
     classMethods: {
       associate: function (models){
         Contract.hasMany(models.RentPayment);
+        Contract.belongsTo(models.Property);
       }
     }, 
     instanceMethods: {
