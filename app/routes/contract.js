@@ -201,7 +201,15 @@ router.post('/', function (req, res){
 
 // Gets contract by id
 router.get('/:id', function (req, res){
-  Contract.find(req.params.id).then(function (contract){
+  Contract.findOne({
+
+    where: {
+      id:req.params.id
+    },
+
+    include: [Property]
+
+  }).then(function (contract){
     res.send(contract);
   });
 });

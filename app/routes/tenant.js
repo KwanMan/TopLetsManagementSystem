@@ -10,7 +10,7 @@ router.route('/')
   })
 
   .post(function (req, res){
-    models.Tenant.create(req.body).complete(function (tenant){
+    models.Tenant.create(req.body).success(function (tenant){
       res.send(tenant);
     });
   });

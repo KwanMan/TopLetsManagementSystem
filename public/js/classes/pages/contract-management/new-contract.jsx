@@ -44,7 +44,7 @@ var NewContract = React.createClass({
     return (
       <div className="contract-new">
         <Panel title={address}>
-          <div className="form">
+          <div className="form paper">
 
             <div className="form-row">
               <span className="label">Start Date</span>
@@ -71,10 +71,10 @@ var NewContract = React.createClass({
         <Panel title="Tenants">
           <ul>
             {this.state.tenants.map(function(tenant) {
-              return (<li>{tenant.surname + ", " + tenant.forename}</li>);
+              return (<li>{tenant.forename + " " + tenant.surname }</li>);
             })}
           </ul>
-          <div onClick={this.handleAddTenantButton}>Add tenant</div>
+          <div className="button" onClick={this.handleAddTenantButton}>Add tenant</div>
         </Panel>
 
         <TenantSelector ref="tenantSelector" onConfirm={this.handleTenantAdded} />
@@ -83,7 +83,7 @@ var NewContract = React.createClass({
   },
 
   handleAddTenantButton: function() {
-    this.refs.tenantSelector.launch();
+    this.refs.tenantSelector.launch(this.state.tenants);
   },
 
   handleTenantAdded: function(tenant) {
