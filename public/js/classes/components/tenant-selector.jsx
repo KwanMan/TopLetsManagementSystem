@@ -17,7 +17,9 @@ var TenantSelector = React.createClass({
       newTenant: {
         forename: "",
         surname: "",
-        id: ""
+        idNumber: "",
+        email: "",
+        contactNumber: ""
       }
     };
 
@@ -48,7 +50,17 @@ var TenantSelector = React.createClass({
 
               <div className="form-row">
                 <span className="label">ID No.</span>
-                <input className="field" type="text" value={this.state.newTenant.id} onChange={this.handleIDChange} />
+                <input className="field" type="text" value={this.state.newTenant.idNumber} onChange={this.handleIdNumberChange} />
+              </div>
+
+              <div className="form-row">
+                <span className="label">E-mail</span>
+                <input className="field" type="text" value={this.state.newTenant.email} onChange={this.handleEmailChange} />
+              </div>
+
+              <div className="form-row">
+                <span className="label">Contact Number</span>
+                <input className="field" type="text" value={this.state.newTenant.contactNumber} onChange={this.handleContactNumberChange} />
               </div>
 
               <div className="button" onClick={this.handleCreate}>Confirm</div>
@@ -66,6 +78,11 @@ var TenantSelector = React.createClass({
 
           <Panel title="">
             {"ID: " + tenant.id}
+            {"Forename: " + tenant.forename}
+            {"Surname: " + tenant.surname}
+            {"ID Number: " + tenant.idNumber}
+            {"E-Mail: " + tenant.email}
+            {"Contact Number: " + tenant.contactNumber}
             <div className="button" onClick={this.handleConfirm}>Confirm</div>
           </Panel>
 
@@ -167,10 +184,30 @@ var TenantSelector = React.createClass({
     });
   },
 
-  handleIDChange: function(e) {
+  handleIdNumberChange: function(e) {
 
     var newTenant = this.state.newTenant;
-    newTenant.id = e.target.value;
+    newTenant.idNumber = e.target.value;
+
+    this.setState({
+      newTenant: newTenant
+    });
+  },
+
+  handleEmailChange: function(e) {
+
+    var newTenant = this.state.newTenant;
+    newTenant.email = e.target.value;
+
+    this.setState({
+      newTenant: newTenant
+    });
+  },
+
+  handleContactNumberChange: function(e) {
+
+    var newTenant = this.state.newTenant;
+    newTenant.contactNumber = e.target.value;
 
     this.setState({
       newTenant: newTenant
@@ -181,7 +218,7 @@ var TenantSelector = React.createClass({
 
     var self = this;
 
-    TenantDAO.createTenant(_.omit(self.state.newTenant, "id")).then(function(tenant) {
+    TenantDAO.createTenant(self.state.newTenant).then(function(tenant) {
       self.props.onConfirm(tenant);
       self.refs.mainDialog.hide();
     });

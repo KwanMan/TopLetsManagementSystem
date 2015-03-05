@@ -117,22 +117,40 @@ module.exports = function(grunt) {
 
       models.Tenant.bulkCreate([{
         forename: "Tommy",
-        surname: "Kwan"
+        surname: "Kwan",
+        idNumber: "B123456",
+        email: "tommy@email.com",
+        contactNumber: "07782736465"
       }, {
         forename: "Sophie",
-        surname: "Keen"
+        surname: "Keen",
+        idNumber: "B123456",
+        email: "sophie@email.com",
+        contactNumber: "07787364999"
       }, {
         forename: "Alexander",
-        surname: "Taylor"
+        surname: "Taylor",
+        idNumber: "B123456",
+        email: "alex@email.com",
+        contactNumber: "07853890543"
       }, {
         forename: "Josh",
-        surname: "Roupie"
+        surname: "Roupie",
+        idNumber: "B123456",
+        email: "josh@email.com",
+        contactNumber: "07456876555"
       }, {
         forename: "Harry",
-        surname: "Jenkins"
+        surname: "Jenkins",
+        idNumber: "B123456",
+        email: "harry@email.com",
+        contactNumber: "07098234769"
       }, {
         forename: "Rob",
-        surname: "Game"
+        surname: "Game",
+        idNumber: "B123456",
+        email: "rob@email.com",
+        contactNumber: "07123456789"
       }]);
 
 
