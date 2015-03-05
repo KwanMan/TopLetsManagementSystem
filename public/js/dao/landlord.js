@@ -14,4 +14,8 @@ LandlordDAO.prototype.getProperties = function(id){
   return this.get("/" + id + "/properties");
 };
 
+LandlordDAO.prototype.createLandlord = function(data){
+  return this.post("/", data);
+};
+
 module.exports = new LandlordDAO();

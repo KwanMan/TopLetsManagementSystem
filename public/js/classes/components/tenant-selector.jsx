@@ -13,7 +13,7 @@ var TenantSelector = React.createClass({
 
     return {
       tenants: [],
-      selectedTenant: null,
+      selectedTenant: "new",
       newTenant: {
         forename: "",
         surname: "",

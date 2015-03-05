@@ -45,7 +45,7 @@ module.exports = React.createClass({
   },
 
   handleNavigation: function(route) {
-    this.transitionTo(route);
+    this.transitionTo(route, {year: 2014});
   }
 
 });

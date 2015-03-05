@@ -13,13 +13,8 @@ router.route('/')
 
   // Create new
   .post(function (req, res){
-    models.Landlord.create(req.body).complete(function (err, landlord){
-      if (err){
-        res.status(404);
-        res.send(err);
-      } else {
-        res.send(landlord);
-      }
+    models.Landlord.create(req.body).success(function (landlord){
+      res.send(landlord);
     });
   });
 

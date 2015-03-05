@@ -18,7 +18,8 @@ var Handlers = {
     Main: require("./classes/pages/property-management/index.jsx"),
     Browse: require("./classes/pages/property-management/browse.jsx"),
     EditLandlord: require("./classes/pages/property-management/edit-landlord.jsx"),
-    NewLandlord: require("./classes/pages/property-management/new-landlord.jsx")
+    NewLandlord: require("./classes/pages/property-management/new-landlord.jsx"),
+    NewProperty: require("./classes/pages/property-management/new-property.jsx")
   },
 
   ContractManagement: {
@@ -39,9 +40,10 @@ var routes = (
       <DefaultRoute handler={Handlers.PropertyManagement.Browse} />
       <Route name="edit-landlord" path="edit-landlord/:id" handler={Handlers.PropertyManagement.EditLandlord} />
       <Route name="new-landlord" path="new-landlord" handler={Handlers.PropertyManagement.NewLandlord} />
+      <Route name="new-property" path="new-property" handler={Handlers.PropertyManagement.NewProperty} />
     </Route>
 
-    <Route name="contract-management/:year" handler={Handlers.ContractManagement.Main}>
+    <Route name="contract-management" path="contract-management/:year" handler={Handlers.ContractManagement.Main}>
       <DefaultRoute handler={Handlers.ContractManagement.Browse} />
       <Route name="new-contract" path="new-contract/:propertyid" handler={Handlers.ContractManagement.NewContract} />
     </Route>

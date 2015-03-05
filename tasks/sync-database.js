@@ -10,6 +10,8 @@ module.exports = function(grunt) {
       var landlords = [{
         forename: "Arianna",
         surname: "Ramirez",
+        email: "arianna@ramirez.com",
+        contactNumber: "07888999888",
         properties: [{
           number: 69,
           street: "Rydal Avenue",
@@ -22,6 +24,8 @@ module.exports = function(grunt) {
       }, {
         forename: "Sergio",
         surname: "Davidson",
+        email: "sergio@davidson.com",
+        contactNumber: "07888999888",
         properties: [{
           number: 8315,
           street: "W Alexander Rd",
@@ -34,6 +38,8 @@ module.exports = function(grunt) {
       }, {
         forename: "Mattie",
         surname: "Wheeler",
+        email: "mattie@wheeler.com",
+        contactNumber: "07888999888",
         properties: [{
           number: 5634,
           street: "Hogan St",
@@ -46,6 +52,8 @@ module.exports = function(grunt) {
       }, {
         forename: "Suzanne",
         surname: "Burke",
+        email: "suzanne@burke.com",
+        contactNumber: "07888999888",
         properties: [{
           number: 2606,
           street: "Walnut Hill Ln",
@@ -58,6 +66,8 @@ module.exports = function(grunt) {
       }, {
         forename: "Harry",
         surname: "Cole",
+        email: "harry@cole.com",
+        contactNumber: "07888999888",
         properties: [{
           number: 2419,
           street: "Paddington Ct",
@@ -70,6 +80,8 @@ module.exports = function(grunt) {
       }, {
         forename: "Penny",
         surname: "Perry",
+        email: "penny@perry.com",
+        contactNumber: "07888999888",
         properties: [{
           number: 6803,
           street: "Adams St",
@@ -82,6 +94,8 @@ module.exports = function(grunt) {
       }, {
         forename: "Bella",
         surname: "Alvarez",
+        email: "bella@alvarez.com",
+        contactNumber: "07888999888",
         properties: [{
           number: 5724,
           street: "Kelly Dr",
