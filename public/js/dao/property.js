@@ -1,6 +1,6 @@
 var inherits = require("inherits");
 
-inherits(PropertyDAO, require("../lib/dao-admin"));
+inherits(PropertyDAO, require("../lib/dao"));
 
 function PropertyDAO(){}
 

@@ -1,6 +1,6 @@
 var inherits = require("inherits");
 
-inherits(ContractDAO, require("../lib/dao-admin"));
+inherits(ContractDAO, require("../lib/dao"));
 
 function ContractDAO(){}
 
