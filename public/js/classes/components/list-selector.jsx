@@ -14,38 +14,77 @@ var SelectedRow = React.createClass({
 });
 
 var ListSelector = React.createClass({
+  getInitialState: function() {
+
+    return {
+      searchTerm: ""
+    };
+  },
+
+  componentWillReceiveProps: function() {
+
+    this.setState({
+      searchTerm: ""
+    });
+  },
+
   onChange: function(id) {
     this.props.onChange(id);
+    this.setState({
+      searchTerm: ""
+    });
   },
   
   render: function() {
+
+    var self = this;
 
     var selectedRow = null;
     var rows = [];
 
     this.props.rows.forEach(function(row) {
-      if (row.id === this.props.selectedRow) {
+      if (row.id === self.props.selectedRow) {
         selectedRow = (<SelectedRow name={row.text} />);
       } else {
-        rows.push(
-          <Row 
-            text={row.text}
-            key={row.id}
-            onSelect={this.onChange.bind(this, row.id) } />
-        );
+        rows.push(row);
       }
-    }.bind(this));
+    });
+
+    if (self.state.searchTerm !== "") {
+      rows = rows.filter(function(row) {
+        return row.text.toLowerCase().indexOf(self.state.searchTerm) !== -1;
+      });
+    }
+
+    rows = rows.map(function(row) {
+
+      return (
+        <Row 
+          text={row.text}
+          key={row.id}
+          onSelect={self.onChange.bind(self.onChange, row.id) } />
+      );
+
+    });
 
     var classes = "list-selector " + this.props.className;
 
     return (
       <div className={classes}>
+      <input className="search-bar" type="text" value={this.state.searchTerm} onChange={this.handleSearchTermChange} />
         {selectedRow}
         <div className="list-selector-list">
           {rows}
         </div>
       </div>
     );
+  },
+
+  handleSearchTermChange: function(e){
+    console.log(e.target.value);
+    this.setState({
+      searchTerm: e.target.value
+    });
   }
 });
 
