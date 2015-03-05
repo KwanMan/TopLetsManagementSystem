@@ -38,9 +38,13 @@ router.post('/', passport.authenticate('basic', {session: false}), function (req
 
   var generatedToken = uuid.v4();
 
+  if (!req.body.lifetime) {
+    res.sendStatus(400);
+  }
+
   models.AccessToken.create({
     token: generatedToken,
-    expiry: dateUtils.getTimeIn(req.body.lifetime)
+    expiry: dateUtils.getTimeIn({minutes: req.body.lifetime})
   }).success(function (token){
     token.setAdmin(req.user);
     res.send({accessToken: token.token});
