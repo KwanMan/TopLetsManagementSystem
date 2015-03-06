@@ -10,6 +10,8 @@ var RouteHandler  = Router.RouteHandler;
 
 var Handlers = {
 
+  Login: require("./classes/pages/login/login.jsx"),
+
   App: require("./app.jsx"),
 
   Dashboard: require("./classes/pages/home/home.jsx"),
@@ -34,6 +36,8 @@ var Handlers = {
 var routes = (
   <Route name="app" path="/" handler={Handlers.App}>
 
+    <Route name="login" handler={Handlers.Login} />
+
     <Route name="dashboard" handler={Handlers.Dashboard} />
 
     <Route name="property-management" handler={Handlers.PropertyManagement.Main}>
@@ -50,7 +54,7 @@ var routes = (
 
     <Route name="settings" handler={Handlers.Settings} />
 
-    <Redirect from="/" to="dashboard" />
+    <Redirect from="/" to="login" />
   </Route>
 );
 

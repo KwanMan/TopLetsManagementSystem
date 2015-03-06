@@ -54,7 +54,7 @@ var ListSelector = React.createClass({
             <Row 
               text={row.text}
               key={row.id}
-              onSelect={self.handleItemClicked.bind(self.handleItemClicked, row.id) } />
+              onSelect={self.handleItemClicked.bind(null, row.id)} />
           );          
         }
       }
