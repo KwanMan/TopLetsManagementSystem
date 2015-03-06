@@ -14,21 +14,20 @@ var SelectedRow = React.createClass({
 });
 
 var ListSelector = React.createClass({
-  getInitialState: function() {
 
+  getInitialState: function() {
     return {
       searchTerm: ""
     };
   },
 
   componentWillReceiveProps: function() {
-
     this.setState({
       searchTerm: ""
     });
   },
 
-  onChange: function(id) {
+  handleItemClicked: function(id) {
     this.props.onChange(id);
     this.setState({
       searchTerm: ""
@@ -42,29 +41,23 @@ var ListSelector = React.createClass({
     var selectedRow = null;
     var rows = [];
 
+    var searchEnabled = self.state.searchTerm !== "";
+
     this.props.rows.forEach(function(row) {
       if (row.id === self.props.selectedRow) {
         selectedRow = (<SelectedRow name={row.text} />);
       } else {
-        rows.push(row);
+
+        // Only add to list if search is not enabled or the search matches
+        if (!searchEnabled || self.matchText(self.state.searchTerm, row.text)) {
+          rows.push(
+            <Row 
+              text={row.text}
+              key={row.id}
+              onSelect={self.handleItemClicked.bind(self.handleItemClicked, row.id) } />
+          );          
+        }
       }
-    });
-
-    if (self.state.searchTerm !== "") {
-      rows = rows.filter(function(row) {
-        return row.text.toLowerCase().indexOf(self.state.searchTerm) !== -1;
-      });
-    }
-
-    rows = rows.map(function(row) {
-
-      return (
-        <Row 
-          text={row.text}
-          key={row.id}
-          onSelect={self.onChange.bind(self.onChange, row.id) } />
-      );
-
     });
 
     var classes = "list-selector " + this.props.className;
@@ -81,10 +74,13 @@ var ListSelector = React.createClass({
   },
 
   handleSearchTermChange: function(e){
-    console.log(e.target.value);
     this.setState({
       searchTerm: e.target.value
     });
+  },
+
+  matchText: function(searchTerm, text) {
+    return text.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
   }
 });
 
