@@ -1,40 +1,12 @@
 var models = require('../models');
 var router = require('express').Router();
-var passport = require('passport');
-var BasicStrategy = require('passport-http').BasicStrategy;
 var dateUtils = require('../utils/date');
 var uuid = require('uuid');
-
-passport.use(new BasicStrategy(
-  function (username, password, callback){
-    models.Admin.find({
-      where: {
-        username: username
-      }
-    }).success(function (admin){
-      if (!admin){
-        return callback(null, false);
-      }
-
-      admin.verifyPassword(password, function (err, isMatch){
-        if (err){
-          return callback(err);
-        }
-
-        if (!isMatch){
-          return callback(null, false);
-        }
-
-        return callback(null, admin);
-      });
-    });
-  }
-));
+var auth = require('basic-auth');
+var authAdmin = require('../middleware/authAdmin');
 
 // Authenticates the user and gives it an access token
-router.post('/', passport.authenticate('basic', {session: false}), function (req, res){
-
-  console.log("authenticated");
+router.post('/', authAdmin, function (req, res){
 
   var generatedToken = uuid.v4();
 
@@ -49,7 +21,6 @@ router.post('/', passport.authenticate('basic', {session: false}), function (req
     token.setAdmin(req.user);
     res.send({accessToken: token.token});
   });
-
 
 });
 

@@ -2,7 +2,6 @@ var express    = require("express");
 var path       = require("path");
 var config     = require("config");
 var bodyParser = require("body-parser");
-var passport   = require("passport");
 
 var apiRoutes = require("./app/routes");
 
@@ -12,7 +11,6 @@ module.exports = function(port) {
 
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({extended: true}));
-  server.use(passport.initialize());
 
   server.use("/api", apiRoutes);
 
