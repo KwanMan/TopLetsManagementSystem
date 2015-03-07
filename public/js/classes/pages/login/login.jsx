@@ -1,13 +1,16 @@
 var React = require("react");
 var Router = require("react-router");
 var request = require("superagent");
+var hotkey = require("react-hotkey");
+
+hotkey.activate();
 
 var PageHeading = require("../../components/page-heading.jsx");
 var SkyLight = require("react-skylight");
 
 module.exports = React.createClass({
 
-  mixins: [Router.Navigation],
+  mixins: [Router.Navigation, hotkey.Mixin('handleHotkey')],
 
   getInitialState: function() {
     return {
@@ -37,6 +40,12 @@ module.exports = React.createClass({
         </div>
       </div>
     );
+  },
+
+  handleHotkey: function(e) {
+    if (e.nativeEvent.keyIdentifier === "Enter") {
+      this.handleLoginButton();
+    }
   },
 
   handleUsernameChange: function(e) {
