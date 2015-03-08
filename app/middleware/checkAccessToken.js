@@ -3,14 +3,20 @@ var models = require('../models');
 
 module.exports = function (req, res, next) {
 
+ /* next();
+
+  return;*/
+
   // Find correct user
-  models.Admin.find({
+  models.Admin.findOne({
     where: {
       username: req.headers.authuser
     }
   }).success(function (admin){
     if (!admin){
-      res.sendStatus(401);
+      console.log('user not found');
+      res.status(401).end();
+      return;
     }
     // Find matching token
     models.AccessToken.find({
@@ -19,16 +25,19 @@ module.exports = function (req, res, next) {
       }
     }).success(function (token){
       if (!token){
-        res.sendStatus(401);
+        console.log('no token found');
+        res.status(401).end();
+        return;
       }
 
       // Check it is still valid
-      if (!token.expired()){
-        next();
-      } else {
-        console.log("Access token " + token.token + " exired");
-        res.sendStatus(401);
+      if (token.expired()){
+        console.log("Access token " + token.token + " expired");
+        res.status(401).end();
+        return;
       }
+
+      next();
     });
   });
 }; 

@@ -54,7 +54,7 @@ var routes = (
 
     <Route name="settings" handler={Handlers.Settings} />
 
-    <Redirect from="/" to="login" />
+    <Redirect from="/" to="dashboard" />
   </Route>
 );
 

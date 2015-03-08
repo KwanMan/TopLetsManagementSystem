@@ -1,6 +1,6 @@
 var React = require("react");
 var Router = require("react-router");
-var request = require("superagent");
+var auth = require("../../../lib/auth");
 var hotkey = require("react-hotkey");
 
 hotkey.activate();
@@ -64,27 +64,14 @@ module.exports = React.createClass({
 
     var self = this;
 
-    var reqPath = "http://localhost:8000/api/authenticate";
-
-    request
-      .post(reqPath)
-      .auth(this.state.username, this.state.password)
-      .send({lifetime: 60})
-      .end(function(err, res) {
-
-        console.log(res);
-
-        if (res.status === 200) {
-          sessionStorage.setItem('username', self.state.username);
-          sessionStorage.setItem('token', res.body.accessToken);
-
-          self.transitionTo('dashboard');
-        } else {
-          console.log("login failed with status ", res.status);
-        }
-
-      });
-
+    auth.login(this.state.username, this.state.password, function(successful) {
+      if (successful) {
+        self.transitionTo('dashboard');
+      } else {
+        alert("login failed");
+        console.log("login failed");
+      }
+    });
   }
 
 });

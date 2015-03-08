@@ -12,6 +12,8 @@ var _ = require("lodash");
 
 var Browse = React.createClass({
 
+  mixins: [Router.Navigation, require("../../mixins/auth-protected")],
+
   getInitialState: function() {
     return {
       selectedStatus: "all",
@@ -22,6 +24,7 @@ var Browse = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
+    // When transitioning between years the component stays mounted and this will get called instead
     this.loadData(this.props.params.year);
   },
 
@@ -36,7 +39,7 @@ var Browse = React.createClass({
     promises.push(PropertyDAO.getAllProperties());
     promises.push(ContractDAO.getAllInYear(year));
 
-    when.all(promises).then(function(res) {
+    when.all(promises).done(function(res) {
       var properties = res[0];
       var contracts = res[1];
 
@@ -68,6 +71,8 @@ var Browse = React.createClass({
         selectedProperty: null
       });
 
+    }, function(err) {
+      self.handleUnauthorisedAccess();
     });
   },
 
@@ -191,31 +196,10 @@ var Browse = React.createClass({
         selectedProperty: id,
         contract: contract
       });
+    }, function(err) {
+      self.handleUnauthorisedAccess();
     });
     
-  },
-
-  flattenData: function(data) {
-    var flattened = data.map(function(landlord) {
-
-      return landlord.properties.map(function(property) {
-
-
-        return property.contracts.map(function(contract) {
-
-          return {
-            landlord: _.omit(landlord, "properties"),
-            property: _.omit(property, "contracts"),
-            contract: contract,
-          };
-
-        });
-
-      });
-
-    });
-
-    return _.flattenDeep(flattened);
   }
 
 });

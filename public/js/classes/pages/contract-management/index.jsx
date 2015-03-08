@@ -5,6 +5,8 @@ var PageHeading = require("../../components/page-heading.jsx");
 
 module.exports = React.createClass({
 
+  mixins: [Router.Navigation, require("../../mixins/auth-protected")],
+
   render: function() {
     return (
       <RouteHandler params={this.props.params} />

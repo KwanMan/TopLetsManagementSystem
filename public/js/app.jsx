@@ -5,7 +5,8 @@ var NavBar = require("./classes/components/nav-bar.jsx");
 
 module.exports = React.createClass({
 
-  mixins: [Router.State],
+  mixins: [Router.State, Router.Navigation],
+
 
   render: function() {
 

@@ -5,7 +5,7 @@ var PageHeading = require("../../components/page-heading.jsx");
 
 module.exports = React.createClass({
 
-  mixins: [Router.State],
+  mixins: [Router.State, Router.Navigation, require("../../mixins/auth-protected")],
 
   render: function() {
     return (

@@ -11,7 +11,8 @@ router.post('/', authAdmin, function (req, res){
   var generatedToken = uuid.v4();
 
   if (!req.body.lifetime) {
-    res.sendStatus(400);
+    res.status(400).end();
+    return;
   }
 
   models.AccessToken.create({

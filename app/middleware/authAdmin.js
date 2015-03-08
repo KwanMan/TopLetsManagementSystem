@@ -17,21 +17,23 @@ models.Admin.findOne({
   if (!admin){
     console.log("user not found");
     res.status(401).end();
+    return;
   }
 
   admin.verifyPassword(user.pass, function (err, isMatch){
     if (err){
       console.log(err);
       res.status(401).end();
+      return;
     }
 
     if (!isMatch){
       console.log("wrong password");
       res.status(401).end();
+      return;
     }
 
     console.log("authenticated");
-
     next();
 
   });

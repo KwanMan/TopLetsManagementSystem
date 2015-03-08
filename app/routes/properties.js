@@ -1,9 +1,10 @@
 var models = require('../models');
 var router = require('express').Router();
+var checkAccessToken = require('../middleware/checkAccessToken');
 
 router.route('/')
 
-  .get(function (req, res){
+  .get(checkAccessToken, function (req, res){
     models.Property.findAll({
       include: [models.Landlord]
     }).success(function (properties){
