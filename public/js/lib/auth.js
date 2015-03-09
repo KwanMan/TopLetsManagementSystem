@@ -33,7 +33,7 @@ module.exports = {
   },
 
   getUsername: function() {
-    return sessionStorgae.getItem('username');
+    return sessionStorage.getItem('username');
   },
 
   getToken: function() {
@@ -50,6 +50,7 @@ module.exports = {
 
     var username = sessionStorage.getItem('username');
     var token = sessionStorage.getItem('token');
+    
     return username !== null && token !== null;
   }
 

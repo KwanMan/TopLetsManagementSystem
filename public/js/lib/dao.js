@@ -14,7 +14,7 @@ requestMethods.forEach(function(method){
 
     return when.promise(function(resolve, reject) {
 
-      if (!auth.loggenIn()) {
+      if (!auth.loggedIn()) {
         reject(new Error("Not logged in"));
       }
 
