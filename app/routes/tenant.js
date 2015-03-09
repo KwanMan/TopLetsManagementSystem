@@ -41,5 +41,6 @@ router.route('/:id')
 
 module.exports = {
   mountPath: "/tenant",
-  routes: router
+  routes: router,
+  protected: true
 };

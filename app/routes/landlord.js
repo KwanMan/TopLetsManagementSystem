@@ -5,7 +5,7 @@ var checkAccessToken = require('../middleware/checkAccessToken');
 router.route('/')
 
   // Get all
-  .get(checkAccessToken, function (req, res){
+  .get(function (req, res){
     models.Landlord.findAll().success(function (landlords){
       res.send(landlords);
     });
@@ -68,5 +68,6 @@ router.post('/:id/generateReports', function (req, res){
 
 module.exports = {
   mountPath: "/landlord",
-  routes: router
+  routes: router,
+  protected: true
 };

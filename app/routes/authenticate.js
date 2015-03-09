@@ -27,5 +27,6 @@ router.post('/', authAdmin, function (req, res){
 
 module.exports = {
   mountPath: "/authenticate",
-  routes: router
+  routes: router,
+  protected: false
 };

@@ -4,7 +4,8 @@ var when = require('when');
 
 module.exports = {
   mountPath: "/rent-payment",
-  routes: router
+  routes: router,
+  protected: true
 };
 
 // Set rent payment as paid

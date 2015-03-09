@@ -245,5 +245,6 @@ router.get('/year/:year', function(req, res) {
 
 module.exports = {
   mountPath: "/contract",
-  routes: router
+  routes: router,
+  protected: true
 };

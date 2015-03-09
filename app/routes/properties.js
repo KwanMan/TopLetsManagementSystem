@@ -4,7 +4,7 @@ var checkAccessToken = require('../middleware/checkAccessToken');
 
 router.route('/')
 
-  .get(checkAccessToken, function (req, res){
+  .get(function (req, res){
     models.Property.findAll({
       include: [models.Landlord]
     }).success(function (properties){
@@ -44,5 +44,6 @@ router.route('/:id')
 
 module.exports = {
   mountPath: "/property",
-  routes: router
+  routes: router,
+  protected: true
 };

@@ -7,6 +7,7 @@ var user = auth(req);
 
 if (!user){
   res.status(401).end();
+  return;
 }
 
 models.Admin.findOne({
