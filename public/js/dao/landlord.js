@@ -1,6 +1,6 @@
 var inherits = require("inherits");
 
-inherits(LandlordDAO, require("../lib/dao"));
+inherits(LandlordDAO, require("lib/dao"));
 
 function LandlordDAO(){}
 

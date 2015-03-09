@@ -47,7 +47,18 @@
     "grunt-nodemon": "^0.3.0",
     "load-grunt-tasks": "^1.0.0",
     "path": "^0.4.9",
+    "pkgify": "^1.0.1",
     "reactify": "^1.0.0",
     "serve-static": "^1.7.1"
+  },
+  "pkgify": {
+    "packages": {
+      "pages": "./public/js/classes/pages",
+      "components": "./public/js/classes/components",
+      "mixins": "./public/js/classes/mixins",
+      "dao": "./public/js/dao",
+      "lib": "./public/js/lib"
+    }
   }
+
 }

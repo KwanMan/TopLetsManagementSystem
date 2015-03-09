@@ -10,27 +10,27 @@ var RouteHandler  = Router.RouteHandler;
 
 var Handlers = {
 
-  Login: require("./classes/pages/login/login.jsx"),
+  Login: require("pages/login/login.jsx"),
 
   App: require("./app.jsx"),
 
-  Dashboard: require("./classes/pages/home/home.jsx"),
+  Dashboard: require("pages/home/home.jsx"),
 
   PropertyManagement: {
-    Main: require("./classes/pages/property-management/index.jsx"),
-    Browse: require("./classes/pages/property-management/browse.jsx"),
-    EditLandlord: require("./classes/pages/property-management/edit-landlord.jsx"),
-    NewLandlord: require("./classes/pages/property-management/new-landlord.jsx"),
-    NewProperty: require("./classes/pages/property-management/new-property.jsx")
+    Main: require("pages/property-management/index.jsx"),
+    Browse: require("pages/property-management/browse.jsx"),
+    EditLandlord: require("pages/property-management/edit-landlord.jsx"),
+    NewLandlord: require("pages/property-management/new-landlord.jsx"),
+    NewProperty: require("pages/property-management/new-property.jsx")
   },
 
   ContractManagement: {
-    Main: require("./classes/pages/contract-management/index.jsx"),
-    Browse: require("./classes/pages/contract-management/browse.jsx"),
-    NewContract: require("./classes/pages/contract-management/new-contract.jsx")
+    Main: require("pages/contract-management/index.jsx"),
+    Browse: require("pages/contract-management/browse.jsx"),
+    NewContract: require("pages/contract-management/new-contract.jsx")
   },
 
-  Settings: require("./classes/pages/settings/settings.jsx")
+  Settings: require("pages/settings/settings.jsx")
 };
 
 var routes = (

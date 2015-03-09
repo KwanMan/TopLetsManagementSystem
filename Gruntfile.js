@@ -20,7 +20,7 @@ module.exports = function (grunt){
           "public/build/app.js": ["public/js/main.jsx"]
         },
         options: {
-          transform: ["reactify"]
+          transform: ["reactify", "pkgify"]
         }
       }
     },

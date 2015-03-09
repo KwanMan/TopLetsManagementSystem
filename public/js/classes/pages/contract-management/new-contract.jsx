@@ -1,13 +1,13 @@
 var React = require("react");
 var Router = require("react-router");
-var Panel = require("../../components/panel.jsx");
-var TenantSelector = require("../../components/tenant-selector.jsx");
+var Panel = require("components/panel.jsx");
+var TenantSelector = require("components/tenant-selector.jsx");
 
-var PropertyDAO = require("../../../dao/property");
+var PropertyDAO = require("dao/property");
 
 var NewContract = React.createClass({
 
-  mixins: [Router.Navigation, require("../../mixins/auth-protected")],
+  mixins: [Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
 

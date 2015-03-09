@@ -1,11 +1,11 @@
 var React = require("react");
 var Router = require("react-router");
-var auth = require("../../../lib/auth");
+var auth = require("lib/auth");
 var hotkey = require("react-hotkey");
 
 hotkey.activate();
 
-var PageHeading = require("../../components/page-heading.jsx");
+var PageHeading = require("components/page-heading.jsx");
 var SkyLight = require("react-skylight");
 
 module.exports = React.createClass({

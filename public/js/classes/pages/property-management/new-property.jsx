@@ -1,11 +1,11 @@
 var React = require("react");
 var Router = require("react-router");
-var Panel = require("../../components/panel.jsx");
-var LandlordSelector = require("../../components/landlord-selector.jsx");
+var Panel = require("components/panel.jsx");
+var LandlordSelector = require("components/landlord-selector.jsx");
 
 var NewProperty = React.createClass({
 
-  mixins: [Router.Navigation, require("../../mixins/auth-protected")],
+  mixins: [Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
     return {landlord: null};

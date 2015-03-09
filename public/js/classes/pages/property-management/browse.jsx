@@ -1,18 +1,18 @@
 var React = require("react");
 var Router = require("react-router");
 var when = require("when");
-var Panel = require("../../components/panel.jsx");
-var ListSelector = require("../../components/list-selector.jsx");
-var auth = require("../../../lib/auth");
+var Panel = require("components/panel.jsx");
+var ListSelector = require("components/list-selector.jsx");
+var auth = require("lib/auth");
 
-var LandlordDAO = require("../../../dao/landlord");
-var PropertyDAO = require("../../../dao/property");
+var LandlordDAO = require("dao/landlord");
+var PropertyDAO = require("dao/property");
 
 var _ = require("lodash");
 
 var Browse = React.createClass({
 
-  mixins: [Router.Navigation, require("../../mixins/auth-protected")],
+  mixins: [Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
 
@@ -55,8 +55,6 @@ var Browse = React.createClass({
   },
 
   render: function() {
-
-    console.log("rendering property-management/browse");
 
     var landlordsPanel = (
       <Panel title="Landlords">

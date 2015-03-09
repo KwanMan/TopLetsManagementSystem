@@ -2,17 +2,17 @@ var React = require("react");
 var Router = require("react-router");
 var when = require("when");
 
-var Panel = require("../../components/panel.jsx");
-var ListSelector = require("../../components/list-selector.jsx");
+var Panel = require("components/panel.jsx");
+var ListSelector = require("components/list-selector.jsx");
 
-var PropertyDAO = require("../../../dao/property");
-var ContractDAO = require("../../../dao/contract");
+var PropertyDAO = require("dao/property");
+var ContractDAO = require("dao/contract");
 
 var _ = require("lodash");
 
 var Browse = React.createClass({
 
-  mixins: [Router.Navigation, require("../../mixins/auth-protected")],
+  mixins: [Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
     return {

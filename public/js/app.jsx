@@ -1,7 +1,7 @@
 var React  = require("react");
 var Router = require("react-router");
 var RouteHandler = Router.RouteHandler;
-var NavBar = require("./classes/components/nav-bar.jsx");
+var NavBar = require("components/nav-bar.jsx");
 
 module.exports = React.createClass({
 
