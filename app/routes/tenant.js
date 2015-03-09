@@ -1,43 +1,17 @@
-var models = require('../models');
 var router = require('express').Router();
+var controller = require("../controllers/tenant");
 
 router.route('/')
 
-  .get(function (req, res){
-    models.Tenant.findAll().success(function (tenants){
-      res.send(tenants);
-    });
-  })
+  .get(controller.getTenants)
 
-  .post(function (req, res){
-    models.Tenant.create(req.body).success(function (tenant){
-      res.send(tenant);
-    });
-  });
+  .post(controller.createTenant);
 
 router.route('/:id')
 
-  .get(function (req, res){
-    models.Tenant.find({
-      where: {
-        id: req.param('id')
-      }
-    }).success(function (tenant){
-      res.send(tenant);
-    });
-  })
+  .get(controller.getTenantById)
 
-  .delete(function (req, res){
-    models.Tenant.find({
-      where: {
-        id: req.param('id')
-      }
-    }).success(function (tenant){
-      tenant.destroy().success(function (){
-        res.sendStatus(200);
-      });
-    });
-  });
+  .delete(controller.deleteTenantById);
 
 module.exports = {
   mountPath: "/tenant",
