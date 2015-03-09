@@ -1,5 +1,6 @@
 var React = require("react");
 var Router = require("react-router");
+var _ = require("lodash");
 var auth = require("lib/auth");
 var hotkey = require("react-hotkey");
 
@@ -15,14 +16,25 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       username: "",
-      password: ""
+      password: "",
+      errorMessage: null
     };
   },
 
   render: function() {
+
+    var error = null;
+
+    if (this.state.errorMessage !== null){
+      error = (
+        <div className="error">{this.state.errorMessage}</div>
+      );
+    }
+
     return (
-    	<div>
+    	<div className="login">
         <PageHeading title="Login" />
+        {error}
         <div className="form">
 
           <div className="form-row">
@@ -68,8 +80,7 @@ module.exports = React.createClass({
       if (successful) {
         self.transitionTo('dashboard');
       } else {
-        alert("login failed");
-        console.log("login failed");
+        self.setState(_.assign(self.getInitialState(), {errorMessage: "Login credentials incorrect, please try again."}));
       }
     });
   }
