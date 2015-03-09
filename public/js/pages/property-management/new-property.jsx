@@ -1,14 +1,25 @@
 var React = require("react");
 var Router = require("react-router");
+var _ = require("lodash");
 var Panel = require("components/panel.jsx");
 var LandlordSelector = require("components/landlord-selector.jsx");
 
+var TextInput = require("components/form/text-input.jsx");
+
+var LandlordDAO = require("dao/landlord");
+
 var NewProperty = React.createClass({
 
-  mixins: [Router.Navigation, require("mixins/auth-protected")],
+  mixins: [Router.Navigation, require("mixins/auth-protected"), require("mixins/form")],
 
   getInitialState: function() {
-    return {landlord: null};
+    return {
+      name: "",
+      number: "",
+      street: "",
+      postcode: "",
+      landlord: null
+    };
   },
 
   render: function() {
@@ -16,9 +27,9 @@ var NewProperty = React.createClass({
     var landlordOpt;
 
     if (this.state.landlord === null){
-      landlordOpt = (<div className="button" onClick={this.handleChooseLandlordButton}>Select Landlord</div>);
+      landlordOpt = (<div className="button" onClick={this.handleChooseLandlordButton}>Select</div>);
     } else {
-      landlordOpt = (<span>{"Landlord: " + this.state.landlord.forename + " " + this.state.landlord.surname}</span>);
+      landlordOpt = (<div className="field clickable" onClick={this.handleChooseLandlordButton}>{this.state.landlord.forename + " " + this.state.landlord.surname}</div>);
     }
 
     return (
@@ -26,27 +37,36 @@ var NewProperty = React.createClass({
         <Panel title="New Property">
           <div className="form">
 
-            {landlordOpt}
-
             <div className="form-row">
-              <span className="label">Name</span>
-              <input className="field" type="text" />
+              <div className="label">Landlord:</div>
+              {landlordOpt}
             </div>
 
-            <div className="form-row">
-              <span className="label">Number</span>
-              <input className="field" type="text" />
-            </div>
+            <TextInput
+              text="Name/No."
+              id="name"
+              value={this.state.name}
+              onTextChange={this.handleTextChange} />
 
-            <div className="form-row">
-              <span className="label">Street</span>
-              <input className="field" type="text" />
-            </div>
+            <TextInput
+              text="Number"
+              id="number"
+              value={this.state.number}
+              onTextChange={this.handleTextChange} />
 
-            <div className="form-row">
-              <span className="label">Post Code</span>
-              <input className="field" type="text" />
-            </div>
+            <TextInput
+              text="Street"
+              id="street"
+              value={this.state.street}
+              onTextChange={this.handleTextChange} />
+
+            <TextInput
+              text="Post Code"
+              id="postcode"
+              value={this.state.postcode}
+              onTextChange={this.handleTextChange} />
+
+            <div className="button" onClick={this.handleCreateButton}>Create</div>
 
           </div>
         </Panel>
@@ -55,15 +75,26 @@ var NewProperty = React.createClass({
 
       </div>
     );
-  } ,
+  },
 
   handleChooseLandlordButton: function() {
     this.refs.landlordSelector.launch([]);
   },
 
   handleLandlordSelected: function(landlord) {
-
     this.setState({landlord: landlord});
+  },
+
+  handleCreateButton: function() {
+    var self = this;
+
+    var data = _.pick(self.state, 'name', 'number', 'street', 'postcode');
+    console.log(data);
+    LandlordDAO.createProperty(self.state.landlord.id, data).done(function() {
+      self.transitionTo('property-management');
+    }, function(err) {
+      self.handleUnauthorisedAccess();
+    });
   }
 
 });

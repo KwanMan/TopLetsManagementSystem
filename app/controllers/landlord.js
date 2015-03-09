@@ -46,6 +46,18 @@ module.exports = {
     });
   },
 
+  createProperty: function(req, res) {
+    models.Property.create(req.body).success(function(property) {
+
+      models.Landlord.findOne(req.param('id')).then(function(landlord) {
+        property.setLandlord(landlord);
+      });
+
+    }).then(function() {
+      res.status(200).end();
+    });
+  },
+
   generateReports: function (req, res){
     res.send(dataGenerator.getData());
   }

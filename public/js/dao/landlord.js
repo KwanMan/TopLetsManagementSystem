@@ -11,7 +11,11 @@ LandlordDAO.prototype.getLandlords = function(){
 };
 
 LandlordDAO.prototype.getProperties = function(id){
-  return this.get("/" + id + "/properties");
+  return this.get("/" + id + "/property");
+};
+
+LandlordDAO.prototype.createProperty = function(id, data) {
+  return this.post("/" + id + "/property", data);
 };
 
 LandlordDAO.prototype.createLandlord = function(data){

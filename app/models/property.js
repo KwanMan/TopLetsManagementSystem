@@ -6,9 +6,8 @@ module.exports = function (sequelize, DataTypes){
       allowNull: true
     },
     number: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
+      type: DataTypes.STRING,
+      allowNull: false
     },
     street: {
       type: DataTypes.STRING,

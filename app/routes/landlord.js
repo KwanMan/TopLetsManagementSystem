@@ -1,25 +1,27 @@
 var router = require('express').Router();
 var controller = require("../controllers/landlord");
-router.route('/')
 
-  // Get all
-  .get(controller.getLandlords)
 
-  // Create new
-  .post(controller.createLandlord);
 
-router.route('/:id')
+// Get all
+router.get('/', controller.getLandlords);
 
-  // Get by ID
-  .get(controller.getLandlordById)
+// Create new
+router.post("/", controller.createLandlord);
 
-  // Delete by ID
-  .delete(controller.deleteLandlordById);
+// Get by ID
+router.get("/:id", controller.getLandlordById);
 
-router.route('/:id/properties')
+// Delete by ID
+router.delete("/:id", controller.deleteLandlordById);
 
-  .get(controller.getProperties);
+// Get child properties
+router.get('/:id/property', controller.getProperties);
 
+// Create new property
+router.post('/:id/property', controller.createProperty);
+
+// Generate reports
 router.post('/:id/generateReports', controller.generateReports);
 
 module.exports = {
