@@ -53,9 +53,9 @@
   },
   "pkgify": {
     "packages": {
-      "pages": "./public/js/classes/pages",
-      "components": "./public/js/classes/components",
-      "mixins": "./public/js/classes/mixins",
+      "pages": "./public/js/pages",
+      "components": "./public/js/components",
+      "mixins": "./public/js/mixins",
       "dao": "./public/js/dao",
       "lib": "./public/js/lib"
     }

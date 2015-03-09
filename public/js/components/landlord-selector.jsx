@@ -5,7 +5,7 @@ var SkyLight = require("react-skylight");
 var ListSelector = require("./list-selector.jsx");
 var Panel = require("./panel.jsx");
 
-var LandlordDAO = require("../../dao/landlord");
+var LandlordDAO = require("dao/landlord");
 
 var LandlordSelector = React.createClass({
 

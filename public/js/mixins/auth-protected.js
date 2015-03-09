@@ -1,4 +1,4 @@
-var auth = require("../../lib/auth");
+var auth = require("lib/auth");
 
 module.exports = {
 
