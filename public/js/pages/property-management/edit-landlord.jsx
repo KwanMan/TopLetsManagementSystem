@@ -10,4 +10,4 @@ module.exports = React.createClass({
     console.log(this.props);
     return <div>{this.props.params.id}</div>;
   }
-})
+});

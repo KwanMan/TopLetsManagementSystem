@@ -19,6 +19,7 @@ module.exports = function (sequelize, DataTypes){
       associate: function (models){
         RentPayment.belongsTo(models.Contract);
         RentPayment.belongsTo(models.Tenant);
+        RentPayment.belongsTo(models.PropertyReport);
       }
     }
   });

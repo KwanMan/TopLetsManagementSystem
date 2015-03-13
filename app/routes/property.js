@@ -1,17 +1,23 @@
 var router = require('express').Router();
 var controller = require("../controllers/property");
 
-router.route('/')
+router.get('/', controller.getProperties);
 
-  .get(controller.getProperties)
+router.post('/', controller.createProperty);
 
-  .post(controller.createProperty);
+router.get('/:id', controller.getPropertyById);
 
-router.route('/:id')
+router.delete('/:id', controller.deletePropertyById);
 
-  .get(controller.getPropertyById)
+// Get unassigned rent payments
+router.get('/:id/rent-payment/new', controller.getNewRentPayments);
 
-  .delete(controller.deletePropertyById);
+// Get unsassigned receipts
+router.get('/:id/receipt/new', controller.getNewReceipts);
+
+router.post('/:id/receipt', controller.createReceipt);
+
+router.post('/:id/report', controller.createReport);
 
 module.exports = {
   mountPath: "/property",

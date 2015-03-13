@@ -30,6 +30,10 @@ module.exports = {
   /* Determines if the time passed in has passed */
   hasTimePassed: function (time){
     return time.getTime() < new Date().getTime();
+  },
+
+  getDateObject: function(year, month, day) {
+    return new Date(Date.UTC(year, month, day));
   }
 
 };

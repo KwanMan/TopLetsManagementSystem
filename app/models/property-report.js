@@ -4,6 +4,11 @@ module.exports = function (sequelize, DataTypes){
     date: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+    finalised: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   }, {
     classMethods: {
@@ -11,6 +16,7 @@ module.exports = function (sequelize, DataTypes){
         PropertyReport.belongsTo(models.Property);
         PropertyReport.belongsTo(models.LandlordReport);
         PropertyReport.hasMany(models.Receipt);
+        PropertyReport.hasMany(models.RentPayment);
       }
     }
   });

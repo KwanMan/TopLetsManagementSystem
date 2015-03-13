@@ -14,4 +14,16 @@ PropertyDAO.prototype.getProperty = function(id) {
   return this.get("/" + id);
 };
 
+PropertyDAO.prototype.getNewRentPayments = function(id) {
+  return this.get("/" + id + "/rent-payment/new");
+};
+
+PropertyDAO.prototype.getNewReceipts = function(id) {
+  return this.get("/" + id + "/receipt/new");
+};
+
+PropertyDAO.prototype.createReport = function(id, data) {
+  return this.post("/" + id + "/report", data);
+};
+
 module.exports = new PropertyDAO();

@@ -13,6 +13,9 @@ var navLinks = [{
   text: "Contract Management",
   route: "contract-management"
 }, {
+  text: "Report Management",
+  route: "report-management"
+}, {
   text: "Settings",
   route: "settings"
 }];
@@ -45,7 +48,7 @@ module.exports = React.createClass({
   },
 
   handleNavigation: function(route) {
-    this.transitionTo(route, {year: 2014});
+    this.transitionTo(route, {year: 2014, id: 1});
   }
 
 });

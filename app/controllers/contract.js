@@ -35,29 +35,29 @@ module.exports = {
     req.body = {
       houseId: 1,
       year: 2014,
-      startDate: new Date(2014, 7, 1),
+      startDate: new Date().getTime(),
       endDate: new Date(2015, 6, 28),
       tenants: [{
         tenantId: 1,
         rentPayments: [
           {
             dueDate: new Date(2014, 6, 24, 12, 0, 0),
-            amount: 111.11
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 7, 24, 12, 0, 0),
-            amount: 111.11
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 8, 24, 12, 0, 0),
-            amount: 111.11
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 9, 24, 12, 0, 0),
-            amount: 111.11
+            dueDate: new Date(2015, 9, 24, 12, 0, 0),
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 10, 24, 12, 0, 0),
-            amount: 111.11
+            dueDate: new Date(2015, 10, 24, 12, 0, 0),
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 11, 24, 12, 0, 0),
-            amount: 111.11
+            dueDate: new Date(2015, 11, 24, 12, 0, 0),
+            amount: 367.97
           }
         ]
       }, {
@@ -65,22 +65,22 @@ module.exports = {
         rentPayments: [
           {
             dueDate: new Date(2014, 6, 24, 12, 0, 0),
-            amount: 222.22
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 7, 24, 12, 0, 0),
-            amount: 222.22
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 8, 24, 12, 0, 0),
-            amount: 222.22
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 9, 24, 12, 0, 0),
-            amount: 222.22
+            dueDate: new Date(2015, 9, 24, 12, 0, 0),
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 10, 24, 12, 0, 0),
-            amount: 222.22
+            dueDate: new Date(2015, 10, 24, 12, 0, 0),
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 11, 24, 12, 0, 0),
-            amount: 222.22
+            dueDate: new Date(2015, 11, 24, 12, 0, 0),
+            amount: 367.97
           }
         ]
       },{
@@ -88,22 +88,22 @@ module.exports = {
         rentPayments: [
           {
             dueDate: new Date(2014, 6, 24, 12, 0, 0),
-            amount: 333.33
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 7, 24, 12, 0, 0),
-            amount: 333.33
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 8, 24, 12, 0, 0),
-            amount: 333.33
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 9, 24, 12, 0, 0),
-            amount: 333.33
+            dueDate: new Date(2015, 9, 24, 12, 0, 0),
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 10, 24, 12, 0, 0),
-            amount: 333.33
+            dueDate: new Date(2015, 10, 24, 12, 0, 0),
+            amount: 367.97
           }, {
-            dueDate: new Date(2014, 11, 24, 12, 0, 0),
-            amount: 333.33
+            dueDate: new Date(2015, 11, 24, 12, 0, 0),
+            amount: 367.97
           }
         ]
       },{
@@ -111,22 +111,22 @@ module.exports = {
         rentPayments: [
           {
             dueDate: new Date(2014, 6, 24, 12, 0, 0),
-            amount: 444.44
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 7, 24, 12, 0, 0),
-            amount: 444.44
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 8, 24, 12, 0, 0),
-            amount: 444.44
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 9, 24, 12, 0, 0),
-            amount: 444.44
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 10, 24, 12, 0, 0),
-            amount: 444.44
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 11, 24, 12, 0, 0),
-            amount: 444.44
+            amount: 367.97
           }
         ]
       },{
@@ -134,22 +134,22 @@ module.exports = {
         rentPayments: [
           {
             dueDate: new Date(2014, 6, 24, 12, 0, 0),
-            amount: 555.55
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 7, 24, 12, 0, 0),
-            amount: 555.55
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 8, 24, 12, 0, 0),
-            amount: 555.55
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 9, 24, 12, 0, 0),
-            amount: 555.55
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 10, 24, 12, 0, 0),
-            amount: 555.55
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 11, 24, 12, 0, 0),
-            amount: 555.55
+            amount: 367.97
           }
         ]
       },{
@@ -157,22 +157,22 @@ module.exports = {
         rentPayments: [
           {
             dueDate: new Date(2014, 6, 24, 12, 0, 0),
-            amount: 666.66
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 7, 24, 12, 0, 0),
-            amount: 666.66
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 8, 24, 12, 0, 0),
-            amount: 666.66
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 9, 24, 12, 0, 0),
-            amount: 666.66
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 10, 24, 12, 0, 0),
-            amount: 666.66
+            amount: 367.97
           }, {
             dueDate: new Date(2014, 11, 24, 12, 0, 0),
-            amount: 666.66
+            amount: 367.97
           }
         ]
       }]

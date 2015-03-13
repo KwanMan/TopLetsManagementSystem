@@ -30,6 +30,10 @@ var Handlers = {
     NewContract: require("pages/contract-management/new-contract.jsx")
   },
 
+  ReportManagement: {
+    CurrentReport: require("pages/report-management/current-report.jsx")
+  },
+
   Settings: require("pages/settings/settings.jsx")
 };
 
@@ -51,6 +55,8 @@ var routes = (
       <DefaultRoute handler={Handlers.ContractManagement.Browse} />
       <Route name="new-contract" path="new-contract/:propertyid" handler={Handlers.ContractManagement.NewContract} />
     </Route>
+
+    <Router name="report-management" path="report-management/:id" handler={Handlers.ReportManagement.CurrentReport} />
 
     <Route name="settings" handler={Handlers.Settings} />
 
