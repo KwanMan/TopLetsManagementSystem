@@ -11,7 +11,10 @@ var navLinks = [{
   route: "property-management"
 }, {
   text: "Contract Management",
-  route: "contract-management"
+  route: "contract-management",
+  params: {
+    year: 2014
+  }
 }, {
   text: "Report Management",
   route: "report-management"
@@ -35,7 +38,7 @@ module.exports = React.createClass({
       if (this.props.currentPath.indexOf(navLink.route) > -1) {
         className += " is-selected";
       }
-      return (<div className={className} onClick={this.handleNavigation.bind(this, navLink.route)}>{navLink.text}</div>);
+      return (<div className={className} onClick={this.handleNavigation.bind(this, navLink.route, navLink.params)}>{navLink.text}</div>);
     }.bind(this));
 
     return (
@@ -47,8 +50,8 @@ module.exports = React.createClass({
 
   },
 
-  handleNavigation: function(route) {
-    this.transitionTo(route, {year: 2014, id: 1});
+  handleNavigation: function(route, params) {
+    this.transitionTo(route, params);
   }
 
 });

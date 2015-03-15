@@ -17,6 +17,7 @@ module.exports = React.createClass({
     return {
       rentPayments: [],
       receipts: [],
+      fees: [],
       property: null
     };
 
@@ -28,16 +29,18 @@ module.exports = React.createClass({
 
     var tasks = [];
 
-    tasks.push(PropertyDAO.getNewRentPayments(this.props.params.id));
-    tasks.push(PropertyDAO.getNewReceipts(this.props.params.id));
-    tasks.push(PropertyDAO.getProperty(this.props.params.id));
+    tasks.push(PropertyDAO.getProperty(this.props.params.propertyid));
+    tasks.push(PropertyDAO.getNewRentPayments(this.props.params.propertyid));
+    tasks.push(PropertyDAO.getNewReceipts(this.props.params.propertyid));
 
     when.all(tasks).done(function(results) {
-      var rentPayments = results[0].filter(function(rentPayment) {
+
+      var property = results[0];
+
+      var rentPayments = results[1].filter(function(rentPayment) {
         return rentPayment.paid;
       });
-      var receipts = results[1];
-      var property = results[2];
+      var receipts = results[2];
 
       self.setState({
         rentPayments: rentPayments,
@@ -52,7 +55,11 @@ module.exports = React.createClass({
 
   render: function() {
 
-    var heading = this.state.property === null ? "" : formatString.address(this.state.property);
+    var heading = null;
+
+    if (this.state.property !== null) {
+      heading = formatString.address(this.state.property) + " - " + formatString.month(this.props.params.month) + " " + this.props.params.year;
+    }
 
     return (
       <div>
@@ -102,7 +109,8 @@ module.exports = React.createClass({
         headers={headers}
         footers={footers}
         dataNames={dataNames}
-        data={data} />
+        data={data}
+        onCol3Click={self.handleRentRemove} />
     );
   },
 
@@ -135,11 +143,12 @@ module.exports = React.createClass({
         headers={headers}
         footers={footers}
         dataNames={dataNames}
-        data={data} />
+        data={data}
+        onCol3Click={self.handleReceiptRemove} />
     );
   },
 
-  handleRemove: function(id){
+  handleRentRemove: function(id){
 
     var self = this;
     var newPayments = self.state.rentPayments.filter(function(rentPayment) {
@@ -150,13 +159,25 @@ module.exports = React.createClass({
     });
   },
 
+  handleReceiptRemove: function(id){
+
+    var self = this;
+    var newReceipts = self.state.receipts.filter(function(receipt) {
+      return receipt.id !== id;
+    });
+    this.setState({
+      receipts: newReceipts
+    });
+  },
+
   handleSubmit: function() {
 
     var self = this;
 
     var data = {};
 
-    data.date = self.state.date;
+    data.year = 2015;
+    data.month = 4;
 
     data.rentPayments = self.state.rentPayments.map(function(payment) {
       return payment.id;

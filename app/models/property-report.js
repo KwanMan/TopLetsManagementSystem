@@ -1,8 +1,12 @@
 module.exports = function (sequelize, DataTypes){
 
   var PropertyReport = sequelize.define("PropertyReport", {
-    date: {
-      type: DataTypes.DATE,
+    year: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    month: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     finalised: {

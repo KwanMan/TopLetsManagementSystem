@@ -4,26 +4,40 @@ var DataTable = React.createClass({
   render: function() {
     var self = this;
 
-    var headers = this.props.headers.map(function(header) {
-      return (<th>{header}</th>);
-    });
+    var head = null;
+    var foot = null;
 
-    var footers = this.props.footers.map(function(footer) {
-      return (<td>{footer}</td>);
-    });
+    if (!this.props.hideHeader) {
+      var headers = this.props.headers.map(function(header) {
+        return (<th>{header}</th>);
+      });
+      head = (<thead><tr>{headers}</tr></thead>);
+    }
+
+    if (!this.props.hideFooter) {
+      var footers = this.props.footers.map(function(footer) {
+        return (<td>{footer}</td>);
+      });
+      foot = (<tfoot><tr>{footers}</tr></tfoot>);
+    }
 
     var rows = this.props.data.map(function(row) {
-      var cells = self.props.dataNames.map(function(name) {
+      var cells = self.props.dataNames.map(function(name, index) {
+        if (self.props['onCol' + index + 'Click']){
+          return (<td className="clickable" onClick={self.props['onCol' + index + 'Click'].bind(null, row.id)}>{row[name]}</td>);
+        }
         return (<td>{row[name]}</td>);
       });
       return (<tr>{cells}</tr>);
     });
 
+    
+
     return (
       <table className="data-table table-hover">
-        <thead><tr>{headers}</tr></thead>
+        {head}
         <tbody>{rows}</tbody>
-        <tfoot><tr>{footers}</tr></tfoot>
+        {foot}
       </table>
     );
   }

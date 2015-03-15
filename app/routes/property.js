@@ -19,6 +19,8 @@ router.post('/:id/receipt', controller.createReceipt);
 
 router.post('/:id/report', controller.createReport);
 
+router.get('/:id/report/:year/:month', controller.getReportByDate);
+
 module.exports = {
   mountPath: "/property",
   routes: router,

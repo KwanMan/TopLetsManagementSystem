@@ -4,6 +4,44 @@ module.exports = {
     return "£" + input.toFixed(2);
   },
 
+  monthShort: function(month) {
+    var months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    return months[parseInt(month)];
+  },
+
+  month: function(month) {
+    var months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
+    return months[parseInt(month)];
+  },
+
   date: function(dateStr) {
     var date = new Date(dateStr);
 
@@ -21,22 +59,7 @@ module.exports = {
       }
     };
 
-    var months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-
-    return date.getDate() + nth(date.getDate()) + " " + months[date.getMonth()] + " " + date.getFullYear();
+    return date.getDate() + nth(date.getDate()) + " " + this.monthShort(date.getMonth()) + " " + date.getFullYear();
   },
 
   name: function(person) {
@@ -45,6 +68,10 @@ module.exports = {
 
   address: function(property) {
     return property.number + " " + property.street + ", " + property.postcode;
+  },
+
+  addressShort: function(property) {
+    return property.number + " " + property.street;
   }
   
 };

@@ -101,7 +101,8 @@ module.exports = {
 
     // Create report
     models.PropertyReport.create({
-      date: new Date(),
+      year: req.body.year,
+      month: req.body.month,
       finalised: false
     })
 
@@ -137,6 +138,19 @@ module.exports = {
     })
 
     .then(function(report) {
+      res.send(report);
+    });
+  },
+
+  getReportByDate: function(req, res) {
+    models.PropertyReport.findOne({
+      where: {
+        property_id: req.param('id'),
+        year: req.param('year'),
+        month: req.param('month')
+      },
+      include: [models.Property]
+    }).then(function(report) {
       res.send(report);
     });
   }
