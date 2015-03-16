@@ -1,17 +1,15 @@
 var router = require('express').Router();
 var controller = require("../controllers/tenant");
 
-router.route('/')
+router.get('/', controller.getTenants);
 
-  .get(controller.getTenants)
+router.post('/', controller.createTenant);
 
-  .post(controller.createTenant);
+router.get('/:id', controller.getTenantById);
 
-router.route('/:id')
+router.delete('/:id', controller.deleteTenantById);
 
-  .get(controller.getTenantById)
-
-  .delete(controller.deleteTenantById);
+router.get('/:id/rent-payment', controller.getRentPayments);
 
 module.exports = {
   mountPath: "/tenant",

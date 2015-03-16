@@ -19,6 +19,9 @@ var navLinks = [{
   text: "Report Management",
   route: "report-management"
 }, {
+  text: "Rent Payment",
+  route: "rent-payment"
+}, {
   text: "Settings",
   route: "settings"
 }];

@@ -34,6 +34,20 @@ module.exports = {
         res.sendStatus(200);
       });
     });
+  },
+
+  getRentPayments: function(req, res) {
+    models.Tenant.findOne(req.params.id).then(function(tenant) {
+      return tenant.getRentPayments({
+        order: 'dueDate ASC',
+        include: [{
+          model: models.Contract,
+          include: [models.Property]
+        }]
+      });
+    }).then(function(rentPayments) {
+      res.send(rentPayments);
+    });
   }
 
 };

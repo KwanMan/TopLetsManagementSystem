@@ -18,4 +18,8 @@ TenantDAO.prototype.createTenant = function(data){
   return this.post("/", data);
 };
 
+TenantDAO.prototype.getRentPayments = function(id) {
+  return this.get("/" + id + "/rent-payment");
+};
+
 module.exports = new TenantDAO();

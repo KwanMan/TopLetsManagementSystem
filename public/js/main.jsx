@@ -35,6 +35,8 @@ var Handlers = {
     NewPropertyReport: require("pages/report-management/new-property-report.jsx")
   },
 
+  RentPayment: require("pages/rent-payment/browse.jsx"),
+
   Settings: require("pages/settings/settings.jsx")
 };
 
@@ -59,8 +61,10 @@ var routes = (
 
     <Route name="report-management" path="report-management" handler={Handlers.ReportManagement.Main}>
       <DefaultRoute handler={Handlers.ReportManagement.Browse} />
-      <Route name="new-property-report" path="new-report/:propertyid/:year/:month" handler={Handlers.ReportManagement.NewPropertyReport} />
+      <Route name="new-property-report" path="new-property-report/:propertyid/:year/:month" handler={Handlers.ReportManagement.NewPropertyReport} />
     </Route>
+
+    <Route name="rent-payment" handler={Handlers.RentPayment} />
 
     <Route name="settings" handler={Handlers.Settings} />
 
