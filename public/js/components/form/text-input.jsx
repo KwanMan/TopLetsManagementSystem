@@ -6,7 +6,13 @@ var TextInput = React.createClass({
     return (
       <div className="form-row">
         <span className="label">{this.props.text + ":"}</span>
-        <input className="field text-input" type="text" id={this.props.id} onChange={this.props.onTextChange} value={this.props.value} />
+        <input 
+          className="field text-input"
+          type="text"
+          id={this.props.id}
+          onChange={this.props.onTextChange}
+          value={this.props.value}
+          onFocus={this.props.onFocus} />
       </div>
     );
   }

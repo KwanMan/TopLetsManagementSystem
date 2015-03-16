@@ -31,10 +31,12 @@ var DataTable = React.createClass({
       return (<tr>{cells}</tr>);
     });
 
+    var classes = this.props.className + " data-table table-hover";
+
     
 
     return (
-      <table className="data-table table-hover">
+      <table className={classes}>
         {head}
         <tbody>{rows}</tbody>
         {foot}

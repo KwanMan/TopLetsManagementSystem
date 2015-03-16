@@ -26,4 +26,8 @@ PropertyDAO.prototype.createReport = function(id, data) {
   return this.post("/" + id + "/report", data);
 };
 
+PropertyDAO.prototype.createContract = function(id, data) {
+  return this.post("/" + id + "/contract", data);
+};
+
 module.exports = new PropertyDAO();

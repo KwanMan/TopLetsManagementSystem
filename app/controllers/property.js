@@ -153,6 +153,38 @@ module.exports = {
     }).then(function(report) {
       res.send(report);
     });
+  },
+
+  createContract: function(req, res) {
+
+    console.log(req.body);
+
+    var tasks = [];
+
+    tasks.push(models.Property.findOne(req.params.id));
+    tasks.push(when.map(req.body.tenants, function(id) {
+      return models.Tenant.findOne(id);
+    }));
+
+    // When all dependencies are found
+    when.all(tasks).then(function(results) {
+      var property = results[0];
+      var tenants = results[1];
+
+      return models.Contract.create({
+        year: req.body.year,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate
+      }).then(function(contract) {
+        contract.setProperty(property);
+        contract.setTenants(tenants);
+        return contract;
+      });
+
+
+    }).then(function(contract) {
+      res.send(contract);
+    });
   }
 
 };
