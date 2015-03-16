@@ -157,8 +157,6 @@ module.exports = {
 
   createContract: function(req, res) {
 
-    console.log(req.body);
-
     var tasks = [];
 
     tasks.push(models.Property.findOne(req.params.id));
@@ -185,6 +183,37 @@ module.exports = {
     }).then(function(contract) {
       res.send(contract);
     });
+  },
+
+  getContract: function(req, res) {
+    models.Contract.findOne({
+      where: {
+        property_id: req.params.id,
+        year: req.params.year
+      }
+    }).then(function(contract) {
+      res.send(contract);
+    });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 };

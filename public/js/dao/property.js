@@ -30,4 +30,8 @@ PropertyDAO.prototype.createContract = function(id, data) {
   return this.post("/" + id + "/contract", data);
 };
 
+PropertyDAO.prototype.getContractInYear = function(id, year) {
+  return this.get("/" + id + "/contract/" + year);
+};
+
 module.exports = new PropertyDAO();

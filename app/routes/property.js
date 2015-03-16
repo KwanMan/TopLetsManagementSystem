@@ -23,6 +23,8 @@ router.get('/:id/report/:year/:month', controller.getReportByDate);
 
 router.post('/:id/contract', controller.createContract);
 
+router.get('/:id/contract/:year', controller.getContract);
+
 module.exports = {
   mountPath: "/property",
   routes: router,

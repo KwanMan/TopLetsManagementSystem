@@ -64,8 +64,6 @@ var NewContract = React.createClass({
               text="End Date"
               date={this.state.endDate}
               onChange={this.handleEndDateChange} />
-            
-            <div className="button" onClick={this.handleAddTenantButton}>Add tenant</div>
 
             {this.renderTenantsTable()}
             <div className="button" onClick={this.handleSubmit}>Submit</div>
@@ -81,6 +79,7 @@ var NewContract = React.createClass({
   renderTenantsTable: function() {
 
     var headers = ["Tenants", null];
+    var footers = [null, "Add Tenant"];
 
     var dataNames = ["name", "action"];
     var data = this.state.tenants.map(function(tenant) {
@@ -92,19 +91,17 @@ var NewContract = React.createClass({
     });
 
     return (
-      
         <DataTable
           headers={headers}
-          hideFooter={true}
+          footers={footers}
+          onFootCol1Click={this.handleAddTenantButton}
           dataNames={dataNames}
           data={data}
-          onCol1Click={this.handleTenantRemove} />
-       
-      
+          onCol1Click={this.handleTenantRemove} />  
     );
   },
 
-  handleStartDateChange: function(moment, dateString) {
+  handleStartDateChange: function(moment) {
     this.setState({
       startDate: moment
     });

@@ -4,6 +4,8 @@ var when = require("when");
 
 var Panel = require("components/panel.jsx");
 var ListSelector = require("components/list-selector.jsx");
+var DataTable = require("components/data-table/data-table.jsx");
+var formatString = require("lib/format-string");
 
 var PropertyDAO = require("dao/property");
 var ContractDAO = require("dao/contract");
@@ -18,8 +20,7 @@ var Browse = React.createClass({
     return {
       selectedStatus: "all",
       selectedProperty: null,
-      contractlessProperties: [],
-      contractedProperties: []
+      properties: []
     };
   },
 
@@ -35,42 +36,18 @@ var Browse = React.createClass({
   loadData: function(year) {
     var self = this;
 
-    var promises = [];
-    promises.push(PropertyDAO.getAllProperties());
-    promises.push(ContractDAO.getAllInYear(year));
+    PropertyDAO.getAllProperties().then(function(properties) {
+      return when.map(properties, function(property) {
+        return PropertyDAO.getContractInYear(property.id, self.props.params.year).then(function(contract) {
+          var contractPresent = contract !== null;
 
-    when.all(promises).done(function(res) {
-      var properties = res[0];
-      var contracts = res[1];
-
-      var contracted = [];
-      var contractless = [];
-
-      properties.forEach(function(property) {
-
-        var matchingContracts = contracts.filter(function(contract) {
-          return contract.property_id === property.id;
+          return _.assign(property, {contractExists : contractPresent});
         });
-
-        var item = {
-          text: property.number + " " + property.street,
-          id: property.id
-        };
-
-        if (matchingContracts.length === 0) {
-          contractless.push(item);
-        } else {
-          contracted.push(item);
-        }
-
       });
-
+    }).then(function(properties) {
       self.setState({
-        contractedProperties: contracted,
-        contractlessProperties: contractless,
-        selectedProperty: null
+        properties: properties
       });
-
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
@@ -78,13 +55,28 @@ var Browse = React.createClass({
 
   render: function() {
 
-    var statusOptions = [];
-    statusOptions.push({ text: "Unoccupied", id: "unoccupied" });
-    statusOptions.push({ text: "Occupied", id: "occupied" });
-    statusOptions.push({ text: "All", id: "all" });
+    return (
+      <div className="contract-browse">
+        {this.renderStatusPanel()}
+        {this.renderPropertiesPanel()}
+      </div>
+    );
 
-    var statusPanel = (
+  },
 
+  renderStatusPanel: function() {
+    var statusOptions = [{
+      text: "Unoccupied",
+      id: "unoccupied" 
+    }, {
+      text: "Occupied",
+      id: "occupied"
+    }, {
+      text: "All",
+      id: "all"
+    }];
+
+    return (
       <Panel title="Status">
         <ListSelector
           className="status-selector"
@@ -92,71 +84,35 @@ var Browse = React.createClass({
           selectedRow={this.state.selectedStatus}
           onChange={this.handleStatusChange} />
       </Panel>
-
     );
+  },
 
-    var contractPanel = null;
-    var contract = this.state.contract;
+  renderPropertiesPanel: function() {
+    var headers = ["Property", "Status", null];
 
-    if (this.state.selectedProperty !== null) {
+    var dataNames = ["property", "action"];
 
-      if (contract !== null) {
-
-        contractPanel = (
-          <Panel title={this.state.selectedProperty}>
-            <div>{"Start Date: " + contract.startDate}</div>
-            <div>{"End Date: " + contract.endDate}</div>
-          </Panel>
-        );
-
-      } else {
-
-        contractPanel = (
-          <Panel title={"New contract for " + this.state.selectedProperty}>
-            <div className="form">
-
-              <div className="form-row">
-                <span className="label">Start Date</span>
-                <input className="field" type="text" />
-              </div>
-
-              <div className="form-row">
-                <span className="label">End Date</span>
-                <input className="field" type="text" />
-              </div>
-
-              <div className="form-row">
-                <span className="label">Tenant 1</span>
-                <input className="field" type="text" />
-              </div>
-
-              <div className="form-row">
-                <span className="label">Tenant 2</span>
-                <input className="field" type="text" />
-              </div>
-
-            </div>
-          </Panel>
-        );
-      }
-
-    }
-
+    var data = this.getProperties().map(function(property) {
+      return {
+        id: property.id,
+        property: formatString.address(property),
+        action: property.contractExists ? "View Contract" : "Create Contract"
+      };
+    });
 
     return (
-      <div className="contract-browse">
-        {statusPanel}
-        <Panel title="Properties">
-          <ListSelector
-            className="property-selector"
-            rows={this.getProperties()}
-            selectedRow={this.state.selectedProperty}
-            onChange={this.handlePropertyChange} />
-        </Panel>
-        {contractPanel}
-      </div>
+      <Panel title="Properties">
+        <DataTable 
+          className="paper"
+          hideHeader={true}
+          hideFooter={true}
+          dataNames={dataNames}
+          data={data}
+          onCol1Click={this.handleContractSelect} />
+      </Panel>
     );
 
+    
   },
 
   getProperties: function() {
@@ -166,13 +122,17 @@ var Browse = React.createClass({
 
     switch (this.state.selectedStatus) {
       case "unoccupied":
-        return this.state.contractlessProperties;
+        return this.state.properties.filter(function(property) {
+          return !property.contractExists;
+        });
 
       case "occupied":
-        return this.state.contractedProperties;
+        return this.state.properties.filter(function(property) {
+          return property.contractExists;
+        });
 
       case "all":
-        return this.state.contractlessProperties.concat(this.state.contractedProperties);
+        return this.state.properties;
 
     }
 
@@ -184,6 +144,19 @@ var Browse = React.createClass({
       selectedProperty: null,
       contract: null
     });
+  },
+
+  handleContractSelect: function(id) {
+    var property = _.find(this.state.properties, function(property) {
+      return property.id === id;
+    });
+
+    if (property.contractExists) {
+      console.log("View contract for " + property.id);
+    } else {
+      this.transitionTo('new-contract', {year: this.props.params.year, propertyid: property.id});
+    }
+
   },
 
   handlePropertyChange: function(id) {
