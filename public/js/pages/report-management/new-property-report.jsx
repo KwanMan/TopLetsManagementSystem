@@ -187,7 +187,7 @@ module.exports = React.createClass({
       return receipt.id;
     });
 
-    PropertyDAO.createReport(self.props.params.id, data).done(function(report) {
+    PropertyDAO.createReport(self.props.params.propertyid, data).done(function(report) {
       console.log(report);
       self.transitionTo("dashboard", {id: report.id});
     }, function(err) {
