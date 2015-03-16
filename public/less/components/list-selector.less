@@ -1,3 +1,5 @@
+@list-selector-row-height: 25px;
+
 .list-selector {
   display: flex;
   flex-direction: column;
@@ -44,10 +46,10 @@
     .paper;
 
     .list-selector-row {
-      padding: 5px 10px;
-      min-height: 30px;
-      height: 30px;
-      line-height: 20px;
+      padding: 0px 10px;
+      min-height: @list-selector-row-height;
+      height: @list-selector-row-height;
+      line-height: @list-selector-row-height;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
