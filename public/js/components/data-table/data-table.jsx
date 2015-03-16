@@ -1,6 +1,9 @@
 var React = require("react");
 
 var DataTable = React.createClass({
+
+  mixins: [require("mixins/classable")],
+
   render: function() {
     var self = this;
 
@@ -31,9 +34,7 @@ var DataTable = React.createClass({
       return (<tr>{cells}</tr>);
     });
 
-    var classes = this.props.className + " data-table table-hover";
-
-    
+    var classes = this.getClasses(["data-table", "table-hover"]);
 
     return (
       <table className={classes}>
