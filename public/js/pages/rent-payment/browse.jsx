@@ -66,11 +66,9 @@ var Browse = React.createClass({
 
   renderTablePanel: function() {
     if (this.state.selectedTenant === null) {
-      console.log("null?");
       return null;
     }
 
-    console.log("this?");
 
     var headers = ["Date Due", "Property", "Status", null];
 

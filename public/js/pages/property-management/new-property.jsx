@@ -89,7 +89,6 @@ var NewProperty = React.createClass({
     var self = this;
 
     var data = _.pick(self.state, 'name', 'number', 'street', 'postcode');
-    console.log(data);
     LandlordDAO.createProperty(self.state.landlord.id, data).done(function() {
       self.transitionTo('property-management');
     }, function(err) {

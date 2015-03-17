@@ -131,11 +131,7 @@ var LandlordSelector = React.createClass({
 
       if (excludedLandlords.length !== 0 ){
         landlords = landlords.filter(function(landlord) {
-          var matching = excludedLandlords.filter(function(v) {
-            return v.id === landlord.id;
-          });
-
-          return matching.length === 0;
+          return !_.some(excludedLandlords, {id: landlord.id});
         });
       }
 

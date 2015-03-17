@@ -15,6 +15,8 @@ var SelectedRow = React.createClass({
 
 var ListSelector = React.createClass({
 
+  mixins: [require('mixins/classable')],
+
   getInitialState: function() {
     return {
       searchTerm: ""
@@ -60,7 +62,7 @@ var ListSelector = React.createClass({
       }
     });
 
-    var classes = "list-selector " + this.props.className;
+    var classes = this.getClasses("list-selector");
 
     return (
       <div className={classes}>

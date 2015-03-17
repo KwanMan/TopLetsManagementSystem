@@ -7,7 +7,6 @@ module.exports = React.createClass({
 
   render: function() {
 
-    console.log(this.props);
     return <div>{this.props.params.id}</div>;
   }
 });

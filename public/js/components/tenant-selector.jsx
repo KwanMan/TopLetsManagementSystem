@@ -137,11 +137,7 @@ var TenantSelector = React.createClass({
     TenantDAO.getAllTenants().done(function(tenants) {
 
       tenants = tenants.filter(function(tenant) {
-        var matching = excludedTenants.filter(function(v) {
-          return v.id === tenant.id;
-        });
-
-        return matching.length === 0;
+        return !_.some(excludedTenants, {id: tenant.id});
       });
 
       self.setState(_.assign(self.getInitialState(), {tenants: tenants}));
