@@ -6,6 +6,8 @@ var Panel = require("components/panel.jsx");
 var ListSelector = require("components/list-selector.jsx");
 var DataTable = require("components/data-table/data-table.jsx");
 var formatString = require("lib/format-string");
+var moment = require("moment");
+var vars = require("lib/vars");
 
 var PropertyDAO = require("dao/property");
 var ContractDAO = require("dao/contract");
@@ -26,19 +28,25 @@ var Browse = React.createClass({
 
   componentWillReceiveProps: function(nextProps) {
     // When transitioning between years the component stays mounted and this will get called instead
-    this.loadData(this.props.params.year);
+    this.loadData(nextProps.params);
   },
 
   componentDidMount: function() {
-    this.loadData(this.props.params.year);
+    this.loadData(this.props.params);
   },
 
-  loadData: function(year) {
+  loadData: function(params) {
     var self = this;
+
+    if (!params.year) {
+      this.transitionTo('contract-management', {
+        year: vars.getCurrentYear() + 1
+      });
+    }
 
     PropertyDAO.getAllProperties().then(function(properties) {
       return when.map(properties, function(property) {
-        return PropertyDAO.getContractInYear(property.id, self.props.params.year).then(function(contract) {
+        return PropertyDAO.getContractInYear(property.id, params.year).then(function(contract) {
           var contractPresent = contract !== null;
 
           return _.assign(property, {contractExists : contractPresent});

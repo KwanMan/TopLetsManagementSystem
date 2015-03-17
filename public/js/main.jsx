@@ -54,17 +54,17 @@ var routes = (
       <Route name="new-property" path="new-property" handler={Handlers.PropertyManagement.NewProperty} />
     </Route>
 
-    <Route name="contract-management" path="contract-management/:year" handler={Handlers.ContractManagement.Main}>
+    <Route name="contract-management" path="contract-management/?:year?" handler={Handlers.ContractManagement.Main}>
       <DefaultRoute handler={Handlers.ContractManagement.Browse} />
       <Route name="new-contract" path="new-contract/:propertyid" handler={Handlers.ContractManagement.NewContract} />
     </Route>
+
+    <Route name="rent-payment" handler={Handlers.RentPayment} />
 
     <Route name="report-management" path="report-management" handler={Handlers.ReportManagement.Main}>
       <DefaultRoute handler={Handlers.ReportManagement.Browse} />
       <Route name="new-property-report" path="new-property-report/:propertyid/:year/:month" handler={Handlers.ReportManagement.NewPropertyReport} />
     </Route>
-
-    <Route name="rent-payment" handler={Handlers.RentPayment} />
 
     <Route name="settings" handler={Handlers.Settings} />
 

@@ -1,34 +1,12 @@
-var React = require("react");
+var React = require("react/addons");
 var Router = require("react-router");
+var cx = React.addons.classSet;
 
-var Link = Router.Link;
-
-var navLinks = [{
-  text: "Dashboard",
-  route: "dashboard"
-},{
-  text: "Property Management",
-  route: "property-management"
-}, {
-  text: "Contract Management",
-  route: "contract-management",
-  params: {
-    year: 2014
-  }
-}, {
-  text: "Report Management",
-  route: "report-management"
-}, {
-  text: "Rent Payment",
-  route: "rent-payment"
-}, {
-  text: "Settings",
-  route: "settings"
-}];
+var vars = require("lib/vars");
 
 module.exports = React.createClass({
 
-  mixins: [Router.Navigation],
+  mixins: [Router.Navigation, Router.State],
 
   getInitialState: function() {
     return {selectedItem : "contract-management"};
@@ -36,14 +14,49 @@ module.exports = React.createClass({
 
   render: function() {
 
-    var menuItems = navLinks.map(function(navLink) {
-      var className = "nav-bar-item";
-      if (this.props.currentPath.indexOf(navLink.route) > -1) {
-        className += " is-selected";
-      }
-      return (<div className={className} onClick={this.handleNavigation.bind(this, navLink.route, navLink.params)}>{navLink.text}</div>);
-    }.bind(this));
+    var self = this;
 
+    var menuItems = [];
+
+    vars.getNavItems().forEach(function(route) {
+
+      var active = self.isActive(route.route, route.params);
+
+      var classes = cx({
+        'nav-bar-item': true,
+        'is-selected': active,
+        'z-1': true
+      });
+
+      menuItems.push(
+        <div
+          className={classes}
+          onClick={self.handleNavigation.bind(null, route.route, route.params)} >
+          {route.text}
+        </div>
+      );
+
+      if (route.children && active) {
+        route.children.forEach(function(route) {
+          var active = self.isActive(route.route, route.params);
+
+          var classes = cx({
+            'nav-bar-item': true,
+            'is-selected': active,
+            'z-2': true
+          });
+
+          menuItems.push(
+            <div
+              className={classes}
+              onClick={self.handleNavigation.bind(null, route.route, route.params)} >
+              {route.text}
+            </div>
+          );
+        });
+      }
+
+    });
     return (
       <div className='nav-bar'>
         <div className="logo" />
