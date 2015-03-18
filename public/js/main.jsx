@@ -8,67 +8,41 @@ var Redirect      = Router.Redirect;
 var Link          = Router.Link;
 var RouteHandler  = Router.RouteHandler;
 
-var Handlers = {
-
-  Login: require("pages/login/login.jsx"),
-
-  App: require("./app.jsx"),
-
-  Dashboard: require("pages/home/home.jsx"),
-
-  PropertyManagement: {
-    Main: require("pages/property-management/index.jsx"),
-    Browse: require("pages/property-management/browse.jsx"),
-    EditLandlord: require("pages/property-management/edit-landlord.jsx"),
-    NewLandlord: require("pages/property-management/new-landlord.jsx"),
-    NewProperty: require("pages/property-management/new-property.jsx")
-  },
-
-  ContractManagement: {
-    Main: require("pages/contract-management/index.jsx"),
-    Browse: require("pages/contract-management/browse.jsx"),
-    NewContract: require("pages/contract-management/new-contract.jsx")
-  },
-
-  ReportManagement: {
-    Browse: require("pages/report-management/browse.jsx"),
-    NewPropertyReport: require("pages/report-management/new-property-report.jsx")
-  },
-
-  RentPayment: require("pages/rent-payment/browse.jsx"),
-
-  Settings: require("pages/settings/settings.jsx")
-};
-
 var routes = (
-  <Route name="app" path="/" handler={Handlers.App}>
+  <Route name="app" path="/" handler={require("./app.jsx")}>
 
-    <Route name="login" handler={Handlers.Login} />
+    <Route name="login" handler={require("pages/login/login.jsx")} />
 
-    <Route name="dashboard" handler={Handlers.Dashboard} />
+    <Route name="dashboard" handler={require("pages/home/home.jsx")} />
 
-    <Route name="property-management" handler={Handlers.PropertyManagement.Main}>
-      <DefaultRoute handler={Handlers.PropertyManagement.Browse} />
-      <Route name="edit-landlord" path="edit-landlord/:id" handler={Handlers.PropertyManagement.EditLandlord} />
-      <Route name="new-landlord" path="new-landlord" handler={Handlers.PropertyManagement.NewLandlord} />
-      <Route name="new-property" path="new-property" handler={Handlers.PropertyManagement.NewProperty} />
+    <Route name="property-management">
+      <Route name="property-browse" path="browse" handler={require("pages/property-management/browse.jsx")} />
+      <Route name="edit-landlord" path="edit-landlord/:id" handler={require("pages/property-management/edit-landlord.jsx")} />
+      <Route name="new-landlord" path="new-landlord" handler={require("pages/property-management/new-landlord.jsx")} />
+      <Route name="property-new" path="new-property" handler={require("pages/property-management/new-property.jsx")} />
+      <Redirect from="?" to="property-browse" />
+      <Redirect from="*" to="property-browse" />
     </Route>
 
-    <Route name="contract-management" path="contract-management/?:year?" handler={Handlers.ContractManagement.Main}>
-      <DefaultRoute handler={Handlers.ContractManagement.Browse} />
-      <Route name="new-contract" path="new-contract/:propertyid" handler={Handlers.ContractManagement.NewContract} />
+    <Route name="contract-management" path="contract-management">
+      <Route name="contract-browse" path="browse/?:year?" handler={require("pages/contract-management/browse.jsx")} />
+      <Route name="new-contract" path="new-contract/:propertyid" handler={require("pages/contract-management/new-contract.jsx")} />
+      <Redirect from="?" to="contract-browse" />
+      <Redirect from="*" to="contract-browse" />
     </Route>
 
-    <Route name="rent-payment" handler={Handlers.RentPayment} />
+    <Route name="rent-payment" handler={require("pages/rent-payment/browse.jsx")} />
 
-    <Route name="report-management" path="report-management" handler={Handlers.ReportManagement.Main}>
-      <DefaultRoute handler={Handlers.ReportManagement.Browse} />
-      <Route name="new-property-report" path="new-property-report/:propertyid/:year/:month" handler={Handlers.ReportManagement.NewPropertyReport} />
+    <Route name="report-management" path="report-management">
+      <Route name="report-browse" path="browse" handler={require("pages/report-management/browse.jsx")} />
+      <Route name="new-property-report" path="new-property-report/:propertyid/:year/:month" handler={require("pages/report-management/new-property-report.jsx")} />
+      <Redirect from="?" to="report-browse" />
+      <Redirect from="*" to="report-browse" />
     </Route>
 
-    <Route name="settings" handler={Handlers.Settings} />
+    <Route name="settings" handler={require("pages/settings/settings.jsx")} />
 
-    <Redirect from="/" to="dashboard" />
+    <Redirect from="*" to="dashboard" />
   </Route>
 );
 

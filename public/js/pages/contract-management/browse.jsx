@@ -39,7 +39,7 @@ var Browse = React.createClass({
     var self = this;
 
     if (!params.year) {
-      this.transitionTo('contract-management', {
+      this.transitionTo('contract-browse', {
         year: vars.getCurrentYear() + 1
       });
     }

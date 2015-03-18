@@ -24,7 +24,7 @@ module.exports = {
     for (var year = endYear; year >= startYear; year--) {
       contractManagementChildren.push({
         text: year,
-        route: "contract-management",
+        route: "contract-browse",
         params: {
           year: year
         }
@@ -38,8 +38,11 @@ module.exports = {
       text: "Property Management",
       route: "property-management",
       children: [{
+        text: "Browse",
+        route: "property-browse"
+      }, {
         text: "New Property",
-        route: "new-property"
+        route: "property-new"
       }]
     }, {
       text: "Contract Management",
