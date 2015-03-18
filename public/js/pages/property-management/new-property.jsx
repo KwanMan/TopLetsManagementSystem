@@ -43,7 +43,7 @@ var NewProperty = React.createClass({
             </div>
 
             <TextInput
-              text="Name/No."
+              text="Name/Number"
               id="name"
               value={this.state.name}
               onTextChange={this.handleTextChange} />

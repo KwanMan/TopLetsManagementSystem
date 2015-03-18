@@ -41,6 +41,9 @@ module.exports = {
         text: "Browse",
         route: "property-browse"
       }, {
+        text: "New Landlord",
+        route: "landlord-new"
+      }, {
         text: "New Property",
         route: "property-new"
       }]
