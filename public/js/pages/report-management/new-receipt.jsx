@@ -96,6 +96,7 @@ var NewReceipt = React.createClass({
     };
 
     PropertyDAO.createReceipt(self.state.property.id, data).done(function() {
+      self.props.showNotification("Receipt created", true);
       self.setState({
         payee: "",
         amount: ""

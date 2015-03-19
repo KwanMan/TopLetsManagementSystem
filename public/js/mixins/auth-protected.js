@@ -11,6 +11,7 @@ module.exports = {
   },
 
   handleUnauthorisedAccess: function() {
+    this.props.showNotification("Unauthorised - Please log in", false);
     auth.logout();
     this.transitionTo('login');
   }

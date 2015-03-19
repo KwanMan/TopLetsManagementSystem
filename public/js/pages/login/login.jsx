@@ -16,25 +16,15 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       username: "",
-      password: "",
-      errorMessage: null
+      password: ""
     };
   },
 
   render: function() {
 
-    var error = null;
-
-    if (this.state.errorMessage !== null){
-      error = (
-        <div className="error">{this.state.errorMessage}</div>
-      );
-    }
-
     return (
     	<div className="login">
         <PageHeading title="Login" />
-        {error}
         <div className="form">
 
           <div className="form-row">
@@ -78,9 +68,11 @@ module.exports = React.createClass({
 
     auth.login(this.state.username, this.state.password, function(successful) {
       if (successful) {
+        self.props.showNotification("Successfully Logged In", true);
         self.transitionTo('dashboard');
       } else {
-        self.setState(_.assign(self.getInitialState(), {errorMessage: "Login credentials incorrect, please try again."}));
+        self.props.showNotification("Incorrect credentials, please try again.", false);
+        self.setState(self.getInitialState());
       }
     });
   }

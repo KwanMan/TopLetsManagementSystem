@@ -76,7 +76,7 @@ module.exports = React.createClass({
           <Panel title="Fees">
             {this.renderFees()}
           </Panel>
-          <div onClick={this.handleSubmit} className="button">SUBMITT</div>
+          <div onClick={this.handleSubmit} className="button">Submit</div>
         </div>
       </div>
     );
@@ -233,7 +233,7 @@ module.exports = React.createClass({
     data.fees = this.getFees();
 
     PropertyDAO.createReport(self.props.params.propertyid, data).done(function(report) {
-      console.log(report);
+      self.props.showNotification("Report created", true);
       self.transitionTo("dashboard", {id: report.id});
     }, function(err) {
       self.handleUnauthorisedAccess();

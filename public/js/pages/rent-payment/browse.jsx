@@ -149,6 +149,7 @@ var Browse = React.createClass({
     var self = this;
 
     RentPaymentDAO.pay(id).done(function() {
+      self.props.showNotification("Payment marked as paid", true);
       self.handleTenantChange(self.state.selectedTenant);
     }, function(err) {
       self.handleUnauthorisedAccess();
@@ -159,6 +160,7 @@ var Browse = React.createClass({
     var self = this;
 
     RentPaymentDAO.unpay(id).done(function() {
+      self.props.showNotification("Payment marked as unpaid", true);
       self.handleTenantChange(self.state.selectedTenant);
     }, function(err) {
       self.handleUnauthorisedAccess();
