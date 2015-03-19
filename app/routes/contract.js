@@ -16,6 +16,8 @@ router.get('/:id/tenants', controller.getTenants);
 // Gets all contracts for specified year
 router.get('/year/:year', controller.getContractsByYear);
 
+router.post('/:id/payments', controller.createPayments);
+
 module.exports = {
   mountPath: "/contract",
   routes: router,

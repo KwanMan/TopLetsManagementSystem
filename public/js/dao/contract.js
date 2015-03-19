@@ -6,6 +6,10 @@ function ContractDAO(){}
 
 ContractDAO.prototype.basePath = "/contract";
 
+ContractDAO.prototype.getContract = function(id) {
+  return this.get("/" + id);
+};
+
 ContractDAO.prototype.getAllInYear = function(year){
   return this.get("/year/" + year);
 };
@@ -24,6 +28,10 @@ ContractDAO.prototype.getForPropertyInYear = function(year, property){
     }
 
   });
+};
+
+ContractDAO.prototype.createPayments = function(id, data) {
+  return this.post("/" + id + "/payments", data);
 };
 
 module.exports = new ContractDAO();

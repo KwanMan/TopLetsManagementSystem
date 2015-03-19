@@ -1,10 +1,6 @@
 module.exports = function (sequelize, DataTypes){
 
   var Property = sequelize.define("Property", {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     number: {
       type: DataTypes.STRING,
       allowNull: false

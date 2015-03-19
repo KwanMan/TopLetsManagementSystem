@@ -13,7 +13,7 @@ var PropertyDAO = require("dao/property");
 
 var NewContract = React.createClass({
 
-  mixins: [Router.Navigation, require("mixins/auth-protected", require("mixins/form"))],
+  mixins: [Router.Navigation, require("mixins/auth-protected"), require("mixins/form")],
 
   getInitialState: function() {
 
@@ -24,7 +24,8 @@ var NewContract = React.createClass({
       tenants: [],
       property: null,
       startDate: moment(startDate, "YYYY-MM-DD"),
-      endDate: moment(endDate, "YYYY-MM-DD")
+      endDate: moment(endDate, "YYYY-MM-DD"),
+      perWeek: null
     };
 
   },
@@ -45,15 +46,15 @@ var NewContract = React.createClass({
 
   render: function() {
 
-    var address = null;
+    var title = null;
 
     if (this.state.property !== null){
-      address = formatString.address(this.state.property) + " - " + this.props.params.year + "/" + (this.props.params.year+1);
+      title = "New Contract for " + formatString.addressShort(this.state.property) + " - " + this.props.params.year + "/" + (parseInt(this.props.params.year) + 1);
     }
 
     return (
       <div className="contract-new">
-        <Panel title="Details">
+        <Panel title={title}>
           <div className="form paper">
             <DateInput
               text="Start Date"
@@ -64,6 +65,12 @@ var NewContract = React.createClass({
               text="End Date"
               date={this.state.endDate}
               onChange={this.handleEndDateChange} />
+
+            <TextInput
+              text="Price pppw (£)"
+              id="perWeek"
+              value={this.state.perWeek}
+              onTextChange={this.handleTextChange} />
 
             {this.renderTenantsTable()}
             <div className="button" onClick={this.handleSubmit}>Submit</div>
@@ -145,12 +152,13 @@ var NewContract = React.createClass({
     var data = {
       startDate: this.state.startDate.toJSON(),
       endDate: this.state.endDate.toJSON(),
+      perWeek: this.state.perWeek,
       year: this.props.params.year,
       tenants: tenants
     };
 
     PropertyDAO.createContract(this.props.params.propertyid, data).done(function() {
-      self.transitionTo();
+      self.transitionTo("contract-browse", {year: self.props.params.year});
     }, function(err) {
       self.handleUnauthorisedAccess();
     });

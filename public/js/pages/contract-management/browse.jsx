@@ -47,9 +47,18 @@ var Browse = React.createClass({
     PropertyDAO.getAllProperties().then(function(properties) {
       return when.map(properties, function(property) {
         return PropertyDAO.getContractInYear(property.id, params.year).then(function(contract) {
+
           var contractPresent = contract !== null;
 
-          return _.assign(property, {contractExists : contractPresent});
+          var contractId = contractPresent ? contract.id : null;
+
+          var obj = _.assign(property, {contract_id : contractId});
+
+          if (contractPresent) {
+            obj.paymentsExist = contract.RentPayments.length > 0;
+          }
+
+          return obj;
         });
       });
     }).then(function(properties) {
@@ -90,23 +99,41 @@ var Browse = React.createClass({
           className="status-selector"
           rows={statusOptions} 
           selectedRow={this.state.selectedStatus}
-          onChange={this.handleStatusChange} />
+          onChange={this.handleStatusChange}
+          hideSearch={true} />
       </Panel>
     );
   },
 
   renderPropertiesPanel: function() {
-    var headers = ["Property", "Status", null];
 
-    var dataNames = ["property", "action"];
+    var self = this;
 
     var data = this.getProperties().map(function(property) {
+
+      var actionText = "";
+      var action = null;
+
+      if (property.contract_id !== null) {
+        if (property.paymentsExist) {
+          actionText = "View Contract";
+          action = self.handleViewContract.bind(null, property.contract_id);
+        } else {
+          actionText = "Setup Payments";
+          action = self.handleSetupPayments.bind(null, property.contract_id);
+        }
+      } else {
+        actionText = "Create Contract";
+        action = self.handleCreateContract.bind(null, property.id);
+      }
+
       return {
         id: property.id,
         property: formatString.address(property),
-        action: property.contractExists ? "View Contract" : "Create Contract"
+        action: (<span className="action" onClick={action}>{actionText}</span>)
       };
     });
+    var dataNames = ["property", "action"];
 
     return (
       <Panel title="Properties">
@@ -115,8 +142,7 @@ var Browse = React.createClass({
           hideHeader={true}
           hideFooter={true}
           dataNames={dataNames}
-          data={data}
-          onCol1Click={this.handleContractSelect} />
+          data={data} />
       </Panel>
     );
 
@@ -154,17 +180,16 @@ var Browse = React.createClass({
     });
   },
 
-  handleContractSelect: function(id) {
-    var property = _.find(this.state.properties, function(property) {
-      return property.id === id;
-    });
+  handleViewContract: function(contract_id) {
+    console.log("View contract " + contract_id);
+  },
 
-    if (property.contractExists) {
-      console.log("View contract for " + property.id);
-    } else {
-      this.transitionTo('new-contract', {year: this.props.params.year, propertyid: property.id});
-    }
+  handleSetupPayments: function(contract_id) {
+    this.transitionTo('setup-payments', {contractid: contract_id});
+  },
 
+  handleCreateContract: function(property_id) {
+    this.transitionTo('new-contract', {year: this.props.params.year, propertyid: property_id});
   },
 
   handlePropertyChange: function(id) {

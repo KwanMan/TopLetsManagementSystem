@@ -65,36 +65,44 @@ var Browse = React.createClass({
   },
 
   renderTablePanel: function() {
+
+    var self = this;
     if (this.state.selectedTenant === null) {
       return null;
     }
 
 
-    var headers = ["Date Due", "Property", "Status", null];
+    var headers = ["Date Due", "Property", "Amount", "Status", null];
 
-    var dataNames = ["date", "property", "status", "action"];
+    var dataNames = ["date", "property", "amount", "status", "action"];
 
     var unpaid = [];
     var paid = [];
 
     this.state.rentPayments.forEach(function(payment) {
       var status;
+      var action;
       if (payment.paid) {
-        status = "Paid";
+        status = "Received";
+        action = self.handelPaymentUnpay.bind(null, payment.id);
+        actionText = "Mark as unpaid";
       } else {
         if (new Date(payment.dueDate) < new Date()) {
           status = "Overdue";
         } else {
           status = "Pending";
         }
+        action = self.handlePaymentPay.bind(null, payment.id);
+        actionText = "Mark as paid";
       }
 
       var row = {
         id: payment.id,
         date: formatString.date(payment.dueDate),
         property: formatString.addressShort(payment.Contract.Property),
+        amount: formatString.currency(payment.amount),
         status: status,
-        action: payment.paid ? "N/A" : "Mark Paid"
+        action: (<span onClick={action} className="action">{actionText}</span>)
       };
 
       if (payment.paid) {
@@ -117,8 +125,7 @@ var Browse = React.createClass({
         headers={headers}
         dataNames={dataNames}
         data={data}
-        hideFooter={true}
-        onCol3Click={this.handlePaymentPay} />
+        hideFooter={true} />
       </Panel>
     );
 
@@ -142,6 +149,16 @@ var Browse = React.createClass({
     var self = this;
 
     RentPaymentDAO.pay(id).done(function() {
+      self.handleTenantChange(self.state.selectedTenant);
+    }, function(err) {
+      self.handleUnauthorisedAccess();
+    });
+  },
+
+  handelPaymentUnpay: function(id) {
+    var self = this;
+
+    RentPaymentDAO.unpay(id).done(function() {
       self.handleTenantChange(self.state.selectedTenant);
     }, function(err) {
       self.handleUnauthorisedAccess();

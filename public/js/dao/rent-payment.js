@@ -10,4 +10,8 @@ RentPaymentDAO.prototype.pay = function(id) {
   return this.post("/" + id + "/pay");
 };
 
+RentPaymentDAO.prototype.unpay = function(id) {
+  return this.post("/" + id + "/unpay");
+};
+
 module.exports = new RentPaymentDAO();

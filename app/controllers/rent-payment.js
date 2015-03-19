@@ -13,5 +13,15 @@ module.exports = {
       res.send(payment);
     });
 
+  }, markPaymentUnpaid: function (req, res){
+
+    models.RentPayment.find(req.params.id).then(function (payment){
+      payment.paid = false;
+      payment.save();
+      return payment;
+    }).then(function (payment){
+      res.send(payment);
+    });
+
   }
 };

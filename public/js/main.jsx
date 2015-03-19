@@ -11,6 +11,7 @@ var RouteHandler  = Router.RouteHandler;
 var routes = (
   <Route name="app" path="/" handler={require("./app.jsx")}>
 
+
     <Route name="login" handler={require("pages/login/login.jsx")} />
 
     <Route name="dashboard" handler={require("pages/home/home.jsx")} />
@@ -26,7 +27,8 @@ var routes = (
 
     <Route name="contract-management" path="contract-management">
       <Route name="contract-browse" path="browse/?:year?" handler={require("pages/contract-management/browse.jsx")} />
-      <Route name="new-contract" path="new-contract/:propertyid" handler={require("pages/contract-management/new-contract.jsx")} />
+      <Route name="new-contract" path="new-contract/:year/:propertyid" handler={require("pages/contract-management/new-contract.jsx")} />
+      <Route name="setup-payments" path="setup-payments/:contractid" handler={require("pages/contract-management/setup-payments.jsx")} />
       <Redirect from="?" to="contract-browse" />
       <Redirect from="*" to="contract-browse" />
     </Route>

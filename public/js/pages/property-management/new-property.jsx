@@ -14,7 +14,6 @@ var NewProperty = React.createClass({
 
   getInitialState: function() {
     return {
-      name: "",
       number: "",
       street: "",
       postcode: "",
@@ -44,12 +43,6 @@ var NewProperty = React.createClass({
 
             <TextInput
               text="Name/Number"
-              id="name"
-              value={this.state.name}
-              onTextChange={this.handleTextChange} />
-
-            <TextInput
-              text="Number"
               id="number"
               value={this.state.number}
               onTextChange={this.handleTextChange} />
@@ -88,7 +81,7 @@ var NewProperty = React.createClass({
   handleCreateButton: function() {
     var self = this;
 
-    var data = _.pick(self.state, 'name', 'number', 'street', 'postcode');
+    var data = _.pick(self.state, 'number', 'street', 'postcode');
     LandlordDAO.createProperty(self.state.landlord.id, data).done(function() {
       self.transitionTo('property-management');
     }, function(err) {

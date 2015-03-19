@@ -172,7 +172,8 @@ module.exports = {
       return models.Contract.create({
         year: req.body.year,
         startDate: req.body.startDate,
-        endDate: req.body.endDate
+        endDate: req.body.endDate,
+        perWeek: req.body.perWeek
       }).then(function(contract) {
         contract.setProperty(property);
         contract.setTenants(tenants);
@@ -190,7 +191,8 @@ module.exports = {
       where: {
         property_id: req.params.id,
         year: req.params.year
-      }
+      },
+      include: [models.RentPayment]
     }).then(function(contract) {
       res.send(contract);
     });

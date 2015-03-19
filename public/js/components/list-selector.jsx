@@ -62,11 +62,16 @@ var ListSelector = React.createClass({
       }
     });
 
+    var searchBar = null;
+    if (!this.props.hideSearch) {
+      searchBar = (<input className="search-bar" type="text" value={this.state.searchTerm} onChange={this.handleSearchTermChange} />);
+    }
+
     var classes = this.getClasses("list-selector");
 
     return (
       <div className={classes}>
-      <input className="search-bar" type="text" value={this.state.searchTerm} onChange={this.handleSearchTermChange} />
+        {searchBar}
         {selectedRow}
         <div className="list-selector-list">
           {rows}

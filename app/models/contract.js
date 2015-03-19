@@ -14,7 +14,11 @@ module.exports = function (sequelize, DataTypes){
     endDate: {
       type: DataTypes.DATE,
       allowNull: false
-    }
+    },
+    perWeek: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: false
+    },
   }, {
     classMethods: {
       associate: function (models){
