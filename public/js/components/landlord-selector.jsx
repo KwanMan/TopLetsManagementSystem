@@ -13,60 +13,20 @@ var LandlordSelector = React.createClass({
 
     return {
       landlords: [],
-      selectedLandlord: "new",
-      newLandlord: {
-        forename: "",
-        surname: "",
-        email: "",
-        contactNumber: ""
-      }
+      selectedLandlord: null
     };
 
   },
 
   render: function() {
+    var self = this;
 
     var supplementary = null;
 
     if (this.state.selectedLandlord !== null) {
-      if(this.state.selectedLandlord === "new") {
+      
 
-        supplementary = (
-
-          <Panel title="">
-
-            <div className="form paper">
-
-              <div className="form-row">
-                <span className="label">Forename</span>
-                <input className="field" type="text" value={this.state.newLandlord.forename} onChange={this.handleForenameChange} />
-              </div>
-
-              <div className="form-row">
-                <span className="label">Surname</span>
-                <input className="field" type="text" value={this.state.newLandlord.surname} onChange={this.handleSurnameChange} />
-              </div>
-
-              <div className="form-row">
-                <span className="label">E-mail</span>
-                <input className="field" type="text" value={this.state.newLandlord.email} onChange={this.handleEmailChange} />
-              </div>
-
-              <div className="form-row">
-                <span className="label">Contact Number</span>
-                <input className="field" type="text" value={this.state.newLandlord.contactNumber} onChange={this.handleContactNumberChange} />
-              </div>
-
-              <div className="button" onClick={this.handleCreate}>Confirm</div>
-
-            </div>
-          </Panel>
-
-        );
-
-      } else {
-
-        var landlord = this.getSelectedLandlordFromList();
+        var landlord = _.find(self.state.landlords, {id: self.state.selectedLandlord});
 
         supplementary = (
 
@@ -81,7 +41,7 @@ var LandlordSelector = React.createClass({
 
         );
 
-      }
+      
     }
 
     return (
@@ -112,11 +72,6 @@ var LandlordSelector = React.createClass({
         };
     });
 
-    landlords.unshift({
-      text: "New",
-      id: "new"
-    });
-
     return landlords;
 
   },
@@ -141,8 +96,6 @@ var LandlordSelector = React.createClass({
 
     });
 
-    
-
   },
 
   handleLandlordChange: function(id) {
@@ -155,77 +108,14 @@ var LandlordSelector = React.createClass({
 
   },
 
-  handleForenameChange: function(e) {
-
-    var newLandlord = this.state.newLandlord;
-    newLandlord.forename = e.target.value;
-
-    this.setState({
-      newLandlord: newLandlord
-    });
-  },
-
-  handleSurnameChange: function(e) {
-
-    var newLandlord = this.state.newLandlord;
-    newLandlord.surname = e.target.value;
-
-    this.setState({
-      newLandlord: newLandlord
-    });
-  },
-
-  handleEmailChange: function(e) {
-
-    var newLandlord = this.state.newLandlord;
-    newLandlord.email = e.target.value;
-
-    this.setState({
-      newLandlord: newLandlord
-    });
-  },
-
-  handleContactNumberChange: function(e) {
-
-    var newLandlord = this.state.newLandlord;
-    newLandlord.contactNumber = e.target.value;
-
-    this.setState({
-      newLandlord: newLandlord
-    });
-  },
-
-  handleCreate: function() {
-
-    var self = this;
-
-    LandlordDAO.createLandlord(self.state.newLandlord).then(function(landlord) {
-      self.props.onConfirm(landlord);
-      self.refs.mainDialog.hide();
-    });
-
-  },
-
   handleConfirm: function() {
 
     var self = this;
 
-    self.props.onConfirm(this.getSelectedLandlordFromList());
+    self.props.onConfirm(_.find(self.state.landlords, {id: self.state.selectedLandlord}));
     self.refs.mainDialog.hide();
 
   
-  },
-
-  getSelectedLandlordFromList: function(){
-
-    var self = this;
-
-    var idx = _.findIndex(self.state.landlords, 'id', self.state.selectedLandlord);
-
-    if (idx !== -1) {
-      return self.state.landlords[idx];
-    }
-    return null;
   }
 
 });

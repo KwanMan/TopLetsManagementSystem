@@ -98,9 +98,7 @@ var NewReceipt = React.createClass({
     PropertyDAO.createReceipt(self.state.property.id, data).done(function() {
       self.setState({
         payee: "",
-        amount: "",
-        date: moment(),
-        property: null
+        amount: ""
       });
     }, function(err) {
       self.handleUnauthorisedAccess();

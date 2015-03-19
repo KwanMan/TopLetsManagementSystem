@@ -94,7 +94,7 @@ var Browse = React.createClass({
     }];
 
     return (
-      <Panel title="Status">
+      <Panel title={this.props.params.year}>
         <ListSelector
           className="status-selector"
           rows={statusOptions} 
