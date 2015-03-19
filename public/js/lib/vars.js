@@ -56,7 +56,14 @@ module.exports = {
       route: "rent-payment"
     }, {
       text: "Report Management",
-      route: "report-management"
+      route: "report-management",
+      children: [{
+        text: "Browse",
+        route: "report-browse"
+      }, {
+        text: "New Receipt",
+        route: "receipt-new"
+      }]
     }, {
       text: "Settings",
       route: "settings"

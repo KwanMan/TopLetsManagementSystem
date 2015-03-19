@@ -83,7 +83,7 @@ module.exports = {
 
     models.Receipt.create({
       payee: req.body.payee,
-      date: new Date(2014, 6, 24, 12, 0, 0),
+      date: req.body.date,
       amount: req.body.amount
     }).tap(function(receipt) {
       return models.Property.findOne(req.param('id')).then(function(property) {
