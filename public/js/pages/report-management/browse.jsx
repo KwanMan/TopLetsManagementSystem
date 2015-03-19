@@ -134,7 +134,7 @@ var Browse = React.createClass({
       return {
         id: property.id,
         property: formatString.addressShort(property),
-        status: "Finalised",
+        status: "Created",
         action: "View"
       };
     });

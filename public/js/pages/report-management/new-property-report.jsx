@@ -2,6 +2,7 @@ var React = require("react");
 var Router = require("react-router");
 var when = require("when");
 var formatString = require("lib/format-string");
+var _ = require("lodash");
 
 var PropertyDAO = require("dao/property");
 var Panel = require("components/panel.jsx");
@@ -73,7 +74,7 @@ module.exports = React.createClass({
             {this.renderReceipts()}
           </Panel>
           <Panel title="Fees">
-            <div className="fees"></div>
+            {this.renderFees()}
           </Panel>
           <div onClick={this.handleSubmit} className="button">SUBMITT</div>
         </div>
@@ -148,6 +149,48 @@ module.exports = React.createClass({
     );
   },
 
+  renderFees: function() {
+
+    var fees = this.getFees();
+    
+    var headers = ["Note", "Amount"];
+    var dataNames = ["note", "amount"];
+
+    var data = fees.map(function(fee, index) {
+      return _.assign(fee, {id: index});
+    });
+
+    var subtotal = fees.reduce(function(prev, cur) {
+      return prev + cur.amount;
+    }, 0);
+
+    var footers = [null, formatString.currency(subtotal)];
+
+    return (
+      <DataTable
+        className="data-table table-hover"
+        headers={headers}
+        dataNames={dataNames}
+        data={data}
+        footers={footers} />
+
+    );
+    
+  },
+
+  getFees: function() {
+    var rentTotal = this.state.rentPayments.reduce(function(prev, cur) {
+      return prev + cur.amount;
+    }, 0);
+
+    return [{
+      note: "Commission",
+      amount: rentTotal * 0.11
+    }];
+
+
+  },
+
   handleRentRemove: function(id){
 
     var self = this;
@@ -186,6 +229,8 @@ module.exports = React.createClass({
     data.receipts = self.state.receipts.map(function(receipt) {
       return receipt.id;
     });
+
+    data.fees = this.getFees();
 
     PropertyDAO.createReport(self.props.params.propertyid, data).done(function(report) {
       console.log(report);

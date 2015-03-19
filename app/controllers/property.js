@@ -137,6 +137,24 @@ module.exports = {
 
     })
 
+    // Create and associate fees
+    .tap(function(report) {
+      return when.map(req.body.fees, function(feeData) {
+
+        // Create
+        return models.Fee.create({
+          note: feeData.note,
+          amount: feeData.amount
+        })
+
+        // Associate
+        .then(function(fee) {
+          return fee.setPropertyReport(report);
+        });
+
+      });
+    })
+
     .then(function(report) {
       res.send(report);
     });
