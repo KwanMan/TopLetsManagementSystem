@@ -11,7 +11,6 @@ var RouteHandler  = Router.RouteHandler;
 var routes = (
   <Route name="app" path="/" handler={require("./app.jsx")}>
 
-
     <Route name="login" handler={require("pages/login/login.jsx")} />
 
     <Route name="dashboard" handler={require("pages/home/home.jsx")} />

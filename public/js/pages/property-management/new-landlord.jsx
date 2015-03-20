@@ -1,11 +1,12 @@
 var React = require("react");
 var Router = require("react-router");
-var _ = require("lodash");
-var Panel = require("components/panel.jsx");
 
-var TextInput = require("components/form/text-input.jsx");
+var _ = require("lodash");
 
 var LandlordDAO = require("dao/landlord");
+
+var Panel = require("components/panel.jsx");
+var TextInput = require("components/form/text-input.jsx");
 
 var NewLandlord = React.createClass({
 
@@ -21,7 +22,6 @@ var NewLandlord = React.createClass({
   },
 
   render: function() {
-
     return (
       <div className="landlord-new">
         <Panel title="New Landlord">

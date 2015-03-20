@@ -1,11 +1,13 @@
 var React = require("react");
 var Router = require("react-router");
+
 var moment = require("moment");
 var formatString = require("lib/format-string");
-var DataTable = require("components/data-table/data-table.jsx");
-var Panel = require("components/panel.jsx");
 
 var ContractDAO = require("dao/contract");
+
+var DataTable = require("components/data-table/data-table.jsx");
+var Panel = require("components/panel.jsx");
 
 var ViewContract = React.createClass({
 
@@ -18,7 +20,6 @@ var ViewContract = React.createClass({
   },
 
   componentDidMount: function() {
-
     var self = this;
 
     ContractDAO.getContract(self.props.params.id).done(function(contract){
@@ -27,7 +28,6 @@ var ViewContract = React.createClass({
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
-
   },
 
   render: function() {
@@ -48,7 +48,6 @@ var ViewContract = React.createClass({
         
       </Panel>
     );
-
   }
 
 });

@@ -1,12 +1,13 @@
 var React = require("react");
 var Router = require("react-router");
-var _ = require("lodash");
-var Panel = require("components/panel.jsx");
-var LandlordSelector = require("components/landlord-selector.jsx");
 
-var TextInput = require("components/form/text-input.jsx");
+var _ = require("lodash");
 
 var LandlordDAO = require("dao/landlord");
+
+var Panel = require("components/panel.jsx");
+var LandlordSelector = require("components/landlord-selector.jsx");
+var TextInput = require("components/form/text-input.jsx");
 
 var NewProperty = React.createClass({
 
@@ -22,7 +23,6 @@ var NewProperty = React.createClass({
   },
 
   render: function() {
-
     var landlordOpt;
 
     if (this.state.landlord === null){

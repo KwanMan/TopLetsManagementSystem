@@ -1,5 +1,6 @@
 var React = require("react/addons");
 var Router = require("react-router");
+
 var cx = React.addons.classSet;
 
 var vars = require("lib/vars");
@@ -13,7 +14,6 @@ module.exports = React.createClass({
   },
 
   render: function() {
-
     var self = this;
 
     var menuItems = [];
@@ -57,6 +57,7 @@ module.exports = React.createClass({
       }
 
     });
+    
     return (
       <div className='nav-bar'>
         <div className="logo" />

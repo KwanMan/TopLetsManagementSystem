@@ -1,11 +1,13 @@
 var React = require("react");
 var Router = require("react-router");
+
 var moment = require("moment");
 var formatString = require("lib/format-string");
-var DataTable = require("components/data-table/data-table.jsx");
-var Panel = require("components/panel.jsx");
 
 var PropertyReportDAO = require("dao/property-report");
+
+var DataTable = require("components/data-table/data-table.jsx");
+var Panel = require("components/panel.jsx");
 
 var ViewReport = React.createClass({
 
@@ -18,7 +20,6 @@ var ViewReport = React.createClass({
   },
 
   componentDidMount: function() {
-
     var self = this;
 
     PropertyReportDAO.getReport(self.props.params.id).done(function(report){
@@ -26,7 +27,6 @@ var ViewReport = React.createClass({
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
-
   },
 
   render: function() {
@@ -41,8 +41,6 @@ var ViewReport = React.createClass({
 
     var title = date + " report for " + formatString.address(report.Property);
 
-    console.log(report);
-
     var receipts = report.Receipts.map(function(receipt) {
       return (<div>{receipt.payee + " - " + formatString.currency(receipt.amount)}</div>);
     });
@@ -53,7 +51,6 @@ var ViewReport = React.createClass({
         {receipts}
       </Panel>
     );
-
   }
 
 });

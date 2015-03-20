@@ -1,30 +1,28 @@
 var React = require("react");
 var Router = require("react-router");
+
 var when = require("when");
-var Panel = require("components/panel.jsx");
-var ListSelector = require("components/list-selector.jsx");
+var _ = require("lodash");
 
 var LandlordDAO = require("dao/landlord");
 var PropertyDAO = require("dao/property");
 
-var _ = require("lodash");
+var Panel = require("components/panel.jsx");
+var ListSelector = require("components/list-selector.jsx");
 
 var Browse = React.createClass({
 
   mixins: [Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
-
     return {
       landlordsList: [],
       propertiesList: [],
       selectedLandlord: null,
       selectedProperty: null};
-
   },
 
   componentDidMount: function() {
-
     var self = this;
 
     LandlordDAO.getLandlords().done(function(data) {
@@ -54,7 +52,6 @@ var Browse = React.createClass({
   },
 
   render: function() {
-
     var landlordsPanel = (
       <Panel title="Landlords">
         <ListSelector
@@ -99,7 +96,6 @@ var Browse = React.createClass({
   },
   
   handleLandlordChange: function(id) {
-
     var self = this;
 
     when.promise(function(resolve) {
@@ -127,11 +123,9 @@ var Browse = React.createClass({
       });
 
     });
-
   },
 
   handlePropertyChange: function(id) {
-
     var self = this;
 
     PropertyDAO.getProperty(id).done(function(property) {

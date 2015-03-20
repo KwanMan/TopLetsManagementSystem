@@ -1,15 +1,16 @@
 var React = require("react");
 var Router = require("react-router");
+
 var _ = require("lodash");
-var Panel = require("components/panel.jsx");
-var PropertySelector = require("components/property-selector.jsx");
 var moment = require("moment");
 var formatString = require("lib/format-string");
 
+var PropertyDAO = require("dao/property");
+
+var Panel = require("components/panel.jsx");
+var PropertySelector = require("components/property-selector.jsx");
 var TextInput = require("components/form/text-input.jsx");
 var DateInput = require("components/form/date-input.jsx");
-
-var PropertyDAO = require("dao/property");
 
 var NewReceipt = React.createClass({
 
@@ -25,7 +26,6 @@ var NewReceipt = React.createClass({
   },
 
   render: function() {
-
     var propertyOpt;
 
     if (this.state.property === null){

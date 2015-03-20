@@ -1,33 +1,30 @@
 var React = require("react");
 var Router = require("react-router");
+
 var _ = require("lodash");
 var formatString = require("lib/format-string");
+
+var PropertyDAO = require("dao/property");
 
 var SkyLight = require("react-skylight");
 var ListSelector = require("./list-selector.jsx");
 var Panel = require("./panel.jsx");
-
-var PropertyDAO = require("dao/property");
 
 var PropertySelector = React.createClass({
 
   mixins: [Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
-
     return {
       properties: [],
       selectedProperty: null
     };
-
   },
 
   render: function() {
-
     var supplementary = null;
 
     if (this.state.selectedProperty !== null) {
-
       var property = _.find(this.state.properties, {id: this.state.selectedProperty});
 
       supplementary = (
@@ -41,7 +38,6 @@ var PropertySelector = React.createClass({
 
     return (
       <SkyLight ref="mainDialog" showOverlay={true}>
-
         <div className="property-selector-wrapper">
           <Panel title="Properties">
             <ListSelector 
@@ -49,28 +45,22 @@ var PropertySelector = React.createClass({
               selectedRow={this.state.selectedProperty}
               onChange={this.handlePropertyChange} />
           </Panel>
-
           {supplementary}
         </div>
-        
       </SkyLight>
     );
-
   },
 
   getProperties: function() {
-
     return this.state.properties.map(function(property) {
       return {
           text: formatString.address(property),
           id: property.id
         };
     });
-
   },
 
   launch: function(excludedProperties) {
-
     // reload api data
 
     var self = this;
@@ -90,29 +80,21 @@ var PropertySelector = React.createClass({
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
-
-    
-
   },
 
   handlePropertyChange: function(id) {
-
     var self = this;
 
     self.setState({
       selectedProperty: id
     });
-
   },
 
   handleConfirm: function() {
-
     var self = this;
 
     self.props.onConfirm(_.find(this.state.properties, {id: this.state.selectedProperty}));
     self.refs.mainDialog.hide();
-
-  
   }
 
 });

@@ -1,7 +1,7 @@
 var React = require("react");
-var PageHeading = require("components/page-heading.jsx");
-
 var Router = require("react-router");
+
+var PageHeading = require("components/page-heading.jsx");
 
 module.exports = React.createClass({
 

@@ -1,11 +1,13 @@
 var React = require("react");
 var Router = require("react-router");
+
 var moment = require("moment");
 var formatString = require("lib/format-string");
-var DataTable = require("components/data-table/data-table.jsx");
-var Panel = require("components/panel.jsx");
 
 var ContractDAO = require("dao/contract");
+
+var DataTable = require("components/data-table/data-table.jsx");
+var Panel = require("components/panel.jsx");
 
 var SetupPayment = React.createClass({
 
@@ -18,7 +20,6 @@ var SetupPayment = React.createClass({
   },
 
   componentDidMount: function() {
-
     var self = this;
 
     ContractDAO.getContract(self.props.params.contractid).done(function(contract){
@@ -31,7 +32,6 @@ var SetupPayment = React.createClass({
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
-
   },
 
   render: function() {
@@ -80,7 +80,6 @@ var SetupPayment = React.createClass({
       };
     });
 
-
     return (
       <Panel title={title}>
         <DataTable
@@ -113,7 +112,6 @@ var SetupPayment = React.createClass({
       self.handleUnauthorisedAccess();
     });
   }
-
 
 });
 

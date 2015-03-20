@@ -11,7 +11,6 @@ var NotificationBar = React.createClass({
   },
 
   render: function() {
-
     var icon = null;
 
     switch(this.state.state) {
@@ -34,7 +33,6 @@ var NotificationBar = React.createClass({
   },
 
   displayMessage: function (message, positive) {
-
     var self = this;
 
     if (this.state.hiddenTimeout !== null) {
@@ -53,7 +51,6 @@ var NotificationBar = React.createClass({
         });
       }, duration)
     });
-
   }
 
 });

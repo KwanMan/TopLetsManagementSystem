@@ -21,7 +21,7 @@ var TextInput = React.createClass({
       </div>
     );
   }
-});
 
+});
 
 module.exports = TextInput;

@@ -3,7 +3,6 @@ var request = require("superagent");
 module.exports = {
 
   login: function(username, password, cb) {
-
     var reqPath = "http://localhost:8000/api/authenticate";
 
     request
@@ -15,21 +14,15 @@ module.exports = {
         console.log(res);
 
         if (res.status === 200) {
-
           sessionStorage.setItem('username', username);
           sessionStorage.setItem('token', res.body.accessToken);
-
           cb(true);
           return;
-
         } else {
-
           cb(false);
           return;
-
         }
-
-      });
+    });
   },
 
   getUsername: function() {
@@ -47,7 +40,6 @@ module.exports = {
   },
 
   loggedIn: function() {
-
     var username = sessionStorage.getItem('username');
     var token = sessionStorage.getItem('token');
     

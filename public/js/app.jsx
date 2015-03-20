@@ -1,6 +1,7 @@
 var React  = require("react");
 var Router = require("react-router");
 var RouteHandler = Router.RouteHandler;
+
 var NavBar = require("components/nav-bar.jsx");
 var NotificationBar = require("components/notification-bar.jsx");
 
@@ -10,7 +11,6 @@ module.exports = React.createClass({
 
 
   render: function() {
-
     return (
       <div className="main-wrapper">
         <NotificationBar ref="notificationBar" />

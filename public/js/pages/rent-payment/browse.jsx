@@ -1,15 +1,16 @@
 var React = require("react");
 var Router = require("react-router");
+
 var when = require("when");
-var Panel = require("components/panel.jsx");
-var ListSelector = require("components/list-selector.jsx");
-var DataTable = require("components/data-table/data-table.jsx");
+var _ = require("lodash");
 var formatString = require("lib/format-string");
 
 var RentPaymentDAO = require("dao/rent-payment");
 var TenantDAO = require("dao/tenant");
 
-var _ = require("lodash");
+var Panel = require("components/panel.jsx");
+var ListSelector = require("components/list-selector.jsx");
+var DataTable = require("components/data-table/data-table.jsx");
 
 var Browse = React.createClass({
 
@@ -65,12 +66,10 @@ var Browse = React.createClass({
   },
 
   renderTablePanel: function() {
-
     var self = this;
     if (this.state.selectedTenant === null) {
       return null;
     }
-
 
     var headers = ["Date Due", "Property", "Amount", "Status", null];
 
@@ -117,8 +116,6 @@ var Browse = React.createClass({
 
     var data = unpaid.concat(paid);
 
-
-
     return (
       <Panel>
         <DataTable
@@ -128,8 +125,6 @@ var Browse = React.createClass({
         hideFooter={true} />
       </Panel>
     );
-
-
   },
 
   handleTenantChange: function(id) {

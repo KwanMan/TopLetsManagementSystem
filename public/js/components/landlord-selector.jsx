@@ -1,21 +1,20 @@
 var React = require("react");
+
 var _ = require("lodash");
+
+var LandlordDAO = require("dao/landlord");
 
 var SkyLight = require("react-skylight");
 var ListSelector = require("./list-selector.jsx");
 var Panel = require("./panel.jsx");
 
-var LandlordDAO = require("dao/landlord");
-
 var LandlordSelector = React.createClass({
 
   getInitialState: function() {
-
     return {
       landlords: [],
       selectedLandlord: null
     };
-
   },
 
   render: function() {
@@ -24,12 +23,9 @@ var LandlordSelector = React.createClass({
     var supplementary = null;
 
     if (this.state.selectedLandlord !== null) {
-      
-
         var landlord = _.find(self.state.landlords, {id: self.state.selectedLandlord});
 
         supplementary = (
-
           <Panel title="">
             {"ID: " + landlord.id}
             {"Forename: " + landlord.forename}
@@ -38,10 +34,7 @@ var LandlordSelector = React.createClass({
             {"Contact Number: " + landlord.contactNumber}
             <div className="button" onClick={this.handleConfirm}>Confirm</div>
           </Panel>
-
         );
-
-      
     }
 
     return (
@@ -54,17 +47,14 @@ var LandlordSelector = React.createClass({
               selectedRow={this.state.selectedLandlord}
               onChange={this.handleLandlordChange} />
           </Panel>
-
           {supplementary}
         </div>
         
       </SkyLight>
     );
-
   },
 
   getLandlords: function() {
-
     var landlords = this.state.landlords.map(function(landlord) {
       return {
           text: landlord.forename + " " + landlord.surname,
@@ -73,11 +63,9 @@ var LandlordSelector = React.createClass({
     });
 
     return landlords;
-
   },
 
   launch: function(excludedLandlords) {
-
     // reload api data
 
     var self = this;
@@ -95,7 +83,6 @@ var LandlordSelector = React.createClass({
       self.refs.mainDialog.show();
 
     });
-
   },
 
   handleLandlordChange: function(id) {
@@ -109,13 +96,10 @@ var LandlordSelector = React.createClass({
   },
 
   handleConfirm: function() {
-
     var self = this;
 
     self.props.onConfirm(_.find(self.state.landlords, {id: self.state.selectedLandlord}));
     self.refs.mainDialog.hide();
-
-  
   }
 
 });

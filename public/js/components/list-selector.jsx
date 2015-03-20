@@ -1,4 +1,5 @@
 var React = require("react/addons");
+
 var cx = React.addons.classSet;
 
 var Row = React.createClass({
@@ -89,6 +90,7 @@ var ListSelector = React.createClass({
   matchText: function(searchTerm, text) {
     return text.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
   }
+  
 });
 
 module.exports = ListSelector;

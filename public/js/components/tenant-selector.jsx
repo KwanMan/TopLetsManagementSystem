@@ -1,16 +1,16 @@
 var React = require("react");
+
 var _ = require("lodash");
+
+var TenantDAO = require("dao/tenant");
 
 var SkyLight = require("react-skylight");
 var ListSelector = require("./list-selector.jsx");
 var Panel = require("./panel.jsx");
 
-var TenantDAO = require("dao/tenant");
-
 var TenantSelector = React.createClass({
 
   getInitialState: function() {
-
     return {
       tenants: [],
       selectedTenant: "new",
@@ -22,20 +22,16 @@ var TenantSelector = React.createClass({
         contactNumber: ""
       }
     };
-
   },
 
   render: function() {
-
     var supplementary = null;
 
     if (this.state.selectedTenant !== null) {
       if(this.state.selectedTenant === "new") {
 
         supplementary = (
-
           <Panel title="">
-
             <div className="form paper">
 
               <div className="form-row">
@@ -67,11 +63,8 @@ var TenantSelector = React.createClass({
 
             </div>
           </Panel>
-
         );
-
       } else {
-
         var tenant = this.getSelectedTenantFromList();
 
         supplementary = (
@@ -85,15 +78,12 @@ var TenantSelector = React.createClass({
             {"Contact Number: " + tenant.contactNumber}
             <div className="button" onClick={this.handleConfirm}>Confirm</div>
           </Panel>
-
         );
-
       }
     }
 
     return (
       <SkyLight ref="mainDialog" showOverlay={true}>
-
         <div className="tenant-selector-wrapper">
           <Panel title="Tenants">
             <ListSelector 
@@ -101,17 +91,14 @@ var TenantSelector = React.createClass({
               selectedRow={this.state.selectedTenant}
               onChange={this.handleTenantChange} />
           </Panel>
-
           {supplementary}
         </div>
-        
       </SkyLight>
     );
 
   },
 
   getTenants: function() {
-
     var tenants = this.state.tenants.map(function(tenant) {
       return {
           text: tenant.forename + " " + tenant.surname,
@@ -125,11 +112,9 @@ var TenantSelector = React.createClass({
     });
 
     return tenants;
-
   },
 
   launch: function(excludedTenants) {
-
     // reload api data
 
     var self = this;
@@ -145,19 +130,14 @@ var TenantSelector = React.createClass({
       self.refs.mainDialog.show();
 
     });
-
-    
-
   },
 
   handleTenantChange: function(id) {
-
     var self = this;
 
     self.setState({
       selectedTenant: id
     });
-
   },
 
   handleForenameChange: function(e) {
@@ -171,7 +151,6 @@ var TenantSelector = React.createClass({
   },
 
   handleSurnameChange: function(e) {
-
     var newTenant = this.state.newTenant;
     newTenant.surname = e.target.value;
 
@@ -181,7 +160,6 @@ var TenantSelector = React.createClass({
   },
 
   handleIdNumberChange: function(e) {
-
     var newTenant = this.state.newTenant;
     newTenant.idNumber = e.target.value;
 
@@ -191,7 +169,6 @@ var TenantSelector = React.createClass({
   },
 
   handleEmailChange: function(e) {
-
     var newTenant = this.state.newTenant;
     newTenant.email = e.target.value;
 
@@ -201,7 +178,6 @@ var TenantSelector = React.createClass({
   },
 
   handleContactNumberChange: function(e) {
-
     var newTenant = this.state.newTenant;
     newTenant.contactNumber = e.target.value;
 
@@ -211,34 +187,22 @@ var TenantSelector = React.createClass({
   },
 
   handleCreate: function() {
-
     var self = this;
 
     TenantDAO.createTenant(self.state.newTenant).then(function(tenant) {
       self.props.onConfirm(tenant);
       self.refs.mainDialog.hide();
     });
-
   },
 
   handleConfirm: function() {
-
     var self = this;
 
-    if (self.state.selectedTenant === "new") {
-
-      
-
-    } else {
-
-      self.props.onConfirm(this.getSelectedTenantFromList());
-      self.refs.mainDialog.hide();
-
-    }
+    self.props.onConfirm(this.getSelectedTenantFromList());
+    self.refs.mainDialog.hide();
   },
 
   getSelectedTenantFromList: function(){
-
     var self = this;
 
     var idx = _.findIndex(self.state.tenants, 'id', self.state.selectedTenant);
@@ -248,7 +212,7 @@ var TenantSelector = React.createClass({
     }
     return null;
   }
-
+  
 });
 
 module.exports = TenantSelector;

@@ -1,10 +1,12 @@
 var React = require("react");
 var Router = require("react-router");
+
+var _ = require("lodash");
 var when = require("when");
 var formatString = require("lib/format-string");
-var _ = require("lodash");
 
 var PropertyDAO = require("dao/property");
+
 var Panel = require("components/panel.jsx");
 var DataTable = require("components/data-table/data-table.jsx");
 var PageHeading = require("components/page-heading.jsx");
@@ -14,18 +16,15 @@ module.exports = React.createClass({
   mixins: [Router.State, Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
-
     return {
       rentPayments: [],
       receipts: [],
       fees: [],
       property: null
     };
-
   },
 
   componentDidMount: function() {
-
     var self = this;
 
     var tasks = [];
@@ -51,7 +50,6 @@ module.exports = React.createClass({
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
-
   },
 
   getFees: function() {
@@ -76,7 +74,6 @@ module.exports = React.createClass({
   },
 
   render: function() {
-
     var heading = null;
 
     if (this.state.property !== null) {
@@ -132,7 +129,6 @@ module.exports = React.createClass({
   },
 
   renderReceipts: function() {
-
     var self = this;
 
     var headers = ["Date", "Payee", "Amount", ""];
@@ -163,7 +159,6 @@ module.exports = React.createClass({
   },
 
   renderFees: function() {
-
     var fees = this.getFees();
     
     var headers = ["Note", "Amount"];
@@ -177,7 +172,6 @@ module.exports = React.createClass({
     });
 
     var subtotal = this.getSubtotal(fees);
-    console.log(subtotal);
     var footers = ["Subtotal:", formatString.currency(subtotal)];
 
     return (
@@ -194,7 +188,6 @@ module.exports = React.createClass({
   renderTotals: function() {
     var self = this;
 
-    
     var totals = [{
       section: "Rent Payments",
       amount: self.getSubtotal(self.state.rentPayments)
@@ -248,7 +241,6 @@ module.exports = React.createClass({
   },
 
   handleSubmit: function() {
-
     var self = this;
 
     var data = {};

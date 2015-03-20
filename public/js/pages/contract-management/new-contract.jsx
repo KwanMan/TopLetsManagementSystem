@@ -1,22 +1,22 @@
 var React = require("react");
 var Router = require("react-router");
+
+var formatString = require("lib/format-string");
+var moment = require("moment");
+
+var PropertyDAO = require("dao/property");
+
 var Panel = require("components/panel.jsx");
 var TenantSelector = require("components/tenant-selector.jsx");
 var TextInput = require("components/form/text-input.jsx");
 var DataTable = require("components/data-table/data-table.jsx");
-var formatString = require("lib/format-string");
-var moment = require("moment");
-
-var DatePicker = require("react-date-picker");
 var DateInput = require("components/form/date-input.jsx");
-var PropertyDAO = require("dao/property");
 
 var NewContract = React.createClass({
 
   mixins: [Router.Navigation, require("mixins/auth-protected"), require("mixins/form")],
 
   getInitialState: function() {
-
     var startDate = [this.props.params.year, "07", "01"].join('-');
     var endDate = [parseInt(this.props.params.year) + 1, "06", "28"].join('-');
 
@@ -27,11 +27,9 @@ var NewContract = React.createClass({
       endDate: moment(endDate, "YYYY-MM-DD"),
       perWeek: null
     };
-
   },
 
   componentDidMount: function() {
-
     var self = this;
 
     PropertyDAO.getProperty(self.props.params.propertyid).done(function(property) {
@@ -41,11 +39,9 @@ var NewContract = React.createClass({
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
-
   },
 
   render: function() {
-
     var title = null;
 
     if (this.state.property !== null){
@@ -84,7 +80,6 @@ var NewContract = React.createClass({
   },
 
   renderTenantsTable: function() {
-
     var headers = ["Tenants", null];
     var footers = [null, "Add Tenant"];
 

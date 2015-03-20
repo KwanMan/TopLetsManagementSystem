@@ -1,18 +1,18 @@
 var React = require("react");
 var Router = require("react-router");
-var when = require("when");
 
-var Panel = require("components/panel.jsx");
-var ListSelector = require("components/list-selector.jsx");
-var DataTable = require("components/data-table/data-table.jsx");
+var when = require("when");
 var formatString = require("lib/format-string");
 var moment = require("moment");
 var vars = require("lib/vars");
+var _ = require("lodash");
 
 var PropertyDAO = require("dao/property");
 var ContractDAO = require("dao/contract");
 
-var _ = require("lodash");
+var Panel = require("components/panel.jsx");
+var ListSelector = require("components/list-selector.jsx");
+var DataTable = require("components/data-table/data-table.jsx");
 
 var Browse = React.createClass({
 
@@ -71,14 +71,12 @@ var Browse = React.createClass({
   },
 
   render: function() {
-
     return (
       <div className="contract-browse">
         {this.renderStatusPanel()}
         {this.renderPropertiesPanel()}
       </div>
     );
-
   },
 
   renderStatusPanel: function() {
@@ -106,7 +104,6 @@ var Browse = React.createClass({
   },
 
   renderPropertiesPanel: function() {
-
     var self = this;
 
     var data = this.getProperties().map(function(property) {
@@ -145,8 +142,6 @@ var Browse = React.createClass({
           data={data} />
       </Panel>
     );
-
-    
   },
 
   getProperties: function() {
@@ -169,7 +164,6 @@ var Browse = React.createClass({
         return this.state.properties;
 
     }
-
   },
 
   handleStatusChange: function(id) {
@@ -194,7 +188,6 @@ var Browse = React.createClass({
   },
 
   handlePropertyChange: function(id) {
-
     var self = this;
 
     ContractDAO.getForPropertyInYear(self.props.params.year, id).done(function(contract) {
@@ -206,7 +199,6 @@ var Browse = React.createClass({
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
-    
   }
 
 });

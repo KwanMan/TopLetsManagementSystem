@@ -1,9 +1,9 @@
 var React = require("react");
 var Router = require("react-router");
+
 var _ = require("lodash");
 var auth = require("lib/auth");
 var hotkey = require("react-hotkey");
-
 hotkey.activate();
 
 var PageHeading = require("components/page-heading.jsx");
@@ -22,7 +22,6 @@ module.exports = React.createClass({
   },
 
   render: function() {
-
     return (
     	<div className="login">
         <Panel title="Login">
@@ -65,7 +64,6 @@ module.exports = React.createClass({
   },
 
   handleLoginButton: function() {
-
     var self = this;
 
     auth.login(this.state.username, this.state.password, function(successful) {

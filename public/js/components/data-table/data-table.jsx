@@ -58,6 +58,7 @@ var DataTable = React.createClass({
       </table>
     );
   }
+  
 });
 
 module.exports = DataTable;

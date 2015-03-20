@@ -1,32 +1,31 @@
 var React = require("react");
 var Router = require("react-router");
+
+var _ = require("lodash");
 var when = require("when");
-var Panel = require("components/panel.jsx");
-var ListSelector = require("components/list-selector.jsx");
-var DataTable = require("components/data-table/data-table.jsx");
 var formatString = require("lib/format-string");
+
 var LandlordDAO = require("dao/landlord");
 var PropertyDAO = require("dao/property");
 var PropertyReportDAO = require("dao/property-report");
 
-var _ = require("lodash");
+var Panel = require("components/panel.jsx");
+var ListSelector = require("components/list-selector.jsx");
+var DataTable = require("components/data-table/data-table.jsx");
 
 var Browse = React.createClass({
 
   mixins: [Router.Navigation, require("mixins/auth-protected")],
 
   getInitialState: function() {
-
     return {
       months: [],
       selectedMonth: null,
       properties: []
     };
-
   },
 
   componentDidMount: function() {
-
     // TODO: These two dates should be loaded from db when we decide how to store it
     var start = {
       year: 2014,
@@ -45,11 +44,9 @@ var Browse = React.createClass({
       months: rows,
       selectedMonth: selectedRow
     });
-
   },
 
   getMonthsList: function(start, latest) {
-
     var output = [];
 
     var current = {
@@ -84,11 +81,9 @@ var Browse = React.createClass({
     }
 
     return output;
-
   },
 
   render: function() {
-
     var tablePanel = null;
     if (this.state.selectedMonth) {
       tablePanel = (
@@ -109,7 +104,6 @@ var Browse = React.createClass({
         {tablePanel}
       </div>
     );
-  
   },
 
   renderTable: function() {
@@ -146,8 +140,6 @@ var Browse = React.createClass({
         dataNames={dataNames}
         data={data} />
       );
-
-
   },
 
   handleDateChange: function(id) {
@@ -190,7 +182,6 @@ var Browse = React.createClass({
   },
 
   handleReportSelect: function(id) {
-
     var parts = this.state.selectedMonth.split("-");
     var year = parts[0];
     var month = parts[1];
@@ -207,7 +198,6 @@ var Browse = React.createClass({
       console.log("show report for " + id);
       console.log("month: " + this.state.selectedMonth);
     }
-
   }
 
 });
