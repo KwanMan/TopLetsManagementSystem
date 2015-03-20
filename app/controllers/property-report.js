@@ -11,5 +11,16 @@ module.exports = {
     }).then(function(reports) {
       res.send(reports);
     });
+  },
+
+  getReport: function(req, res) {
+    models.PropertyReport.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [models.Property, models.RentPayment, models.Receipt]
+    }).then(function(report) {
+      res.send(report);
+    });
   }
 };

@@ -253,8 +253,8 @@ module.exports = React.createClass({
 
     var data = {};
 
-    data.year = 2015;
-    data.month = 4;
+    data.year = this.props.params.year;
+    data.month = this.props.params.month;
 
     data.rentPayments = self.state.rentPayments.map(function(payment) {
       return payment.id;
@@ -268,7 +268,7 @@ module.exports = React.createClass({
 
     PropertyDAO.createReport(self.props.params.propertyid, data).done(function(report) {
       self.props.showNotification("Report created", true);
-      self.transitionTo("dashboard", {id: report.id});
+      self.transitionTo("report-browse", {id: report.id});
     }, function(err) {
       self.handleUnauthorisedAccess();
     });

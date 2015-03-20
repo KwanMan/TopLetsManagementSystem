@@ -20,8 +20,7 @@ var Browse = React.createClass({
     return {
       months: [],
       selectedMonth: null,
-      emptyProperties: [],
-      presentProperties: []
+      properties: []
     };
 
   },
@@ -86,8 +85,6 @@ var Browse = React.createClass({
 
     return output;
 
-
-
   },
 
   render: function() {
@@ -121,33 +118,33 @@ var Browse = React.createClass({
     var headers = ["Property", "Status", null];
     var dataNames = ["property", "status", "action"];
 
-    var empty = self.state.emptyProperties.map(function(property) {
+    var data = this.state.properties.map(function(property) {
+      var status, action, actionText;
+
+      if (property.report_id !== null) {
+        status = "Created";
+        action = self.handleReportView.bind(null, property.report_id);
+        actionText = "View";
+      } else {
+        status = "Pending";
+        action = self.handleReportCreate.bind(null, property.id);
+        actionText = "Create";
+      }
+
       return {
         id: property.id,
         property: formatString.addressShort(property),
-        status: "Pending",
-        action: "Create"
+        status: status,
+        action: (<span className="action" onClick={action}>{actionText}</span>)
       };
     });
-
-    var present = self.state.presentProperties.map(function(property) {
-      return {
-        id: property.id,
-        property: formatString.addressShort(property),
-        status: "Created",
-        action: "View"
-      };
-    });
-
-    var data = empty.concat(present);
 
     return (
       <DataTable
         headers={headers}
         hideFooter={true}
         dataNames={dataNames}
-        data={data}
-        onCol2Click={this.handleReportSelect}/>
+        data={data} />
       );
 
 
@@ -160,38 +157,36 @@ var Browse = React.createClass({
     var year = parts[0];
     var month = parts[1];
 
-    var tasks = [];
+    PropertyDAO.getAllProperties().then(function(properties) {
+      return when.map(properties, function(property) {
+        return PropertyDAO.getReportByDate(property.id, year, month).then(function(report) {
+          var reportPresent = report !== null;
 
-    tasks.push(PropertyDAO.getAllProperties());
-    tasks.push(PropertyReportDAO.getByDate(year, month));
+          var reportId = reportPresent ? report.id : null;
 
-    when.all(tasks).done(function(results) {
-      var properties = results[0];
-      var reports = results[1];
+          return _.assign(property, {report_id: reportId});
 
-      var empty = [];
-      var present = [];
-
-      properties.forEach(function(property) {
-        var matchingReports = reports.filter(function(report) {
-          return report.property_id === property.id;
         });
-
-        if (matchingReports.length === 1) {
-          present.push(property);
-        } else {
-          empty.push(property);
-        }
       });
-
+    }).then(function(properties) {
       self.setState({
-        selectedMonth:id,
-        emptyProperties: empty,
-        presentProperties: present
+        selectedMonth: id,
+        properties: properties
       });
-    }, function(err) {
+    }, function(err){
       self.handleUnauthorisedAccess();
     });
+  },
+
+  handleReportCreate: function(propertyid) {
+    var parts = this.state.selectedMonth.split("-");
+    var year = parts[0];
+    var month = parts[1];
+    this.transitionTo('new-property-report', {propertyid: propertyid, year: year, month: month});
+  },
+
+  handleReportView: function(reportid) {
+    this.transitionTo('view-property-report', {id: reportid});
   },
 
   handleReportSelect: function(id) {

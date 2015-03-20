@@ -38,4 +38,8 @@ PropertyDAO.prototype.createReceipt = function(id, data) {
   return this.post("/" + id + "/receipt", data);
 };
 
+PropertyDAO.prototype.getReportByDate = function(id, year, month) {
+  return this.get("/" + id + "/report/" + year + "/" + month);
+};
+
 module.exports = new PropertyDAO();

@@ -40,6 +40,7 @@ var routes = (
       <Route name="report-browse" path="browse" handler={require("pages/report-management/browse.jsx")} />
       <Route name="receipt-new" path="new-receipt" handler={require("pages/report-management/new-receipt.jsx")} />
       <Route name="new-property-report" path="new-property-report/:propertyid/:year/:month" handler={require("pages/report-management/new-property-report.jsx")} />
+      <Route name="view-property-report" path="view-report/:id" handler={require("pages/report-management/view-report.jsx")} />
       <Redirect from="?" to="report-browse" />
       <Redirect from="*" to="report-browse" />
     </Route>

@@ -182,6 +182,7 @@ var Browse = React.createClass({
 
   handleViewContract: function(contract_id) {
     console.log("View contract " + contract_id);
+    this.transitionTo('view-contract', {id: contract_id});
   },
 
   handleSetupPayments: function(contract_id) {
