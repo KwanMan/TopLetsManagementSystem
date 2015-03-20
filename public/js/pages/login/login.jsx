@@ -8,6 +8,7 @@ hotkey.activate();
 
 var PageHeading = require("components/page-heading.jsx");
 var SkyLight = require("react-skylight");
+var Panel = require("components/panel.jsx");
 
 module.exports = React.createClass({
 
@@ -24,22 +25,23 @@ module.exports = React.createClass({
 
     return (
     	<div className="login">
-        <PageHeading title="Login" />
-        <div className="form">
+        <Panel title="Login">
+          <div className="form">
 
-          <div className="form-row">
-            <span className="label">Username</span>
-            <input className="field" type="text" value={this.state.username} onChange={this.handleUsernameChange} />
+            <div className="form-row">
+              <span className="label">Username</span>
+              <input className="field" type="text" value={this.state.username} onChange={this.handleUsernameChange} />
+            </div>
+
+            <div className="form-row">
+              <span className="label">Password</span>
+              <input className="field" type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+            </div>
+
+            <div className="button" onClick={this.handleLoginButton}>Login</div>
+
           </div>
-
-          <div className="form-row">
-            <span className="label">Password</span>
-            <input className="field" type="password" value={this.state.password} onChange={this.handlePasswordChange} />
-          </div>
-
-          <div className="button" onClick={this.handleLoginButton}>Login</div>
-
-        </div>
+        </Panel>
       </div>
     );
   },

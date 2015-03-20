@@ -1,7 +1,12 @@
 module.exports = {
 
   currency: function(input) {
-    return "£" + input.toFixed(2);
+    var value = parseFloat(input);
+
+    if (value < 0) {
+      return "-£" + (value.toFixed(2) * -1);
+    }
+    return "£" + value.toFixed(2);
   },
 
   monthShort: function(month) {

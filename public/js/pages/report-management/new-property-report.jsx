@@ -54,6 +54,27 @@ module.exports = React.createClass({
 
   },
 
+  getFees: function() {
+    if (this.state.rentPayments.length === 0) {
+      return [];
+    }
+
+    var rentTotal = this.state.rentPayments.reduce(function(prev, cur) {
+      return prev + cur.amount;
+    }, 0);
+
+    return [{
+      note: "Commission",
+      amount: rentTotal * 0.11
+    }];
+  },
+
+  getSubtotal: function(payments) {
+    return payments.reduce(function(prev, cur) {
+      return prev + cur.amount;
+    }, 0);
+  },
+
   render: function() {
 
     var heading = null;
@@ -63,21 +84,18 @@ module.exports = React.createClass({
     }
 
     return (
-      <div>
-        <PageHeading title={heading} />
-
-        <div className="report-preview">
-          <Panel title="Rent">
-            {this.renderRentPayments()}
-          </Panel>
-          <Panel title="Maintenance">
-            {this.renderReceipts()}
-          </Panel>
-          <Panel title="Fees">
-            {this.renderFees()}
-          </Panel>
+      <div className="report-new">
+        <Panel title={heading}>
+          <h2>Rent</h2>
+          {this.renderRentPayments()}
+          <h2>Receipts</h2>
+          {this.renderReceipts()}
+          <h2>Fees</h2>
+          {this.renderFees()}
+          <h2>Totals</h2>
+          {this.renderTotals()}
           <div onClick={this.handleSubmit} className="button">Submit</div>
-        </div>
+        </Panel>
       </div>
     );
   },
@@ -98,15 +116,13 @@ module.exports = React.createClass({
       };
     });
 
-    var subtotal = this.state.rentPayments.reduce(function(prev, cur) {
-      return prev + cur.amount;
-    }, 0);
+    var subtotal = this.getSubtotal(this.state.rentPayments);
 
-    var footers = [null, null, formatString.currency(subtotal), null];
+    var footers = [null, "Subtotal:", formatString.currency(subtotal), null];
 
     return (
       <DataTable
-        className="data-table table-hover"
+        className="rent-table"
         headers={headers}
         footers={footers}
         dataNames={dataNames}
@@ -132,15 +148,12 @@ module.exports = React.createClass({
       };
     });
 
-    var subtotal = this.state.receipts.reduce(function(prev, cur) {
-      return prev + cur.amount;
-    }, 0);
-
-    var footers = [null, null, formatString.currency(subtotal), null];
+    var subtotal = this.getSubtotal(this.state.receipts);
+    var footers = [null, "Subtotal:", formatString.currency(subtotal), null];
 
     return (
       <DataTable
-        className="data-table table-hover"
+        className="receipt-table"
         headers={headers}
         footers={footers}
         dataNames={dataNames}
@@ -155,44 +168,66 @@ module.exports = React.createClass({
     
     var headers = ["Note", "Amount"];
     var dataNames = ["note", "amount"];
-
     var data = fees.map(function(fee, index) {
-      return _.assign(fee, {id: index});
+      return {
+        id: index,
+        note: fee.note,
+        amount: formatString.currency(fee.amount)
+      };
     });
 
-    var subtotal = fees.reduce(function(prev, cur) {
-      return prev + cur.amount;
-    }, 0);
-
-    var footers = [null, formatString.currency(subtotal)];
+    var subtotal = this.getSubtotal(fees);
+    console.log(subtotal);
+    var footers = ["Subtotal:", formatString.currency(subtotal)];
 
     return (
       <DataTable
-        className="data-table table-hover"
+        className="fee-table"
         headers={headers}
         dataNames={dataNames}
         data={data}
         footers={footers} />
-
     );
     
   },
 
-  getFees: function() {
-    var rentTotal = this.state.rentPayments.reduce(function(prev, cur) {
-      return prev + cur.amount;
-    }, 0);
+  renderTotals: function() {
+    var self = this;
 
-    return [{
-      note: "Commission",
-      amount: rentTotal * 0.11
+    
+    var totals = [{
+      section: "Rent Payments",
+      amount: self.getSubtotal(self.state.rentPayments)
+    }, {
+      section: "Maintenance",
+      amount: self.getSubtotal(self.state.receipts) * -1
+    }, {
+      section: "Fees",
+      amount: self.getSubtotal(self.getFees()) * -1   
     }];
 
+    var dataNames = ["section", "amount"];
+    var data = totals.map(function(total) {
+      return {
+        section: total.section,
+        amount: formatString.currency(total.amount)
+      };
+    });
 
+    var subtotal = this.getSubtotal(totals);
+    var footers = ["Total:", formatString.currency(subtotal)];
+
+    return (
+      <DataTable
+        className="total-table"
+        hideHeader={true}
+        dataNames={dataNames}
+        data={data}
+        footers={footers} />
+    );
   },
 
   handleRentRemove: function(id){
-
     var self = this;
     var newPayments = self.state.rentPayments.filter(function(rentPayment) {
       return rentPayment.id !== id;
@@ -203,7 +238,6 @@ module.exports = React.createClass({
   },
 
   handleReceiptRemove: function(id){
-
     var self = this;
     var newReceipts = self.state.receipts.filter(function(receipt) {
       return receipt.id !== id;

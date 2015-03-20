@@ -12,8 +12,8 @@ var DataTable = React.createClass({
 
     // Make header
     if (!this.props.hideHeader) {
-      var headers = this.props.headers.map(function(header) {
-        return (<th>{header}</th>);
+      var headers = this.props.headers.map(function(header, index) {
+        return (<th className={"col" + index}>{header}</th>);
       });
       head = (<thead><tr>{headers}</tr></thead>);
     }
@@ -22,11 +22,12 @@ var DataTable = React.createClass({
     if (!this.props.hideFooter) {
       var footers = this.props.footers.map(function(footer, index) {
         var actionId = 'onFootCol' + index + 'Click';
+        var className = "col" + index;
 
         if (self.props[actionId]) {
-          return (<td><span onClick={self.props[actionId]} className="action">{footer}</span></td>);
+          return (<td className={className}><span onClick={self.props[actionId]} className="action">{footer}</span></td>);
         }
-        return (<td>{footer}</td>);
+        return (<td className={className}>{footer}</td>);
       });
       foot = (<tfoot><tr>{footers}</tr></tfoot>);
     }
@@ -34,13 +35,13 @@ var DataTable = React.createClass({
     // Make body
     var rows = this.props.data.map(function(row) {
       var cells = self.props.dataNames.map(function(name, index) {
-
         var actionId = 'onCol' + index + 'Click';
+        var className = "col" + index;
         if (self.props[actionId]){
           var action = self.props[actionId].bind(null, row.id);
-          return (<td><span className="action" onClick={action}>{row[name]}</span></td>);
+          return (<td className={className}><span className="action" onClick={action}>{row[name]}</span></td>);
         }
-        return (<td>{row[name]}</td>);
+        return (<td className={className}>{row[name]}</td>);
 
       });
 
