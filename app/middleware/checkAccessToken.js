@@ -1,16 +1,15 @@
+var auth = require("basic-auth");
 var dateUtils = require('../utils/date');
 var models = require('../models');
 
 module.exports = function (req, res, next) {
 
- /* next();
-
-  return;*/
+  var user = auth(req);
 
   // Find correct user
   models.Admin.findOne({
     where: {
-      username: req.headers.authuser
+      username: user.name
     }
   }).success(function (admin){
     if (!admin){
@@ -21,7 +20,7 @@ module.exports = function (req, res, next) {
     // Find matching token
     models.AccessToken.find({
       where: {
-        token: req.headers.authorization
+        token: user.pass
       }
     }).success(function (token){
       if (!token){

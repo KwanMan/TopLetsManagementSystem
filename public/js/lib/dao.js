@@ -25,8 +25,7 @@ requestMethods.forEach(function(method){
         req.send(data);
       }
 
-      req.set('authorization', auth.getToken());
-      req.set('authuser', auth.getUsername());
+      req.auth(auth.getUsername(), auth.getToken());
 
       req.end(function(err, res) {
           switch(res.status){
