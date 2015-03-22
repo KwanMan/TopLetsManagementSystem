@@ -6,6 +6,13 @@ module.exports = function (req, res, next) {
 
   var user = auth(req);
 
+  if (user === undefined) {
+    user = {
+      name: req.query.user,
+      pass: req.query.token
+    };
+  }
+
   // Find correct user
   models.Admin.findOne({
     where: {

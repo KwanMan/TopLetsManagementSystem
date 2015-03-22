@@ -1,9 +1,10 @@
 var request = require("superagent");
+var config = require("lib/config");
 
 module.exports = {
 
   login: function(username, password, cb) {
-    var reqPath = "http://localhost:8000/api/authenticate";
+    var reqPath = config.apiPath + "authenticate";
 
     request
       .post(reqPath)
@@ -44,6 +45,10 @@ module.exports = {
     var token = sessionStorage.getItem('token');
     
     return username !== null && token !== null;
+  },
+
+  getAssetUrl: function(filename) {
+    return config.apiPath + "asset/" + filename + "?user=" + this.getUsername() + "&token=" + this.getToken();
   }
 
 };

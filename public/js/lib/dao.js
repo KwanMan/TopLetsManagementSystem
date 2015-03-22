@@ -2,6 +2,7 @@ var request = require("superagent");
 var Path = require("path");
 var when = require("when");
 var auth = require("./auth");
+var config = require("lib/config");
 
 var requestMethods = ["get", "post", "put", "delete"];
 
@@ -18,7 +19,7 @@ requestMethods.forEach(function(method){
         reject(new Error("Not logged in"));
       }
 
-      var reqPath = "http://" + Path.join("localhost:8000/api", self.basePath, path);
+      var reqPath = config.apiPath + self.basePath + path;
 
       var req = request[method](reqPath);
       if (data){
@@ -37,7 +38,7 @@ requestMethods.forEach(function(method){
               reject(new Error("401 unauthorised"));
               break;
             default:
-              console.log(res.status);
+              console.log("Response Status", res.status);
           }
         });
       });
