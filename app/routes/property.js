@@ -18,7 +18,7 @@ router.get('/:id/rent-payment/new', controller.getNewRentPayments);
 router.get('/:id/receipt/new', controller.getNewReceipts);
 
 router.post('/:id/receipt', multer({ 
-    dest: './uploads/receipts',
+    dest: './uploads',
     rename: function (fieldname, filename) {
       return Date.now() + uuid.v4();
     },

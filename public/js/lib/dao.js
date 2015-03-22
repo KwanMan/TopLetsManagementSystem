@@ -30,12 +30,16 @@ requestMethods.forEach(function(method){
           console.log("attaching: ", attachment);
           req.attach(attachment.field, attachment.file, attachment.file.name);
         });
-      }
 
-      if (data) {
-        _.pairs(data).forEach(function(row) {
-          req.field(row[0], row[1]);
-        });
+        if (data) {
+          _.pairs(data).forEach(function(row) {
+            req.field(row[0], row[1]);
+          });
+        }
+      } else {
+        if (data) {
+          req.send(data);
+        }
       }
 
       req.auth(auth.getUsername(), auth.getToken());

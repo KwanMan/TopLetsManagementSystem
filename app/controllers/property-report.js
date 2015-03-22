@@ -18,7 +18,14 @@ module.exports = {
       where: {
         id: req.params.id
       },
-      include: [models.Property, models.RentPayment, models.Receipt]
+      include: [
+        models.Property,
+        models.Receipt,
+        {
+          model: models.RentPayment,
+          include: [models.Tenant]
+        }
+      ]
     }).then(function(report) {
       res.send(report);
     });
