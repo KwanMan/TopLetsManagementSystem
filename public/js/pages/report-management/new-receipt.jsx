@@ -21,7 +21,8 @@ var NewReceipt = React.createClass({
       payee: "",
       amount: "",
       date: moment(),
-      property: null
+      property: null,
+      file: null
     };
   },
 
@@ -61,6 +62,8 @@ var NewReceipt = React.createClass({
               value={this.state.amount}
               onTextChange={this.handleTextChange} />
 
+            <input type="file" onChange={this.handleFileChange} />
+
             <div className="button" onClick={this.handleCreateButton}>Create</div>
 
           </div>
@@ -86,6 +89,12 @@ var NewReceipt = React.createClass({
     this.setState({property: property});
   },
 
+  handleFileChange: function(e) {
+    this.setState({
+      file: e.target.files[0]
+    });
+  },
+
   handleCreateButton: function() {
     var self = this;
 
@@ -95,7 +104,16 @@ var NewReceipt = React.createClass({
       date: self.state.date.toJSON()
     };
 
-    PropertyDAO.createReceipt(self.state.property.id, data).done(function() {
+    var attachments = [];
+
+    if (self.state.file !== null) {
+      attachments .push({
+        field: "receipt",
+        file: self.state.file
+      });
+    }
+
+    PropertyDAO.createReceipt(self.state.property.id, data, attachments).done(function() {
       self.props.showNotification("Receipt created", true);
       self.setState({
         payee: "",

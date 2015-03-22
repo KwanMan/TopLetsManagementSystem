@@ -81,11 +81,17 @@ module.exports = {
 
   createReceipt: function (req, res){
 
-    models.Receipt.create({
+    var data = {
       payee: req.body.payee,
       date: req.body.date,
       amount: req.body.amount
-    }).tap(function(receipt) {
+    };
+
+    if (req.files.receipt) {
+      data.filename = req.files.receipt.name;
+    }
+
+    models.Receipt.create(data).tap(function(receipt) {
       return models.Property.findOne(req.param('id')).then(function(property) {
         receipt.setProperty(property);
       });

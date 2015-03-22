@@ -1,5 +1,7 @@
 var router = require('express').Router();
 var controller = require("../controllers/property");
+var multer = require("multer");
+var uuid = require("uuid");
 
 router.get('/', controller.getProperties);
 
@@ -15,7 +17,18 @@ router.get('/:id/rent-payment/new', controller.getNewRentPayments);
 // Get unsassigned receipts
 router.get('/:id/receipt/new', controller.getNewReceipts);
 
-router.post('/:id/receipt', controller.createReceipt);
+router.post('/:id/receipt', multer({ 
+    dest: './uploads/receipts',
+    rename: function (fieldname, filename) {
+      return Date.now() + uuid.v4();
+    },
+    onFileUploadStart: function (file) {
+      console.log(file.originalname + ' is starting upload...');
+    },
+    onFileUploadComplete: function (file) {
+      console.log(file.fieldname + ' uploaded to  ' + file.path);
+    }
+  }), controller.createReceipt);
 
 router.post('/:id/report', controller.createReport);
 

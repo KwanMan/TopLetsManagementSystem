@@ -34,8 +34,8 @@ PropertyDAO.prototype.getContractInYear = function(id, year) {
   return this.get("/" + id + "/contract/" + year);
 };
 
-PropertyDAO.prototype.createReceipt = function(id, data) {
-  return this.post("/" + id + "/receipt", data);
+PropertyDAO.prototype.createReceipt = function(id, data, attachments) {
+  return this.post("/" + id + "/receipt", data, attachments);
 };
 
 PropertyDAO.prototype.getReportByDate = function(id, year, month) {
