@@ -21,8 +21,12 @@ module.exports = function (sequelize, DataTypes){
       type: DataTypes.STRING,
       allowNull: true
     }
-
   }, {
+    getterMethods: {
+      fullName : function() {
+        return this.forename + ' ' + this.surname;
+      }
+    },
     classMethods: {
       associate: function (models){
         Tenant.hasMany(models.RentPayment);

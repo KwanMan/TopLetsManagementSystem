@@ -40,7 +40,7 @@ var ViewReport = React.createClass({
 
     var date = formatString.month(report.month) + " " + report.year;
 
-    var title = date + " report for " + formatString.address(report.Property);
+    var title = date + " report for " + report.Property.longAddress;
 
     var receipts = report.Receipts.map(function(receipt) {
       return (<div>{receipt.payee + " - " + formatString.currency(receipt.amount)}<img src={auth.getAssetUrl(receipt.filename)} /></div>);

@@ -4,7 +4,7 @@ module.exports = {
     var value = parseFloat(input);
 
     if (value < 0) {
-      return "-£" + (value.toFixed(2) * -1);
+      return "-£" + (value * -1).toFixed(2);
     }
     return "£" + value.toFixed(2);
   },
@@ -65,18 +65,6 @@ module.exports = {
     };
 
     return date.getDate() + nth(date.getDate()) + " " + this.monthShort(date.getMonth()) + " " + date.getFullYear();
-  },
-
-  name: function(person) {
-    return person.forename + " " + person.surname;
-  },
-
-  address: function(property) {
-    return property.number + " " + property.street + ", " + property.postcode;
-  },
-
-  addressShort: function(property) {
-    return property.number + " " + property.street;
   }
   
 };

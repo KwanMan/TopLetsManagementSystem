@@ -127,7 +127,7 @@ var Browse = React.createClass({
 
       return {
         id: property.id,
-        property: formatString.addressShort(property),
+        property: property.shortAddress,
         status: status,
         action: (<span className="action" onClick={action}>{actionText}</span>)
       };

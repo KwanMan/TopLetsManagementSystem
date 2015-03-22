@@ -77,7 +77,7 @@ module.exports = React.createClass({
     var heading = null;
 
     if (this.state.property !== null) {
-      heading = formatString.address(this.state.property) + " - " + formatString.month(this.props.params.month) + " " + this.props.params.year;
+      heading = this.state.property.longAddress + " - " + formatString.month(this.props.params.month) + " " + this.props.params.year;
     }
 
     return (
@@ -107,7 +107,7 @@ module.exports = React.createClass({
       return {
         id: rentPayment.id,
         date: formatString.date(rentPayment.dueDate),
-        tenant: formatString.name(rentPayment.Tenant),
+        tenant: rentPayment.Tenant.fullName,
         amount: formatString.currency(rentPayment.amount),
         remove: "remove"
       };

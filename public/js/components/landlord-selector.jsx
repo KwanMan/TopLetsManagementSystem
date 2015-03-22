@@ -57,7 +57,7 @@ var LandlordSelector = React.createClass({
   getLandlords: function() {
     var landlords = this.state.landlords.map(function(landlord) {
       return {
-          text: landlord.forename + " " + landlord.surname,
+          text: landlord.fullName,
           id: landlord.id
         };
     });

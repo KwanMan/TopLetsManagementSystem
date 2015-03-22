@@ -43,7 +43,7 @@ var SetupPayment = React.createClass({
 
     var contract = this.state.contract;
 
-    var title = "Setup payments for " + formatString.addressShort(contract.Property) + " - " + contract.year + "/" + (parseInt(contract.year) + 1);
+    var title = "Setup payments for " + contract.Property.shortAddress + " - " + contract.year + "/" + (parseInt(contract.year) + 1);
 
     var paymentOptions = [{
       text: "Monthly", 
@@ -75,7 +75,7 @@ var SetupPayment = React.createClass({
 
       return {
         id: tenant.id,
-        name: formatString.name(tenant),
+        name: tenant.fullName,
         plan: (<select onChange={handleOptionChange} value={self.state["tenant" + tenant.id + "plan"]}>{paymentOptions}</select>)
       };
     });

@@ -26,9 +26,21 @@ var NewProperty = React.createClass({
     var landlordOpt;
 
     if (this.state.landlord === null){
-      landlordOpt = (<div className="button" onClick={this.handleChooseLandlordButton}>Select</div>);
+      landlordOpt = (
+        <div
+          className="button"
+          onClick={this.handleChooseLandlordButton}>
+          Select
+        </div>
+      );
     } else {
-      landlordOpt = (<div className="field clickable" onClick={this.handleChooseLandlordButton}>{this.state.landlord.forename + " " + this.state.landlord.surname}</div>);
+      landlordOpt = (
+        <div
+          className="field clickable"
+          onClick={this.handleChooseLandlordButton}>
+          {this.state.landlord.fullName}
+        </div>
+      );
     }
 
     return (

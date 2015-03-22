@@ -18,6 +18,11 @@ module.exports = function (sequelize, DataTypes){
       allowNull: true
     }
   }, {
+    getterMethods: {
+      fullName : function() {
+        return this.forename + ' ' + this.surname;
+      }
+    },
     classMethods: {
       associate: function(models){
         Landlord.hasMany(models.Property);

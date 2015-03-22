@@ -14,6 +14,14 @@ module.exports = function (sequelize, DataTypes){
       allowNull: false
     }
   }, {
+    getterMethods: {
+      shortAddress : function() {
+        return this.number + ' ' + this.street;
+      },
+      longAddress : function() {
+        return this.number + ' ' + this.street + ', ' + this.postcode;
+      }
+    },
     classMethods: {
       associate: function(models) {
         Property.belongsTo(models.Landlord);

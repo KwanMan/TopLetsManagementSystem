@@ -30,7 +30,7 @@ var PropertySelector = React.createClass({
       supplementary = (
         <Panel title="">
           {"ID: " + property.id}
-          {"Address: " + formatString.address(property)}
+          {"Address: " + property.longAddress}
           <div className="button" onClick={this.handleConfirm}>Confirm</div>
         </Panel>
       );
@@ -54,7 +54,7 @@ var PropertySelector = React.createClass({
   getProperties: function() {
     return this.state.properties.map(function(property) {
       return {
-          text: formatString.address(property),
+          text: property.shortAddress,
           id: property.id
         };
     });

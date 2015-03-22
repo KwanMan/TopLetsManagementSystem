@@ -101,7 +101,7 @@ var TenantSelector = React.createClass({
   getTenants: function() {
     var tenants = this.state.tenants.map(function(tenant) {
       return {
-          text: tenant.forename + " " + tenant.surname,
+          text: tenant.fullName,
           id: tenant.id
         };
     });

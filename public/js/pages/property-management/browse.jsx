@@ -30,7 +30,7 @@ var Browse = React.createClass({
       var landlords = data.map(function(landlord) {
 
         return {
-          text: landlord.forename + " " +  landlord.surname,
+          text: landlord.fullName,
           id: landlord.id
         };
 
@@ -111,7 +111,7 @@ var Browse = React.createClass({
       var list = properties.map(function(property) {
 
         return {
-          text: property.number + " " + property.street,
+          text: property.shortAddress,
           id: property.id
         };
 

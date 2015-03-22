@@ -23,7 +23,6 @@ var ViewContract = React.createClass({
     var self = this;
 
     ContractDAO.getContract(self.props.params.id).done(function(contract){
-      console.log(contract);
       self.setState({contract: contract});
     }, function(err) {
       self.handleUnauthorisedAccess();
@@ -38,7 +37,7 @@ var ViewContract = React.createClass({
       return null;
     }
 
-    var title = contract.year + " contract for " + formatString.address(contract.Property);
+    var title = contract.year + " contract for " + contract.Property.shortAddress;
 
     return (
       <Panel className="contract-view" title={title}>

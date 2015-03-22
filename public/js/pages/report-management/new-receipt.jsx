@@ -32,7 +32,7 @@ var NewReceipt = React.createClass({
     if (this.state.property === null){
       propertyOpt = (<div className="button" onClick={this.handleChoosePropertyButton}>Select</div>);
     } else {
-      propertyOpt = (<div className="field clickable" onClick={this.handleChoosePropertyButton}>{formatString.address(this.state.property)}</div>);
+      propertyOpt = (<div className="field clickable" onClick={this.handleChoosePropertyButton}>{this.state.property.longAddress}</div>);
     }
 
     return (

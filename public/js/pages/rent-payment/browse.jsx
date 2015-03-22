@@ -50,7 +50,7 @@ var Browse = React.createClass({
   renderTenantsPanel: function() {
     var rows = this.state.tenants.map(function(tenant) {
       return {
-        text: formatString.name(tenant),
+        text: tenant.fullName,
         id: tenant.id
       };
     });
@@ -98,7 +98,7 @@ var Browse = React.createClass({
       var row = {
         id: payment.id,
         date: formatString.date(payment.dueDate),
-        property: formatString.addressShort(payment.Contract.Property),
+        property: payment.Contract.Property.shortAddress,
         amount: formatString.currency(payment.amount),
         status: status,
         action: (<span onClick={action} className="action">{actionText}</span>)

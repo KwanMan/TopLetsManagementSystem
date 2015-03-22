@@ -45,7 +45,7 @@ var NewContract = React.createClass({
     var title = null;
 
     if (this.state.property !== null){
-      title = "New Contract for " + formatString.addressShort(this.state.property) + " - " + this.props.params.year + "/" + (parseInt(this.props.params.year) + 1);
+      title = "New Contract for " + this.state.property.shortAddress + " - " + this.props.params.year + "/" + (parseInt(this.props.params.year) + 1);
     }
 
     return (
@@ -87,7 +87,7 @@ var NewContract = React.createClass({
     var data = this.state.tenants.map(function(tenant) {
       return {
         id: tenant.id,
-        name: formatString.name(tenant),
+        name: tenant.fullName,
         action: "Remove"
       };
     });
