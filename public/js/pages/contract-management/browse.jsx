@@ -91,7 +91,7 @@ var Browse = React.createClass({
       id: "pending"
     }, {
       text: "Complete",
-      id: "let" 
+      id: "complete" 
     }];
 
     return (
@@ -158,9 +158,9 @@ var Browse = React.createClass({
           return property.contract_id === null;
         });
 
-      case "let":
+      case "complete":
         return this.state.properties.filter(function(property) {
-          return property.contract_id !== null;
+          return property.contract_id !== null && property.paymentsExist;
         });
 
       case "pending":
