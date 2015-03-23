@@ -2,7 +2,12 @@ var router = require('express').Router();
 
 router.get('/:filename', function(req, res) {
 
-  res.sendFile("/Users/tommy/Documents/dev/TopLetsManagementSystem/uploads/" + req.params.filename);
+  if (req.query.download) {
+    res.download("/Users/tommy/Documents/dev/TopLetsManagementSystem/uploads/" + req.params.filename);
+  } else {
+    res.sendFile("/Users/tommy/Documents/dev/TopLetsManagementSystem/uploads/" + req.params.filename);    
+  }
+  
 });
 
 module.exports = {

@@ -13,37 +13,31 @@ module.exports = function (req, res, next) {
     };
   }
 
-  // Find correct user
-  models.Admin.findOne({
+  models.AccessToken.findOne({
     where: {
-      username: user.name
+      token: user.pass
     }
-  }).success(function (admin){
-    if (!admin){
-      console.log('user not found');
+  }).then(function(token) {
+    if (!token) {
+      console.log('Token not found');
       res.status(401).end();
       return;
     }
-    // Find matching token
-    models.AccessToken.find({
-      where: {
-        token: user.pass
-      }
-    }).success(function (token){
-      if (!token){
-        console.log('no token found');
-        res.status(401).end();
-        return;
-      }
 
-      // Check it is still valid
-      if (token.expired()){
-        console.log("Access token " + token.token + " expired");
-        res.status(401).end();
-        return;
-      }
+    if (token.expired()) {
+      console.log("Token expired");
+      res.status(401).end();
+      return;
+    }
 
+    return token.getAdmin();
+  }).then(function(admin) {
+    if (admin) {
+      console.log('authenticated');
+      req.user = admin;
       next();
-    });
+      return;
+    }
+    console.log("unauthenticated");
   });
 }; 

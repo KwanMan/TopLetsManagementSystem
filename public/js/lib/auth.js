@@ -47,8 +47,15 @@ module.exports = {
     return username !== null && token !== null;
   },
 
-  getAssetUrl: function(filename) {
-    return config.apiPath + "asset/" + filename + "?user=" + this.getUsername() + "&token=" + this.getToken();
+  getAssetUrl: function(filename, download) {
+    var path = config.apiPath + "asset/" + filename + "?token=" + this.getToken();
+
+    if (download) {
+      path = path + "&download=true";
+    }
+
+    return path;
+
   }
 
 };
