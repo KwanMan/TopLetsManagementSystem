@@ -2,6 +2,7 @@ var React = require("react");
 var Router = require("react-router");
 
 var _ = require("lodash");
+var validator = require("validator");
 
 var LandlordDAO = require("dao/landlord");
 
@@ -20,6 +21,30 @@ var NewProperty = React.createClass({
       postcode: "",
       landlord: null
     };
+  },
+
+  getFieldConstraints: function() {
+    return [{
+      value: this.state.landlord,
+      validator: this.validator.isNotNull,
+      message: "Please select a landlord"
+    }, {
+      value: this.state.number,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "House number/name cannot be empty"
+    }, {
+      value: this.state.street,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "Street name cannot be empty"
+    }, {
+      value: this.state.postcode,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "Post Code cannot be empty"
+    }, {
+      value: this.state.postcode,
+      validator: validator.isPostcode,
+      message: "Post Code is invalid"
+    }, ];
   },
 
   render: function() {
@@ -92,6 +117,12 @@ var NewProperty = React.createClass({
 
   handleCreateButton: function() {
     var self = this;
+
+    var error = this.validateFields();
+    if (error !== null) {
+      self.props.showNotification(error, false);
+      return;
+    }
 
     var data = _.pick(self.state, 'number', 'street', 'postcode');
     LandlordDAO.createProperty(self.state.landlord.id, data).done(function() {

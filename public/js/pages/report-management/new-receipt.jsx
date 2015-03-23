@@ -4,6 +4,7 @@ var Router = require("react-router");
 var _ = require("lodash");
 var moment = require("moment");
 var formatString = require("lib/format-string");
+var validator = require("validator");
 
 var PropertyDAO = require("dao/property");
 
@@ -24,6 +25,22 @@ var NewReceipt = React.createClass({
       property: null,
       file: null
     };
+  },
+
+  getFieldConstraints: function() {
+    return [{
+      value: this.state.property,
+      validator: this.validator.isNotNull,
+      message: "Please choose a property"
+    }, {
+      value: this.state.payee,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "Payee cannot be empty"
+    }, {
+      value: this.state.amount,
+      validator: validator.isFloat,
+      message: "Please enter a valid amount"
+    }];
   },
 
   render: function() {
@@ -97,6 +114,12 @@ var NewReceipt = React.createClass({
 
   handleCreateButton: function() {
     var self = this;
+
+    var error = this.validateFields();
+    if (error !== null) {
+      self.props.showNotification(error, false);
+      return;
+    }
 
     var data = {
       payee: self.state.payee,

@@ -36,6 +36,7 @@
     "superagent": "^1.1.0",
     "t": "^0.5.1",
     "uuid": "^2.0.1",
+    "validator": "^3.34.0",
     "when": "^3.6.4"
   },
   "devDependencies": {

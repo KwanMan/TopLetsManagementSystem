@@ -2,6 +2,7 @@ var React = require("react");
 var Router = require("react-router");
 
 var _ = require("lodash");
+var validator = require("validator");
 
 var LandlordDAO = require("dao/landlord");
 
@@ -19,6 +20,34 @@ var NewLandlord = React.createClass({
       email: "",
       contactNumber: ""
     };
+  },
+
+  getFieldConstraints: function() {
+    return [{
+      value: this.state.forename,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "Forename cannot be empty"
+    }, {
+      value: this.state.surname,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "Surname cannot be empty"
+    }, {
+      value: this.state.email,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "E-mail cannot be empty"
+    }, {
+      value: this.state.email,
+      validator: validator.isEmail,
+      message: "Invalid e-mail address."
+    }, {
+      value: this.state.contactNumber,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "Contact number cannot be empty"
+    }, {
+      value: this.state.contactNumber,
+      validator: validator.isUKPhoneNumber,
+      message: "Invalid contact number."
+    }];
   },
 
   render: function() {
@@ -62,6 +91,12 @@ var NewLandlord = React.createClass({
 
   handleCreateButton: function() {
     var self = this;
+
+    var error = this.validateFields();
+    if (error !== null) {
+      self.props.showNotification(error, false);
+      return;
+    }
 
     var data = _.pick(self.state, 'forename', 'surname', 'email', 'contactNumber');
     LandlordDAO.createLandlord(data).done(function() {

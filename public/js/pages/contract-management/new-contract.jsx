@@ -3,6 +3,7 @@ var Router = require("react-router");
 
 var formatString = require("lib/format-string");
 var moment = require("moment");
+var validator = require("validator");
 
 var PropertyDAO = require("dao/property");
 
@@ -27,6 +28,18 @@ var NewContract = React.createClass({
       endDate: moment(endDate, "YYYY-MM-DD"),
       perWeek: null
     };
+  },
+
+  getFieldConstraints: function() {
+    return [{
+      value: this.state.perWeek,
+      validator: validator.isFloat,
+      message: "Invalid price per week"
+    }, {
+      value: this.state.tenants,
+      validator: function(v) { return v.length > 0; },
+      message: "Please add tenants"
+    }];
   },
 
   componentDidMount: function() {
@@ -139,6 +152,12 @@ var NewContract = React.createClass({
 
   handleSubmit: function() {
     var self = this;
+
+    var error = this.validateFields();
+    if (error !== null) {
+      self.props.showNotification(error, false);
+      return;
+    }
 
     var tenants = this.state.tenants.map(function(tenant) {
       return tenant.id;
