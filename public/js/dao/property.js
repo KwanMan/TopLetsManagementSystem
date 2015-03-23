@@ -42,4 +42,8 @@ PropertyDAO.prototype.getReportByDate = function(id, year, month) {
   return this.get("/" + id + "/report/" + year + "/" + month);
 };
 
+PropertyDAO.prototype.getReports = function(id) {
+  return this.get("/" + id + "/report");
+};
+
 module.exports = new PropertyDAO();

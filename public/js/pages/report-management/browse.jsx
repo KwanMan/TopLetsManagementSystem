@@ -4,6 +4,7 @@ var Router = require("react-router");
 var _ = require("lodash");
 var when = require("when");
 var formatString = require("lib/format-string");
+var moment = require("moment");
 
 var LandlordDAO = require("dao/landlord");
 var PropertyDAO = require("dao/property");
@@ -32,10 +33,11 @@ var Browse = React.createClass({
       month: 7
     };
 
+    var curDate = moment();
     var latest = {
-      year: 2015,
-      month: 5
-    };  
+      year: curDate.year(),
+      month: curDate.month()
+    };
 
     var rows = this.getMonthsList(start, latest);
     var selectedRow = null;
@@ -120,16 +122,22 @@ var Browse = React.createClass({
         action = self.handleReportView.bind(null, property.report_id);
         actionText = "View";
       } else {
-        status = "Pending";
-        action = self.handleReportCreate.bind(null, property.id);
-        actionText = "Create";
+        if (property.laterReportAvailable) {
+          status = "No Report";
+          action = null;
+          actiontext = null;
+        } else {
+          status = "Pending";
+          action = self.handleReportCreate.bind(null, property.id);
+          actionText = "Create";
+        }
       }
 
       return {
         id: property.id,
         property: property.shortAddress,
         status: status,
-        action: (<span className="action" onClick={action}>{actionText}</span>)
+        action: action === null ? null : (<span className="action" onClick={action}>{actionText}</span>)
       };
     });
 
@@ -146,17 +154,29 @@ var Browse = React.createClass({
     var self = this;
 
     var parts = id.split("-");
-    var year = parts[0];
-    var month = parts[1];
+    var year = parseInt(parts[0]);
+    var month = parseInt(parts[1]);
 
     PropertyDAO.getAllProperties().then(function(properties) {
       return when.map(properties, function(property) {
-        return PropertyDAO.getReportByDate(property.id, year, month).then(function(report) {
-          var reportPresent = report !== null;
+        return PropertyDAO.getReports(property.id).then(function(reports) {
+          var reportPresent = _.some(reports, {month: month, year: year});
 
-          var reportId = reportPresent ? report.id : null;
+          var report_id = reportPresent ? _.find(reports, {month: month, year: year}).id : null;
 
-          return _.assign(property, {report_id: reportId});
+          var laterReportAvailable = _.some(reports, function(report) {
+            if (report.year > year) {
+              return true;
+            }
+
+            if (report.year === year && report.month > month) {
+              return true;
+            }
+
+            return false;
+          });
+
+          return _.assign(property, {report_id: report_id, laterReportAvailable: laterReportAvailable});
 
         });
       });

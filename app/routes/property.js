@@ -34,6 +34,8 @@ router.post('/:id/report', controller.createReport);
 
 router.get('/:id/report/:year/:month', controller.getReportByDate);
 
+router.get('/:id/report', controller.getReports);
+
 router.post('/:id/contract', controller.createContract);
 
 router.get('/:id/contract/:year', controller.getContract);

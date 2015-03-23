@@ -179,6 +179,15 @@ module.exports = {
     });
   },
 
+  getReports: function(req, res) {
+    models.Property.findOne(req.params.id).then(function(property) {
+      return property.getPropertyReports();
+    }).then(function(reports) {
+      console.log(reports);
+      res.send(reports);
+    });
+  },
+
   createContract: function(req, res) {
 
     var tasks = [];

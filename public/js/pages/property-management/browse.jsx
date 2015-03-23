@@ -79,8 +79,8 @@ var Browse = React.createClass({
     if (this.state.selectedProperty) {
       var property = this.state.propertyDetails;
       propertyPanel = (
-        <Panel title={"Details for " + property.number + " " + property.street}>
-          {property.number + " " + property.street + ", " + property.postcode}
+        <Panel title={"Details for " + property.shortAddress}>
+          {property.longAddress}
 
         </Panel>
       );

@@ -20,6 +20,7 @@ module.exports = {
       },
       include: [
         models.Property,
+        models.Fee,
         models.Receipt,
         {
           model: models.RentPayment,
