@@ -3,8 +3,12 @@ var React = require("react/addons");
 var cx = React.addons.classSet;
 
 var Row = React.createClass({
+
+  mixins: [require("mixins/classable")],
+
   render: function() {
-    return <div className="list-selector-row" onClick={this.props.onSelect}>{this.props.text}</div>;
+    var classes = this.getClasses("list-selector-row");
+    return <div className={classes} onClick={this.props.onSelect}>{this.props.text}</div>;
   }
 });
 
@@ -47,19 +51,20 @@ var ListSelector = React.createClass({
     var searchEnabled = self.state.searchTerm !== "";
 
     this.props.rows.forEach(function(row) {
-      if (row.id === self.props.selectedRow) {
+      var rowSelected = row.id === self.props.selectedRow;
+      if (rowSelected) {
         selectedRow = (<SelectedRow name={row.text} />);
-      } else {
+      }
 
-        // Only add to list if search is not enabled or the search matches
-        if (!searchEnabled || self.matchText(self.state.searchTerm, row.text)) {
-          rows.push(
-            <Row 
-              text={row.text}
-              key={row.id}
-              onSelect={self.handleItemClicked.bind(null, row.id)} />
-          );          
-        }
+      // Only add to list if search is not enabled or the search matches
+      if (!searchEnabled || self.matchText(self.state.searchTerm, row.text)) {
+        rows.push(
+          <Row 
+            className={rowSelected ? "selected" : null}
+            text={row.text}
+            key={row.id}
+            onSelect={self.handleItemClicked.bind(null, row.id)} />
+        );          
       }
     });
 
