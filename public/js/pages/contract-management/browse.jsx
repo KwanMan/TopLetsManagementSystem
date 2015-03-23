@@ -20,7 +20,7 @@ var Browse = React.createClass({
 
   getInitialState: function() {
     return {
-      selectedStatus: "all",
+      selectedStatus: "available",
       selectedProperty: null,
       properties: []
     };
@@ -81,14 +81,17 @@ var Browse = React.createClass({
 
   renderStatusPanel: function() {
     var statusOptions = [{
-      text: "Unoccupied",
-      id: "unoccupied" 
-    }, {
-      text: "Occupied",
-      id: "occupied"
-    }, {
       text: "All",
       id: "all"
+    }, {
+      text: "Available",
+      id: "available"
+    }, {
+      text: "Pending",
+      id: "pending"
+    }, {
+      text: "Complete",
+      id: "let" 
     }];
 
     return (
@@ -150,14 +153,19 @@ var Browse = React.createClass({
     }
 
     switch (this.state.selectedStatus) {
-      case "unoccupied":
+      case "available":
         return this.state.properties.filter(function(property) {
-          return !property.contractExists;
+          return property.contract_id === null;
         });
 
-      case "occupied":
+      case "let":
         return this.state.properties.filter(function(property) {
-          return property.contractExists;
+          return property.contract_id !== null;
+        });
+
+      case "pending":
+        return this.state.properties.filter(function(property) {
+          return property.contract_id !== null && !property.paymentsExist;
         });
 
       case "all":
