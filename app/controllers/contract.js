@@ -50,33 +50,38 @@ module.exports = {
         var payments = [];
         var dueDate = startDate.clone();
 
-        if (plan.plan === "monthly") {
+        switch(plan.plan) {
 
-          while(payments.length < 12) {
+          case "monthly":
+            while(payments.length < 12) {
+              payments.push({
+                dueDate: dueDate.clone().toDate(),
+                amount: Math.ceil((py/12)*100) / 100
+              });
+              dueDate.add(1, "M");
+              
+            }
+            break;
+
+          case "quarterly":
+            while(payments.length < 4) {
+              payments.push({
+                dueDate: dueDate.clone().toDate(),
+                amount: Math.ceil((py/4)*100) / 100
+              });
+              dueDate.add(3, "M");
+            }
+            break;
+
+          case "annually":
             payments.push({
               dueDate: dueDate.clone().toDate(),
-              amount: py/12
+              amount: Math.ceil((py * 0.975)*100) / 100
             });
-            dueDate.add(1, "M");
-            
-          }
-        }
+            break;
 
-        if (plan.plan === "quarterly") {
-          while(payments.length < 4) {
-            payments.push({
-              dueDate: dueDate.clone().toDate(),
-              amount: py/4
-            });
-            dueDate.add(3, "M");
-          }
-        }
-
-        if (plan.plan === "annually") {
-          payments.push({
-            dueDate: dueDate.clone().toDate(),
-            amount: py * 0.975
-          });
+          default:
+            console.log("Cannot recognise payment plan string");
         }
 
         return {
