@@ -16,6 +16,10 @@ module.exports = function (sequelize, DataTypes){
     contactNumber: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     getterMethods: {

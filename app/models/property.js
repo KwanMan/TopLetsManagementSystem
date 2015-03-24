@@ -12,6 +12,10 @@ module.exports = function (sequelize, DataTypes){
     postcode: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    bedrooms: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     getterMethods: {

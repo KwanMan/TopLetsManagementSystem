@@ -45,6 +45,7 @@ requestMethods.forEach(function(method){
       req.auth(auth.getUsername(), auth.getToken());
 
       req.end(function(err, res) {
+        console.log("Request path", reqPath);
         console.log("res", res);
           switch(res.status){
             case 200:

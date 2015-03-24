@@ -81,7 +81,7 @@ module.exports = {
             break;
 
           default:
-            console.log("Cannot recognise payment plan string");
+            throw new Error("Cannot recognise payment plan string");
         }
 
         return {
@@ -107,6 +107,8 @@ module.exports = {
       });
     }).then(function(payments){
       res.send(payments);
+    }).catch(function(err) {
+      res.status(400).end();
     });
     
   }

@@ -8,6 +8,7 @@ var LandlordDAO = require("dao/landlord");
 
 var Panel = require("components/panel.jsx");
 var TextInput = require("components/form/text-input.jsx");
+var TextAreaInput = require("components/form/text-area-input.jsx");
 
 var NewLandlord = React.createClass({
 
@@ -18,7 +19,8 @@ var NewLandlord = React.createClass({
       forename: "",
       surname: "",
       email: "",
-      contactNumber: ""
+      contactNumber: "",
+      address: ""
     };
   },
 
@@ -47,6 +49,10 @@ var NewLandlord = React.createClass({
       value: this.state.contactNumber,
       validator: validator.isUKPhoneNumber,
       message: "Invalid contact number."
+    }, {
+      value: this.state.address,
+      validator: validator.isNotWhitespaceOrEmpty,
+      message: "Please enter an address"
     }];
   },
 
@@ -80,6 +86,12 @@ var NewLandlord = React.createClass({
               value={this.state.contactNumber}
               onTextChange={this.handleTextChange} />
 
+            <TextAreaInput
+              text="Address"
+              id="address"
+              value={this.state.address}
+              onTextChange={this.handleTextChange} />
+
             <div className="button" onClick={this.handleCreateButton}>Create</div>
 
           </div>
@@ -98,7 +110,7 @@ var NewLandlord = React.createClass({
       return;
     }
 
-    var data = _.pick(self.state, 'forename', 'surname', 'email', 'contactNumber');
+    var data = _.pick(self.state, 'forename', 'surname', 'email', 'contactNumber', 'address');
     LandlordDAO.createLandlord(data).done(function() {
       self.props.showNotification("Landlord successfully created", true);
       self.transitionTo('property-new');

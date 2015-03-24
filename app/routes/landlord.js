@@ -1,8 +1,6 @@
 var router = require('express').Router();
 var controller = require("../controllers/landlord");
 
-
-
 // Get all
 router.get('/', controller.getLandlords);
 

@@ -19,7 +19,8 @@ var NewProperty = React.createClass({
       number: "",
       street: "",
       postcode: "",
-      landlord: null
+      landlord: null,
+      bedrooms: ""
     };
   },
 
@@ -44,7 +45,11 @@ var NewProperty = React.createClass({
       value: this.state.postcode,
       validator: validator.isPostcode,
       message: "Post Code is invalid"
-    }, ];
+    }, {
+      value: this.state.bedrooms,
+      validator: validator.isInteger,
+      message: "Please enter a valid number of bedrooms"
+    }];
   },
 
   render: function() {
@@ -96,6 +101,12 @@ var NewProperty = React.createClass({
               value={this.state.postcode}
               onTextChange={this.handleTextChange} />
 
+            <TextInput
+              text="Bedrooms"
+              id="bedrooms"
+              value={this.state.bedrooms}
+              onTextChange={this.handleTextChange} />
+
             <div className="button" onClick={this.handleCreateButton}>Create</div>
 
           </div>
@@ -124,7 +135,7 @@ var NewProperty = React.createClass({
       return;
     }
 
-    var data = _.pick(self.state, 'number', 'street', 'postcode');
+    var data = _.pick(self.state, 'number', 'street', 'postcode', 'bedrooms');
     LandlordDAO.createProperty(self.state.landlord.id, data).done(function() {
       self.props.showNotification("Property successfully created", true);
       self.transitionTo('property-management');

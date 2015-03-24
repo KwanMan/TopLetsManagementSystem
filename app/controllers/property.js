@@ -12,7 +12,7 @@ module.exports = {
   },
 
   createProperty: function (req, res){
-    models.Property.create(req.body).complete(function (property){
+    models.Property.create(req.body).done(function (property){
       res.send(property);
     });
   },
@@ -86,6 +86,10 @@ module.exports = {
       date: req.body.date,
       amount: req.body.amount
     };
+
+    if (req.body.note) {
+      data.note = req.body.note;
+    }
 
     if (req.files.receipt) {
       data.filename = req.files.receipt.name;

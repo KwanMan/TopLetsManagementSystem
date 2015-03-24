@@ -1,5 +1,6 @@
 var models = require('../app/models');
 var when = require('when');
+var _ = require("lodash");
 
 module.exports = function(grunt) {
 
@@ -111,7 +112,7 @@ module.exports = function(grunt) {
       when.map(landlords, function (landlordData){
         models.Landlord.create(landlordData).then(function (landlord){
           when.map(landlordData.properties, function (propertyData){
-            models.Property.create(propertyData).then(function (property){
+            models.Property.create(_.assign(propertyData, {bedrooms: 5})).then(function (property){
               property.setLandlord(landlord);
             });
           });

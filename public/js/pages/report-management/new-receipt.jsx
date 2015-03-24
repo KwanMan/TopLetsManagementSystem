@@ -11,6 +11,7 @@ var PropertyDAO = require("dao/property");
 var Panel = require("components/panel.jsx");
 var PropertySelector = require("components/property-selector.jsx");
 var TextInput = require("components/form/text-input.jsx");
+var TextAreaInput = require("components/form/text-area-input.jsx");
 var DateInput = require("components/form/date-input.jsx");
 
 var NewReceipt = React.createClass({
@@ -22,8 +23,10 @@ var NewReceipt = React.createClass({
       payee: "",
       amount: "",
       date: moment(),
+      note: "",
       property: null,
-      file: null
+      file: null,
+      showFileInput: true
     };
   },
 
@@ -79,7 +82,13 @@ var NewReceipt = React.createClass({
               value={this.state.amount}
               onTextChange={this.handleTextChange} />
 
-            <input type="file" onChange={this.handleFileChange} />
+            <TextAreaInput
+              text="Note"
+              id="note"
+              value={this.state.note}
+              onTextChange={this.handleTextChange} />
+
+            {this.state.showFileInput ? (<input type="file" onChange={this.handleFileChange} />) : null}
 
             <div className="button" onClick={this.handleCreateButton}>Create</div>
 
@@ -127,6 +136,10 @@ var NewReceipt = React.createClass({
       date: self.state.date.toJSON()
     };
 
+    if (self.state.note !== "") {
+      data.note = self.state.note;
+    }
+
     var attachments = [];
 
     if (self.state.file !== null) {
@@ -140,8 +153,11 @@ var NewReceipt = React.createClass({
       self.props.showNotification("Receipt created", true);
       self.setState({
         payee: "",
-        amount: ""
+        amount: "",
+        note: "",
+        showFileInput: false
       });
+      self.setState({showFileInput: true});
     }, function(err) {
       self.handleUnauthorisedAccess();
     });

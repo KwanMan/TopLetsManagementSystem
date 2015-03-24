@@ -19,7 +19,7 @@ var NewContract = React.createClass({
 
   getInitialState: function() {
     var startDate = [this.props.params.year, "07", "01"].join('-');
-    var endDate = [parseInt(this.props.params.year) + 1, "06", "28"].join('-');
+    var endDate = [parseInt(this.props.params.year) + 1, "06", "27"].join('-');
 
     return {
       tenants: [],
@@ -34,7 +34,7 @@ var NewContract = React.createClass({
     return [{
       value: this.state.perWeek,
       validator: validator.isFloat,
-      message: "Invalid price per week"
+      message: "Please enter a valid price per week"
     }, {
       value: this.state.tenants,
       validator: function(v) { return v.length > 0; },
