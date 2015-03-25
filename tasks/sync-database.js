@@ -110,7 +110,7 @@ module.exports = function(grunt) {
 
 
       when.map(landlords, function (landlordData){
-        models.Landlord.create(landlordData).then(function (landlord){
+        models.Landlord.create(_.assign(landlordData, {address: "Random address \r\n Line 2"})).then(function (landlord){
           when.map(landlordData.properties, function (propertyData){
             models.Property.create(_.assign(propertyData, {bedrooms: 5})).then(function (property){
               property.setLandlord(landlord);

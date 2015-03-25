@@ -4,13 +4,12 @@ var Router = require("react-router");
 var _ = require("lodash");
 var validator = require("validator");
 
-var LandlordDAO = require("dao/landlord");
+var PropertyDAO = require("dao/property");
 
 var Panel = require("components/panel.jsx");
-var LandlordSelector = require("components/landlord-selector.jsx");
 var TextInput = require("components/form/text-input.jsx");
 
-var NewProperty = React.createClass({
+var EditProperty = React.createClass({
 
   mixins: [Router.Navigation, require("mixins/auth-protected"), require("mixins/form")],
 
@@ -19,17 +18,13 @@ var NewProperty = React.createClass({
       number: "",
       street: "",
       postcode: "",
-      landlord: null,
+      landlord: "",
       bedrooms: ""
     };
   },
 
   getFieldConstraints: function() {
     return [{
-      value: this.state.landlord,
-      validator: this.validator.isNotNull,
-      message: "Please select a landlord"
-    }, {
       value: this.state.number,
       validator: validator.isNotWhitespaceOrEmpty,
       message: "House number/name cannot be empty"
@@ -52,27 +47,24 @@ var NewProperty = React.createClass({
     }];
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    this.loadData(nextProps);
+  },
+
+  componentDidMount: function() {
+    this.loadData(this.props);
+  },
+
+  loadData: function(props) {
+    var self = this;
+
+    PropertyDAO.getProperty(props.params.id).then(function(property) {
+      var data = _.pick(property, ['number', 'street', 'postcode', 'bedrooms']);
+      self.setState(_.assign(data, {landlord: property.Landlord.fullName}));
+    });
+  },
+
   render: function() {
-    var landlordOpt;
-
-    if (this.state.landlord === null){
-      landlordOpt = (
-        <div
-          className="button"
-          onClick={this.handleChooseLandlordButton}>
-          Select
-        </div>
-      );
-    } else {
-      landlordOpt = (
-        <div
-          className="field clickable"
-          onClick={this.handleChooseLandlordButton}>
-          {this.state.landlord.fullName}
-        </div>
-      );
-    }
-
     return (
       <div className="property-new">
         <Panel title="New Property">
@@ -80,7 +72,7 @@ var NewProperty = React.createClass({
 
             <div className="form-row">
               <div className="label">Landlord:</div>
-              {landlordOpt}
+              <div className="field">{this.state.landlord}</div>
             </div>
 
             <TextInput
@@ -107,26 +99,16 @@ var NewProperty = React.createClass({
               value={this.state.bedrooms}
               onTextChange={this.handleTextChange} />
 
-            <div className="button" onClick={this.handleCreateButton}>Create</div>
+            <div className="button" onClick={this.handleUpdateButton}>Update</div>
 
           </div>
         </Panel>
-
-        <LandlordSelector ref="landlordSelector" onConfirm={this.handleLandlordSelected} />
 
       </div>
     );
   },
 
-  handleChooseLandlordButton: function() {
-    this.refs.landlordSelector.launch([]);
-  },
-
-  handleLandlordSelected: function(landlord) {
-    this.setState({landlord: landlord});
-  },
-
-  handleCreateButton: function() {
+  handleUpdateButton: function() {
     var self = this;
 
     var error = this.validateFields();
@@ -136,9 +118,9 @@ var NewProperty = React.createClass({
     }
 
     var data = _.pick(self.state, 'number', 'street', 'postcode', 'bedrooms');
-    LandlordDAO.createProperty(self.state.landlord.id, data).done(function() {
-      self.props.showNotification("Property successfully created", true);
-      self.transitionTo('property-management');
+    PropertyDAO.updateProperty(self.props.params.id, data).done(function() {
+      self.props.showNotification("Property successfully updated", true);
+      self.transitionTo('property-browse');
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
@@ -146,4 +128,4 @@ var NewProperty = React.createClass({
 
 });
 
-module.exports = NewProperty;
+module.exports = EditProperty;

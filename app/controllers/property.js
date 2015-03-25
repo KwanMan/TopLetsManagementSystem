@@ -20,10 +20,36 @@ module.exports = {
   getPropertyById: function (req, res){
     models.Property.find({
       where: {
-        id: req.param('id')
-      }
+        id: req.params.id
+      },
+      include: [models.Landlord]
     }).success(function (property){
       res.send(property);
+    });
+  },
+
+  updateProperty: function(req, res) {
+    models.Property.findOne(req.params.id)
+
+    .then(function(property) {
+      if (!property) {
+        res.status(400).send("No property found");
+        return;
+      }
+
+      var newData = _.pick(req.body, ['number', 'street', 'postcode', 'bedrooms']);
+      property = _.assign(property, newData);
+      return property.save();
+
+    })
+
+    .then(function(property) {
+      res.status(200).end();
+    })
+
+    .catch(function(err) {
+      console.log(err);
+      res.status(400).end();
     });
   },
 
@@ -234,25 +260,5 @@ module.exports = {
       res.send(contract);
     });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 };

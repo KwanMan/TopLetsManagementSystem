@@ -18,6 +18,7 @@ var routes = (
     <Route name="property-management">
       <Route name="property-browse" path="browse" handler={require("pages/property-management/browse.jsx")} />
       <Route name="edit-landlord" path="edit-landlord/:id" handler={require("pages/property-management/edit-landlord.jsx")} />
+      <Route name="edit-property" path="edit-property/:id" handler={require("pages/property-management/edit-property.jsx")} />
       <Route name="landlord-new" path="new-landlord" handler={require("pages/property-management/new-landlord.jsx")} />
       <Route name="property-new" path="new-property" handler={require("pages/property-management/new-property.jsx")} />
       <Redirect from="?" to="property-browse" />

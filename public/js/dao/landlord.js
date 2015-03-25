@@ -10,6 +10,14 @@ LandlordDAO.prototype.getLandlords = function(){
   return this.get("/");
 };
 
+LandlordDAO.prototype.getLandlord = function(id) {
+  return this.get("/" + id);
+};
+
+LandlordDAO.prototype.updateLandlord = function(id, data) {
+  return this.put("/" + id, data);
+};
+
 LandlordDAO.prototype.getProperties = function(id){
   return this.get("/" + id + "/property");
 };

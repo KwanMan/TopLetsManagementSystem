@@ -1,4 +1,5 @@
 var models = require('../models');
+var _ = require('lodash');
 
 module.exports = {
   getLandlords: function (req, res){
@@ -16,17 +17,42 @@ module.exports = {
   getLandlordById: function (req, res){
     models.Landlord.find({
       where: {
-        id: req.param('id')
+        id: req.params.id
       }
     }).success(function (landlord){
       res.send(landlord);
     });
   },
 
+  updateLandlord: function(req, res) {
+    models.Landlord.findOne(req.params.id)
+
+    .then(function(landlord) {
+      if (!landlord) {
+        res.status(400).send("No landlord found");
+        return;
+      }
+
+      var newData = _.pick(req.body, ['forename', 'surname', 'email', 'contactNumber', 'address']);
+      landlord = _.assign(landlord, newData);
+      return landlord.save();
+
+    })
+
+    .then(function(landlord) {
+      res.status(200).end();
+    })
+
+    .catch(function(err) {
+      console.log(err);
+      res.status(400).end();
+    });
+  },
+
   deleteLandlordById: function (req, res, next){
     models.Landlord.find({
       where: {
-        id: req.param('id')
+        id: req.params.id
       }
     }).success(function (landlord){
       landlord.destroy().success(function (){
@@ -39,8 +65,9 @@ module.exports = {
 
     models.Property.findAll({
       where: {
-        landlord_id: req.param('id')
-      }
+        landlord_id: req.params.id
+      },
+      include: [models.Landlord]
     }).success(function(properties) {
       res.send(properties);
     });
@@ -49,7 +76,7 @@ module.exports = {
   createProperty: function(req, res) {
     models.Property.create(req.body).success(function(property) {
 
-      models.Landlord.findOne(req.param('id')).then(function(landlord) {
+      models.Landlord.findOne(req.params.id).then(function(landlord) {
         property.setLandlord(landlord);
       });
 

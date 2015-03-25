@@ -9,6 +9,8 @@ router.post('/', controller.createProperty);
 
 router.get('/:id', controller.getPropertyById);
 
+router.put('/:id', controller.updateProperty);
+
 router.delete('/:id', controller.deletePropertyById);
 
 // Get unassigned rent payments

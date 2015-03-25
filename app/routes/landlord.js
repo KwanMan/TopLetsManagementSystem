@@ -10,6 +10,8 @@ router.post("/", controller.createLandlord);
 // Get by ID
 router.get("/:id", controller.getLandlordById);
 
+router.put("/:id", controller.updateLandlord);
+
 // Delete by ID
 router.delete("/:id", controller.deleteLandlordById);
 
