@@ -138,7 +138,7 @@ var Browse = React.createClass({
     return (
       <Panel title="Properties">
         <DataTable 
-          className="paper"
+          className="contract-table"
           hideHeader={true}
           hideFooter={true}
           dataNames={dataNames}
