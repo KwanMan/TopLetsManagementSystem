@@ -4,7 +4,7 @@ var config = require("lib/config");
 module.exports = {
 
   login: function(username, password, cb) {
-    var reqPath = config.apiPath + "authenticate";
+    var reqPath = config.apiPath + "/authenticate";
 
     request
       .post(reqPath)

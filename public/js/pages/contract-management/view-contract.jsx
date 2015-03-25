@@ -32,21 +32,83 @@ var ViewContract = React.createClass({
   render: function() {
     var self = this;
     var contract = this.state.contract;
-
     if (contract === null) {
       return null;
     }
 
-    var title = contract.year + " contract for " + contract.Property.shortAddress;
+    var title = contract.Property.shortAddress + " - " + contract.year + "/" + (parseInt(contract.year) + 1);
 
     return (
-      <Panel className="contract-view" title={title}>
-        <div>{"Start Date: " + formatString.date(contract.startDate)}</div>
-        <div>{"End Date: " + formatString.date(contract.endDate)}</div>
-        <div>{"Price pppw: " + formatString.currency(contract.perWeek)}</div>
-        
-      </Panel>
+      <div className="contract-view">
+        <Panel title={title} className="contract-panel">
+          <div className="form">
+
+            <div className="form-row">
+              <div className="label">Start Date:</div>
+              <div className="field">{moment(contract.startDate).format('YYYY-MM-DD')}</div>
+            </div>
+
+            <div className="form-row">
+              <div className="label">End Date:</div>
+              <div className="field">{moment(contract.endDate).format('YYYY-MM-DD')}</div>
+            </div>
+
+            <div className="form-row">
+              <div className="label">Price pppw (£):</div>
+              <div className="field">{contract.perWeek.toFixed(2)}</div>
+            </div>
+
+          </div>
+          <h2>Tenants</h2>
+          {this.renderTenantsTable()}
+        </Panel>
+      </div>
     );
+  },
+
+  renderTenantsTable: function() {
+    var self = this;
+    var contract = this.state.contract;
+
+    var headers = ["Tenant", "Payment Plan"];
+    var dataNames = ["tenant", "plan"];
+
+    var data = contract.Tenants.map(function(tenant) {
+      var payments = contract.RentPayments.filter(function(payment) {
+        return payment.tenant_id === tenant.id;
+      });
+
+      return {
+        tenant: tenant.fullName,
+        plan: self.getPaymentPlan()
+      };
+    });
+
+
+    return (
+      <DataTable
+        className="tenant-table"
+        headers={headers}
+        hideFooter={true}
+        dataNames={dataNames}
+        data={data} />
+    );
+  },
+
+  getPaymentPlan: function(x) {
+    switch(x) {
+      case 12:
+        return "Monthly";
+
+      case 4:
+        return "Quarterly";
+
+      case 1:
+        return "Annually";
+
+      default:
+        return "Custom"
+    }
   }
 
 });

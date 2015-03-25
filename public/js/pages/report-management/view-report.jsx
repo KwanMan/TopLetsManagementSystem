@@ -53,7 +53,6 @@ var ViewReport = React.createClass({
     return (
       <div className="report-new">
         <Panel title={heading}>
-          <h2>Rent</h2>
           {this.renderRentPayments()}
           <h2>Receipts</h2>
           {this.renderReceipts()}
