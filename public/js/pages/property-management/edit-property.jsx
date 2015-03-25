@@ -67,7 +67,7 @@ var EditProperty = React.createClass({
   render: function() {
     return (
       <div className="property-new">
-        <Panel title="New Property">
+        <Panel title="Update Property">
           <div className="form">
 
             <div className="form-row">

@@ -9,6 +9,7 @@ var PropertyDAO = require("dao/property");
 
 var Panel = require("components/panel.jsx");
 var ListSelector = require("components/list-selector.jsx");
+var DataTable = require("components/data-table/data-table.jsx");
 
 var Browse = React.createClass({
 
@@ -16,127 +17,126 @@ var Browse = React.createClass({
 
   getInitialState: function() {
     return {
-      landlordsList: [],
-      propertiesList: [],
+      landlords: [],
+      properties: [],
       selectedLandlord: null,
-      selectedProperty: null};
+      selectedProperty: null
+    };
   },
 
   componentDidMount: function() {
     var self = this;
 
-    LandlordDAO.getLandlords().done(function(data) {
+    var tasks = [];
 
-      var landlords = data.map(function(landlord) {
+    tasks.push(LandlordDAO.getLandlords());
+    tasks.push(PropertyDAO.getAllProperties());
 
-        return {
-          text: landlord.fullName,
-          id: landlord.id
-        };
-
-      });
-
-      landlords.unshift({
-        text: "View All",
-        id: "all"
-      });
-
+    when.all(tasks).done(function(res) {
       self.setState({
-        landlordsList: landlords,
-        selectedLandlord: null
+        landlords: res[0],
+        properties: res[1],
+        selectedLandlord: "all"
       });
-
     }, function(err) {
       self.handleUnauthorisedAccess();
     });
   },
 
   render: function() {
-    var landlordsPanel = (
+
+    return (
+      <div className="property-browse">
+        {this.renderLandlordsPanel()}
+        {this.renderPropertiesPanel()}
+      </div>
+    );
+  },
+
+  renderLandlordsPanel: function() {
+    var self = this;
+
+    var data = self.state.landlords.map(function(landlord) {
+      return {
+        text: landlord.fullName,
+        id: landlord.id
+      };
+    });
+
+    data.unshift({
+      text: "View All",
+      id: "all"
+    });
+
+    return (
       <Panel title="Landlords">
         <ListSelector
           className="landlord-selector"
-          rows={this.state.landlordsList} 
+          rows={data} 
           selectedRow={this.state.selectedLandlord} 
           onChange={this.handleLandlordChange} />
       </Panel>
     );
+  },
 
-    var propertiesPanel = null;
-    if (this.state.selectedLandlord) {
-      propertiesPanel = (
-        <Panel title="Properties">
-          <ListSelector
-            className="property-selector"
-            rows={this.state.propertiesList}
-            selectedRow={this.state.selectedProperty}
-            onChange={this.handlePropertyChange} />
-        </Panel>
-      );
+  renderPropertiesPanel: function() {
+    var self = this;
+
+    if (self.state.selectedLandlord === null) {
+      return null;
     }
 
-    var propertyPanel = null;
-    if (this.state.selectedProperty) {
-      var property = this.state.propertyDetails;
-      propertyPanel = (
-        <Panel title={"Details for " + property.shortAddress}>
-          {property.longAddress}
+    var properties = [];
 
-        </Panel>
-      );
+    if (this.state.selectedLandlord === "all") {
+      properties = self.state.properties;
+    } else {
+      properties = self.state.properties.filter(function(property) {
+        return property.Landlord.id === self.state.selectedLandlord;
+      });
     }
+
+    var headers = ["Address", "Rooms", ""];
+    var dataNames = ["address", "rooms", "edit"];
+
+    var data = properties.map(function(property) {
+      return {
+        id: property.id,
+        address: property.shortAddress,
+        rooms: property.bedrooms,
+        edit: (<span className="action" onClick={self.handleEditProperty.bind(null, property.id)}>edit details</span>)
+      };
+    });
 
     return (
-      <div className="property-browse">
-        {landlordsPanel}
-        {propertiesPanel}
-        {propertyPanel}
-      </div>
+      <Panel>
+        <DataTable
+          className="property-table"
+          headers={headers}
+          hideFooter={true}
+          dataNames={dataNames}
+          data={data} />
+      </Panel>
     );
+  },
+
+  handleEditLandlord: function(id) {
+    this.transitionTo('edit-landlord', {id: id});
+  },
+
+  handleEditProperty: function(id) {
+    this.transitionTo('edit-property', {id: id});
   },
   
   handleLandlordChange: function(id) {
-    var self = this;
-
-    when.promise(function(resolve) {
-
-      if (id === "all") {
-        resolve(PropertyDAO.getAllProperties());
-      } else {
-        resolve(LandlordDAO.getProperties(id));
-      }
-
-    }).then(function(properties) {
-
-      var list = properties.map(function(property) {
-
-        return {
-          text: property.shortAddress,
-          id: property.id
-        };
-
-      });
-
-      self.setState({
-        selectedLandlord: id,
-        propertiesList: list
-      });
-
+    this.setState({
+      selectedLandlord: id
     });
   },
 
   handlePropertyChange: function(id) {
-    var self = this;
-
-    PropertyDAO.getProperty(id).done(function(property) {
-
-      self.setState({
-        selectedProperty: id,
-        propertyDetails: property
-      });
-
-    }, function(err) {
-      self.handleUnauthorisedAccess();
+    this.setState({
+      selectedProperty: id
     });
   }
 
