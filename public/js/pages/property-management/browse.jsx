@@ -69,7 +69,7 @@ var Browse = React.createClass({
     });
 
     return (
-      <Panel title="Landlords">
+      <Panel className="landlord-panel" title="Landlords">
         <ListSelector
           className="landlord-selector"
           rows={data} 
@@ -84,6 +84,17 @@ var Browse = React.createClass({
 
     if (self.state.selectedLandlord === null) {
       return null;
+    }
+
+    var editLandlordButton = null;
+    if (self.state.selectedLandlord !== "all") {
+      editLandlordButton = (
+        <div
+          className="button"
+          onClick={self.handleEditLandlord.bind(null, self.state.selectedLandlord)}>
+          Edit landlord details
+        </div>
+      );
     }
 
     var properties = [];
@@ -109,7 +120,8 @@ var Browse = React.createClass({
     });
 
     return (
-      <Panel>
+      <Panel className="property-panel">
+        {editLandlordButton}
         <DataTable
           className="property-table"
           headers={headers}
