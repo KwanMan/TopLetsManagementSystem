@@ -117,6 +117,7 @@ var Browse = React.createClass({
     }
 
     var headers = ["Address", "Rooms", "", ""];
+    var searchCols = ["address"];
     var dataNames = ["address", "rooms", "edit", "delete"];
 
     var data = properties.map(function(property) {
@@ -136,6 +137,7 @@ var Browse = React.createClass({
         {deleteLandlordButton}
         <DataTable
           className="property-table"
+          searchCols={searchCols}
           headers={headers}
           hideFooter={true}
           dataNames={dataNames}

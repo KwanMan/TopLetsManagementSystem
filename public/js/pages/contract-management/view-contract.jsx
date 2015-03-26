@@ -80,7 +80,7 @@ var ViewContract = React.createClass({
 
       return {
         tenant: tenant.fullName,
-        plan: self.getPaymentPlan()
+        plan: self.getPaymentPlan(payments.length)
       };
     });
 
@@ -107,7 +107,7 @@ var ViewContract = React.createClass({
         return "Annually";
 
       default:
-        return "Custom"
+        return "Custom";
     }
   }
 

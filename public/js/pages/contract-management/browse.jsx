@@ -133,12 +133,15 @@ var Browse = React.createClass({
         action: (<span className="action" onClick={action}>{actionText}</span>)
       };
     });
+
     var dataNames = ["property", "action"];
+    var searchCols = ["property"];
 
     return (
       <Panel title="Properties">
         <DataTable 
           className="contract-table"
+          searchCols={searchCols}
           hideHeader={true}
           hideFooter={true}
           dataNames={dataNames}

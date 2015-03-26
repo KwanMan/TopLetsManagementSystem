@@ -112,6 +112,7 @@ var Browse = React.createClass({
     var self = this;
 
     var headers = ["Property", "Status", null];
+    var searchCols = ["property"];
     var dataNames = ["property", "status", "action"];
 
     var data = this.state.properties.map(function(property) {
@@ -143,6 +144,7 @@ var Browse = React.createClass({
 
     return (
       <DataTable
+        searchCols={searchCols}
         headers={headers}
         hideFooter={true}
         dataNames={dataNames}

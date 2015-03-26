@@ -3,50 +3,57 @@
 @data-table-cell-padding:            5px 10px;
 @data-table-bg-hover:                rgba(0,0,0,.12);
 
-.data-table {
-  //width: 100%;
-  //max-width: 100%;
+.data-table-wrapper{
+  .search-bar {
+    border: 1px solid rgba(147,128,108,.25);
+    padding: 4px 12px;
+    margin-bottom: 5px;
+  }
+  .data-table {
+    //width: 100%;
+    //max-width: 100%;
 
-  thead,
-  tbody,
-  tfoot {
-    tr {
-      transition: all .3s ease;
-      th,
-      td {
-        //text-align: left;
-        padding: @data-table-cell-padding;
-        vertical-align: top;
+    thead,
+    tbody,
+    tfoot {
+      tr {
         transition: all .3s ease;
+        th,
+        td {
+          //text-align: left;
+          padding: @data-table-cell-padding;
+          vertical-align: top;
+          transition: all .3s ease;
+        }
       }
     }
-  }
 
-  thead {
-    border-bottom: 1px solid rgba(0,0,0,.12);
-  }
+    thead {
+      border-bottom: 1px solid rgba(0,0,0,.12);
+    }
 
-  tfoot {
-    border-top: 1px solid rgba(0,0,0,.12);
-  }
+    tfoot {
+      border-top: 1px solid rgba(0,0,0,.12);
+    }
 
-  // Hover for body only
-  tbody tr:hover {
-    background-color: @data-table-bg-hover;
-  }
+    // Hover for body only
+    tbody tr:hover {
+      background-color: @data-table-bg-hover;
+    }
 
-  thead th {
-    font-weight: 400;
-    //color: @data-table-header-font-color;
-    vertical-align: bottom;
-    border-bottom: 1px solid rgba(0,0,0,.12);
-  }
+    thead th {
+      font-weight: 400;
+      //color: @data-table-header-font-color;
+      vertical-align: bottom;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+    }
 
-  .action {
-    .clickable;
-    color: blue;
-  }
+    .action {
+      .clickable;
+      color: blue;
+    }
 
+  }
 }
 
 
