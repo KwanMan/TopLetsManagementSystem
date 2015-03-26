@@ -21,7 +21,11 @@ module.exports = function (sequelize, DataTypes){
       type: DataTypes.STRING,
       allowNull: true,
       get: function() {
-        return this.getDataValue('note').replace(/\\r\\n/g, '\r\n');
+        var note = this.getDataValue('note');
+        if (note === null) {
+          return null;
+        }
+        return note.replace(/\\r\\n/g, '\r\n');
       },
       set: function(v) {
         this.setDataValue('note', v.replace(/\r\n/g, '\\r\\n'));
