@@ -5,7 +5,7 @@ var _ = require('lodash');
 module.exports = {
   getProperties: function (req, res){
     models.Property.findAll({
-      include: [models.Landlord]
+      include: [models.Landlord, models.Contract]
     }).success(function (properties){
       res.send(properties);
     });
@@ -54,15 +54,13 @@ module.exports = {
   },
 
   deletePropertyById: function (req, res){
-    models.Property.find({
-      where: {
-        id: req.param('id')
-      }
-    }).success(function (property){
-      property.destroy().success(function (){
-        res.sendStatus(200);
+    models.Property.findOne(req.params.id)
+      .then(function (property){
+        return property.destroy();
+      })
+      .then(function() {
+        res.status(200).end();
       });
-    });
   },
 
   getNewRentPayments: function(req, res) {

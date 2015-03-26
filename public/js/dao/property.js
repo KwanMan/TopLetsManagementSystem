@@ -14,6 +14,10 @@ PropertyDAO.prototype.getProperty = function(id) {
   return this.get("/" + id);
 };
 
+PropertyDAO.prototype.deleteProperty = function(id) {
+  return this.del("/" + id);
+};
+
 PropertyDAO.prototype.updateProperty = function(id, data) {
   return this.put("/" + id, data);
 };

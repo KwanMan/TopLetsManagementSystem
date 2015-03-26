@@ -19,7 +19,7 @@ var Browse = React.createClass({
     return {
       landlords: [],
       properties: [],
-      selectedLandlord: null,
+      selectedLandlord: "all",
       selectedProperty: null
     };
   },
@@ -35,8 +35,7 @@ var Browse = React.createClass({
     when.all(tasks).done(function(res) {
       self.setState({
         landlords: res[0],
-        properties: res[1],
-        selectedLandlord: "all"
+        properties: res[1]
       });
     }, function(err) {
       self.handleUnauthorisedAccess();
@@ -86,6 +85,15 @@ var Browse = React.createClass({
       return null;
     }
 
+    var properties = [];
+    if (this.state.selectedLandlord === "all") {
+      properties = self.state.properties;
+    } else {
+      properties = self.state.properties.filter(function(property) {
+        return property.Landlord.id === self.state.selectedLandlord;
+      });
+    }
+
     var editLandlordButton = null;
     if (self.state.selectedLandlord !== "all") {
       editLandlordButton = (
@@ -97,31 +105,35 @@ var Browse = React.createClass({
       );
     }
 
-    var properties = [];
-
-    if (this.state.selectedLandlord === "all") {
-      properties = self.state.properties;
-    } else {
-      properties = self.state.properties.filter(function(property) {
-        return property.Landlord.id === self.state.selectedLandlord;
-      });
+    var deleteLandlordButton = null;
+    if (self.state.selectedLandlord !== "all" && properties.length === 0) {
+      deleteLandlordButton = (
+        <div
+          className="button"
+          onClick={self.handleDeleteLandlord.bind(null, self.state.selectedLandlord)}>
+          Delete landlord
+        </div>
+      );
     }
 
-    var headers = ["Address", "Rooms", ""];
-    var dataNames = ["address", "rooms", "edit"];
+    var headers = ["Address", "Rooms", "", ""];
+    var dataNames = ["address", "rooms", "edit", "delete"];
 
     var data = properties.map(function(property) {
+      var deletable = property.Contracts.length === 0;
       return {
         id: property.id,
         address: property.shortAddress,
         rooms: property.bedrooms,
-        edit: (<span className="action" onClick={self.handleEditProperty.bind(null, property.id)}>edit details</span>)
+        edit: (<span className="action" onClick={self.handleEditProperty.bind(null, property.id)}>edit details</span>),
+        delete: deletable ? (<span className="action" onClick={self.handleDeleteProperty.bind(null, property.id)}>delete</span>) : null
       };
     });
 
     return (
       <Panel className="property-panel">
         {editLandlordButton}
+        {deleteLandlordButton}
         <DataTable
           className="property-table"
           headers={headers}
@@ -136,8 +148,35 @@ var Browse = React.createClass({
     this.transitionTo('edit-landlord', {id: id});
   },
 
+  handleDeleteLandlord: function(id) {
+    var self = this;
+
+    LandlordDAO.deleteLandlord(id).done(function() {
+      self.props.showNotification("Landlord deleted", true);
+      self.setState({
+        selectedLandlord: "all"
+      });
+      self.componentDidMount();
+    }, function(err) {
+      throw err;
+      //self.handleUnauthorisedAccess();
+    });
+  },
+
   handleEditProperty: function(id) {
     this.transitionTo('edit-property', {id: id});
+  },
+
+  handleDeleteProperty: function(id) {
+    var self = this;
+
+    PropertyDAO.deleteProperty(id).done(function() {
+      self.props.showNotification("Property deleted", true);
+      self.componentDidMount();
+    }, function(err) {
+      throw err;
+      //self.handleUnauthorisedAccess();
+    });
   },
   
   handleLandlordChange: function(id) {

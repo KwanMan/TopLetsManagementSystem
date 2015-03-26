@@ -5,7 +5,7 @@ var auth = require("./auth");
 var config = require("lib/config");
 var _ = require("lodash");
 
-var requestMethods = ["get", "post", "put", "delete"];
+var requestMethods = ["get", "post", "put", "del"];
 
 function DAO(){}
 
@@ -27,7 +27,6 @@ requestMethods.forEach(function(method){
       
       if (attachments) {
         attachments.forEach(function(attachment) {
-          console.log("attaching: ", attachment);
           req.attach(attachment.field, attachment.file, attachment.file.name);
         });
 
@@ -45,8 +44,6 @@ requestMethods.forEach(function(method){
       req.auth(auth.getUsername(), auth.getToken());
 
       req.end(function(err, res) {
-        console.log("Request path", reqPath);
-        console.log("res", res);
           switch(res.status){
             case 200:
               // return data

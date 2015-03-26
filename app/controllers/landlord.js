@@ -50,14 +50,10 @@ module.exports = {
   },
 
   deleteLandlordById: function (req, res, next){
-    models.Landlord.find({
-      where: {
-        id: req.params.id
-      }
-    }).success(function (landlord){
-      landlord.destroy().success(function (){
-        res.sendStatus(200);
-      });
+    models.Landlord.findOne(req.params.id).then(function (landlord){
+      return landlord.destroy();
+    }).then(function() {
+      res.status(200).end();
     });
   },
 

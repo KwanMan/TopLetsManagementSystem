@@ -18,6 +18,10 @@ LandlordDAO.prototype.updateLandlord = function(id, data) {
   return this.put("/" + id, data);
 };
 
+LandlordDAO.prototype.deleteLandlord = function(id) {
+  return this.del("/" + id);
+};
+
 LandlordDAO.prototype.getProperties = function(id){
   return this.get("/" + id + "/property");
 };
