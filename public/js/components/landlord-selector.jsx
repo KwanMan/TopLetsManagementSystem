@@ -27,12 +27,25 @@ var LandlordSelector = React.createClass({
 
         supplementary = (
           <Panel title="">
-            {"ID: " + landlord.id}
-            {"Forename: " + landlord.forename}
-            {"Surname: " + landlord.surname}
-            {"E-Mail: " + landlord.email}
-            {"Contact Number: " + landlord.contactNumber}
-            <div className="button" onClick={this.handleConfirm}>Confirm</div>
+            <div className="form">
+              <div className="form-row">
+                <div className="label">Name:</div>
+                <div className="field">{landlord.fullName}</div>
+              </div>
+              <div className="form-row">
+                <div className="label">E-mail:</div>
+                <div className="field">{landlord.email}</div>
+              </div>
+              <div className="form-row">
+                <div className="label">Contact Number:</div>
+                <div className="field">{landlord.contactNumber}</div>
+              </div>
+              <div className="form-row">
+                <div className="label">Address:</div>
+                <div className="field">{landlord.address}</div>
+              </div>
+              <div className="button" onClick={this.handleConfirm}>Confirm</div>
+            </div>
           </Panel>
         );
     }

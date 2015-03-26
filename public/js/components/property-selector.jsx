@@ -29,9 +29,21 @@ var PropertySelector = React.createClass({
 
       supplementary = (
         <Panel title="">
-          {"ID: " + property.id}
-          {"Address: " + property.longAddress}
-          <div className="button" onClick={this.handleConfirm}>Confirm</div>
+          <div className="form">
+            <div className="form-row">
+              <div className="label">Landlord:</div>
+              <div className="field">{property.Landlord.fullName}</div>
+            </div>
+            <div className="form-row">
+              <div className="label">Address:</div>
+              <div className="field">{property.shortAddress}</div>
+            </div>
+            <div className="form-row">
+              <div className="label">Post Code:</div>
+              <div className="field">{property.postcode}</div>
+            </div>
+            <div className="button" onClick={this.handleConfirm}>Confirm</div>
+          </div>
         </Panel>
       );
     }
