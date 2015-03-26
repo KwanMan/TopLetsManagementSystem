@@ -83,8 +83,13 @@ var Browse = React.createClass({
       var action;
       if (payment.paid) {
         status = "Received";
-        action = self.handelPaymentUnpay.bind(null, payment.id);
-        actionText = "Mark as unpaid";
+        if (payment.property_report_id === null) {
+          action = self.handelPaymentUnpay.bind(null, payment.id);
+          actionText = "Mark as unpaid";
+        } else {
+          action = null;
+          actionText = null;
+        }
       } else {
         if (new Date(payment.dueDate) < new Date()) {
           status = "Overdue";

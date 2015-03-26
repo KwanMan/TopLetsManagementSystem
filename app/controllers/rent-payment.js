@@ -16,6 +16,10 @@ module.exports = {
   }, markPaymentUnpaid: function (req, res){
 
     models.RentPayment.find(req.params.id).then(function (payment){
+      if (payment.property_report_id !== null) {
+        res.status(409).send("Payment attached to generated report");
+        return;
+      }
       payment.paid = false;
       payment.save();
       return payment;
