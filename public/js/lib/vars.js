@@ -31,6 +31,11 @@ module.exports = {
       });
     }
 
+    contractManagementChildren.unshift({
+      text: "New Tenant",
+      route: "new-tenant"
+    });
+
     var navLinks = [{
       text: "Dashboard",
       route: "dashboard"

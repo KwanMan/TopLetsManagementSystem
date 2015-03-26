@@ -13,73 +13,43 @@ var TenantSelector = React.createClass({
   getInitialState: function() {
     return {
       tenants: [],
-      selectedTenant: "new",
-      newTenant: {
-        forename: "",
-        surname: "",
-        idNumber: "",
-        email: "",
-        contactNumber: ""
-      }
+      selectedTenant: null
     };
   },
 
   render: function() {
+    var self = this;
     var supplementary = null;
 
     if (this.state.selectedTenant !== null) {
-      if(this.state.selectedTenant === "new") {
+      
+      var tenant = _.find(self.state.tenants, {id: self.state.selectedTenant});
 
-        supplementary = (
-          <Panel title="">
-            <div className="form paper">
+      supplementary = (
 
-              <div className="form-row">
-                <span className="label">Forename</span>
-                <input className="field" type="text" value={this.state.newTenant.forename} onChange={this.handleForenameChange} />
-              </div>
-
-              <div className="form-row">
-                <span className="label">Surname</span>
-                <input className="field" type="text" value={this.state.newTenant.surname} onChange={this.handleSurnameChange} />
-              </div>
-
-              <div className="form-row">
-                <span className="label">ID No.</span>
-                <input className="field" type="text" value={this.state.newTenant.idNumber} onChange={this.handleIdNumberChange} />
-              </div>
-
-              <div className="form-row">
-                <span className="label">E-mail</span>
-                <input className="field" type="text" value={this.state.newTenant.email} onChange={this.handleEmailChange} />
-              </div>
-
-              <div className="form-row">
-                <span className="label">Contact Number</span>
-                <input className="field" type="text" value={this.state.newTenant.contactNumber} onChange={this.handleContactNumberChange} />
-              </div>
-
-              <div className="button" onClick={this.handleCreate}>Confirm</div>
-
+        <Panel title="">
+          <div className="form">
+            <div className="form-row">
+              <div className="label">Name:</div>
+              <div className="field">{tenant.fullName}</div>
             </div>
-          </Panel>
-        );
-      } else {
-        var tenant = this.getSelectedTenantFromList();
-
-        supplementary = (
-
-          <Panel title="">
-            {"ID: " + tenant.id}
-            {"Forename: " + tenant.forename}
-            {"Surname: " + tenant.surname}
-            {"ID Number: " + tenant.idNumber}
-            {"E-Mail: " + tenant.email}
-            {"Contact Number: " + tenant.contactNumber}
+            <div className="form-row">
+              <div className="label">ID Number:</div>
+              <div className="field">{tenant.idNumber}</div>
+            </div>
+            <div className="form-row">
+              <div className="label">E-Mail:</div>
+              <div className="field">{tenant.email}</div>
+            </div>
+            <div className="form-row">
+              <div className="label">Contact Number:</div>
+              <div className="field">{tenant.contactNumber}</div>
+            </div>
             <div className="button" onClick={this.handleConfirm}>Confirm</div>
-          </Panel>
-        );
-      }
+          </div>
+        </Panel>
+      );
+      
     }
 
     return (
@@ -106,11 +76,6 @@ var TenantSelector = React.createClass({
         };
     });
 
-    tenants.unshift({
-      text: "New",
-      id: "new"
-    });
-
     return tenants;
   },
 
@@ -125,7 +90,10 @@ var TenantSelector = React.createClass({
         return !_.some(excludedTenants, {id: tenant.id});
       });
 
-      self.setState(_.assign(self.getInitialState(), {tenants: tenants}));
+      self.setState({
+        tenants: tenants,
+        selectedTenant: null
+      });
 
       self.refs.mainDialog.show();
 
@@ -133,84 +101,16 @@ var TenantSelector = React.createClass({
   },
 
   handleTenantChange: function(id) {
-    var self = this;
-
-    self.setState({
+    this.setState({
       selectedTenant: id
-    });
-  },
-
-  handleForenameChange: function(e) {
-
-    var newTenant = this.state.newTenant;
-    newTenant.forename = e.target.value;
-
-    this.setState({
-      newTenant: newTenant
-    });
-  },
-
-  handleSurnameChange: function(e) {
-    var newTenant = this.state.newTenant;
-    newTenant.surname = e.target.value;
-
-    this.setState({
-      newTenant: newTenant
-    });
-  },
-
-  handleIdNumberChange: function(e) {
-    var newTenant = this.state.newTenant;
-    newTenant.idNumber = e.target.value;
-
-    this.setState({
-      newTenant: newTenant
-    });
-  },
-
-  handleEmailChange: function(e) {
-    var newTenant = this.state.newTenant;
-    newTenant.email = e.target.value;
-
-    this.setState({
-      newTenant: newTenant
-    });
-  },
-
-  handleContactNumberChange: function(e) {
-    var newTenant = this.state.newTenant;
-    newTenant.contactNumber = e.target.value;
-
-    this.setState({
-      newTenant: newTenant
-    });
-  },
-
-  handleCreate: function() {
-    var self = this;
-
-    TenantDAO.createTenant(self.state.newTenant).then(function(tenant) {
-      self.props.onConfirm(tenant);
-      self.refs.mainDialog.hide();
     });
   },
 
   handleConfirm: function() {
     var self = this;
 
-    self.props.onConfirm(this.getSelectedTenantFromList());
+    self.props.onConfirm(_.find(self.state.tenants, {id: self.state.selectedTenant}));
     self.refs.mainDialog.hide();
-  },
-
-  getSelectedTenantFromList: function(){
-    var self = this;
-
-    var idx = _.findIndex(self.state.tenants, 'id', self.state.selectedTenant);
-
-    if (idx !== -1) {
-      return self.state.tenants[idx];
-    }
-    return null;
   }
   
 });

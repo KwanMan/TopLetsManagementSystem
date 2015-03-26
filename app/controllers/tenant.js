@@ -1,4 +1,5 @@
 var models = require('../models');
+var _ = require('lodash');
 
 module.exports = {
 
@@ -9,7 +10,11 @@ module.exports = {
   }, 
 
   createTenant: function (req, res){
-    models.Tenant.create(req.body).success(function (tenant){
+    var data = _.pick(req.body, 'forename', 'surname', 'email', 'contactNumber');
+    if (req.body.idNumber) {
+      data.idNumber = req.body.idNumber;
+    }
+    models.Tenant.create(req.body).then(function (tenant){
       res.send(tenant);
     });
   },

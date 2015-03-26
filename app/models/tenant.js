@@ -15,11 +15,11 @@ module.exports = function (sequelize, DataTypes){
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     contactNumber: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     }
   }, {
     getterMethods: {
