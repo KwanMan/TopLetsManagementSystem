@@ -63,8 +63,8 @@ var NewContract = React.createClass({
 
     return (
       <div className="contract-new">
-        <Panel title={title}>
-          <div className="form paper">
+        <Panel title={title} className="contract-panel">
+          <div className="form">
             <DateInput
               text="Start Date"
               date={this.state.startDate}
@@ -80,11 +80,9 @@ var NewContract = React.createClass({
               id="perWeek"
               value={this.state.perWeek}
               onTextChange={this.handleTextChange} />
-
-            {this.renderTenantsTable()}
-            <div className="button" onClick={this.handleSubmit}>Submit</div>
-
           </div>
+          {this.renderTenantsTable()}
+          <div className="button" onClick={this.handleSubmit}>Submit</div>
         </Panel>
 
         <TenantSelector ref="tenantSelector" onConfirm={this.handleTenantAdded} />
