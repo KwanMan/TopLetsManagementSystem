@@ -119,9 +119,7 @@ var NewLandlord = React.createClass({
         email: "",
         contactNumber: ""
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

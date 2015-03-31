@@ -114,9 +114,7 @@ var NewLandlord = React.createClass({
     LandlordDAO.createLandlord(data).done(function() {
       self.props.showNotification("Landlord successfully created", true);
       self.transitionTo('property-new');
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

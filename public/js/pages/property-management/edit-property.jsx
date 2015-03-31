@@ -58,10 +58,10 @@ var EditProperty = React.createClass({
   loadData: function(props) {
     var self = this;
 
-    PropertyDAO.getProperty(props.params.id).then(function(property) {
+    PropertyDAO.getProperty(props.params.id).done(function(property) {
       var data = _.pick(property, ['number', 'street', 'postcode', 'bedrooms']);
       self.setState(_.assign(data, {landlord: property.Landlord.fullName}));
-    });
+    }, self.handleApiError);
   },
 
   render: function() {
@@ -121,9 +121,7 @@ var EditProperty = React.createClass({
     PropertyDAO.updateProperty(self.props.params.id, data).done(function() {
       self.props.showNotification("Property successfully updated", true);
       self.transitionTo('property-browse');
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

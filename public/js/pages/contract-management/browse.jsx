@@ -61,13 +61,11 @@ var Browse = React.createClass({
           return obj;
         });
       });
-    }).then(function(properties) {
+    }).done(function(properties) {
       self.setState({
         properties: properties
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   render: function() {
@@ -207,9 +205,7 @@ var Browse = React.createClass({
         selectedProperty: id,
         contract: contract
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

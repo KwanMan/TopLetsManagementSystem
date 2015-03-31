@@ -47,9 +47,7 @@ module.exports = React.createClass({
         receipts: receipts,
         property: property
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   getFees: function() {
@@ -259,8 +257,6 @@ module.exports = React.createClass({
     PropertyDAO.createReport(self.props.params.propertyid, data).done(function(report) {
       self.props.showNotification("Report created", true);
       self.transitionTo("report-browse", {id: report.id});
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 });

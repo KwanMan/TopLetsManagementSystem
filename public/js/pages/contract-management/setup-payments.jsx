@@ -29,9 +29,7 @@ var SetupPayment = React.createClass({
       });
 
       self.setState(newState);
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   render: function() {
@@ -108,9 +106,7 @@ var SetupPayment = React.createClass({
     ContractDAO.createPayments(self.state.contract.id, {plans: data}).then(function(payments) {
       self.props.showNotification("Payments created", true);
       self.transitionTo('contract-browse', {year: self.state.contract.year});
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

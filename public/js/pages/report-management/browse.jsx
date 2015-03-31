@@ -187,9 +187,7 @@ var Browse = React.createClass({
         selectedMonth: id,
         properties: properties
       });
-    }, function(err){
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   handleReportCreate: function(propertyid) {

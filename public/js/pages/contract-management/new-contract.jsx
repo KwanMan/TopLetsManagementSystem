@@ -49,9 +49,7 @@ var NewContract = React.createClass({
       self.setState({
         property: property
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   render: function() {
@@ -174,9 +172,7 @@ var NewContract = React.createClass({
     PropertyDAO.createContract(this.props.params.propertyid, data).done(function() {
       self.props.showNotification("Contract created", true);
       self.transitionTo("contract-browse", {year: self.props.params.year});
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

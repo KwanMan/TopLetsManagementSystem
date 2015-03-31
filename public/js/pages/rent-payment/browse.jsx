@@ -31,11 +31,7 @@ var Browse = React.createClass({
       self.setState({
         tenants: tenants
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
-
-
+    }, self.handleApiError);
   },
 
   render: function() {
@@ -140,9 +136,7 @@ var Browse = React.createClass({
         selectedTenant: id,
         rentPayments: rentPayments
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   handlePaymentPay: function(id) {
@@ -151,9 +145,7 @@ var Browse = React.createClass({
     RentPaymentDAO.pay(id).done(function() {
       self.props.showNotification("Payment marked as paid", true);
       self.handleTenantChange(self.state.selectedTenant);
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   handelPaymentUnpay: function(id) {
@@ -162,9 +154,7 @@ var Browse = React.createClass({
     RentPaymentDAO.unpay(id).done(function() {
       self.props.showNotification("Payment marked as unpaid", true);
       self.handleTenantChange(self.state.selectedTenant);
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

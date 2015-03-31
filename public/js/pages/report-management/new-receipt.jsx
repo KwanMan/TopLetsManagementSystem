@@ -158,9 +158,7 @@ var NewReceipt = React.createClass({
         showFileInput: false
       });
       self.setState({showFileInput: true});
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

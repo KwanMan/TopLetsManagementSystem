@@ -24,9 +24,7 @@ var ViewContract = React.createClass({
 
     ContractDAO.getContract(self.props.params.id).done(function(contract){
       self.setState({contract: contract});
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   render: function() {

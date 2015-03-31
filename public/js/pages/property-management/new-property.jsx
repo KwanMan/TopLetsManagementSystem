@@ -139,9 +139,7 @@ var NewProperty = React.createClass({
     LandlordDAO.createProperty(self.state.landlord.id, data).done(function() {
       self.props.showNotification("Property successfully created", true);
       self.transitionTo('property-management');
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

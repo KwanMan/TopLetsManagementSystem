@@ -37,9 +37,7 @@ var Browse = React.createClass({
         landlords: res[0],
         properties: res[1]
       });
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   render: function() {
@@ -159,10 +157,7 @@ var Browse = React.createClass({
         selectedLandlord: "all"
       });
       self.componentDidMount();
-    }, function(err) {
-      throw err;
-      //self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   handleEditProperty: function(id) {
@@ -175,10 +170,7 @@ var Browse = React.createClass({
     PropertyDAO.deleteProperty(id).done(function() {
       self.props.showNotification("Property deleted", true);
       self.componentDidMount();
-    }, function(err) {
-      throw err;
-      //self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
   
   handleLandlordChange: function(id) {

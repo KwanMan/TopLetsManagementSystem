@@ -25,9 +25,7 @@ var ViewReport = React.createClass({
 
     PropertyReportDAO.getReport(self.props.params.id).done(function(report){
       self.setState({report: report});
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   },
 
   getSubtotal: function(payments) {

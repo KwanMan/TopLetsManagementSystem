@@ -67,9 +67,9 @@ var EditLandlord = React.createClass({
   loadData: function(props) {
     var self = this;
 
-    LandlordDAO.getLandlord(props.params.id).then(function(landlord) {
+    LandlordDAO.getLandlord(props.params.id).done(function(landlord) {
       self.setState(_.pick(landlord, ['forename', 'surname', 'email', 'contactNumber', 'address']));
-    });
+    }, self.handleApiError);
   },
 
   render: function() {
@@ -130,9 +130,7 @@ var EditLandlord = React.createClass({
     LandlordDAO.updateLandlord(this.props.params.id, data).done(function() {
       self.props.showNotification("Landlord successfully updated", true);
       self.transitionTo('property-browse');
-    }, function(err) {
-      self.handleUnauthorisedAccess();
-    });
+    }, self.handleApiError);
   }
 
 });

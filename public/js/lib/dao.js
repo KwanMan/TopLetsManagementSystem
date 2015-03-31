@@ -18,7 +18,10 @@ requestMethods.forEach(function(method){
 
       if (!auth.loggedIn()) {
         console.log("Not logged in");
-        reject(new Error("Not logged in"));
+        reject({
+          status: 401,
+          message: "Unauthorised"
+        });
       }
 
       var reqPath = config.apiPath + self.basePath + path;
@@ -49,11 +52,11 @@ requestMethods.forEach(function(method){
               // return data
               resolve(res.body);
               break;
-            case 401:
-              reject(new Error("401 unauthorised"));
-              break;
             default:
-              console.log("Response Status", res.status);
+            reject({
+              status: res.status,
+              message: res.body.message
+            });
           }
         });
       });
