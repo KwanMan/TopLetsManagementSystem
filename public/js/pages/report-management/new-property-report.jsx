@@ -109,7 +109,7 @@ module.exports = React.createClass({
         date: formatString.date(rentPayment.dueDate),
         tenant: rentPayment.Tenant.fullName,
         amount: formatString.currency(rentPayment.amount),
-        remove: "remove"
+        remove: (<span classname="action" onClick={self.handleRentRemove.bind(null, rentPayment.id)}>remove</span>)
       };
     });
 
@@ -123,8 +123,7 @@ module.exports = React.createClass({
         headers={headers}
         footers={footers}
         dataNames={dataNames}
-        data={data}
-        onCol3Click={self.handleRentRemove} />
+        data={data} />
     );
   },
 
@@ -140,7 +139,7 @@ module.exports = React.createClass({
         date: formatString.date(receipt.date),
         payee: receipt.payee,
         amount: formatString.currency(receipt.amount),
-        remove: "remove"
+        remove: (<span classname="action" onClick={self.handleRentRemove.bind(null, receipt.id)}>remove</span>)
       };
     });
 
@@ -153,8 +152,7 @@ module.exports = React.createClass({
         headers={headers}
         footers={footers}
         dataNames={dataNames}
-        data={data}
-        onCol3Click={self.handleReceiptRemove} />
+        data={data} />
     );
   },
 

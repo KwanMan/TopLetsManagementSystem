@@ -34,13 +34,7 @@ var DataTable = React.createClass({
     // Make footer
     if (!this.props.hideFooter) {
       var footers = this.props.footers.map(function(footer, index) {
-        var actionId = 'onFootCol' + index + 'Click';
-        var className = "col" + index;
-
-        if (self.props[actionId]) {
-          return (<td className={className}><span onClick={self.props[actionId]} className="action">{footer}</span></td>);
-        }
-        return (<td className={className}>{footer}</td>);
+        return (<td className={"col" + index}>{footer}</td>);
       });
       foot = (<tfoot><tr>{footers}</tr></tfoot>);
     }
@@ -59,16 +53,8 @@ var DataTable = React.createClass({
     // Make body
     var rows = data.map(function(row) {
       var cells = self.props.dataNames.map(function(name, index) {
-        var actionId = 'onCol' + index + 'Click';
-        var className = "col" + index;
-        if (self.props[actionId]){
-          var action = self.props[actionId].bind(null, row.id);
-          return (<td className={className}><span className="action" onClick={action}>{row[name]}</span></td>);
-        }
-        return (<td className={className}>{row[name]}</td>);
-
+        return (<td className={"col" + index}>{row[name]}</td>);
       });
-
       return (<tr>{cells}</tr>);
     });
 

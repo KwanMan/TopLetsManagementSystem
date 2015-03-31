@@ -91,15 +91,19 @@ var NewContract = React.createClass({
   },
 
   renderTenantsTable: function() {
+    var self = this;
+
     var headers = ["Tenants", null];
-    var footers = [null, "Add Tenant"];
+    var footers = [null];
+
+    footers.push(<span className="action" onClick={self.handleAddTenant}>Add Tenant</span>);
 
     var dataNames = ["name", "action"];
     var data = this.state.tenants.map(function(tenant) {
       return {
         id: tenant.id,
         name: tenant.fullName,
-        action: "Remove"
+        action: (<span className="action" onClick={self.handleTenantRemove.bind(null, tenant.id)}>remove</span>)
       };
     });
 
@@ -107,10 +111,8 @@ var NewContract = React.createClass({
         <DataTable
           headers={headers}
           footers={footers}
-          onFootCol1Click={this.handleAddTenantButton}
           dataNames={dataNames}
-          data={data}
-          onCol1Click={this.handleTenantRemove} />  
+          data={data} />  
     );
   },
 
@@ -136,7 +138,7 @@ var NewContract = React.createClass({
     });
   },
 
-  handleAddTenantButton: function() {
+  handleAddTenant: function() {
     this.refs.tenantSelector.launch(this.state.tenants);
   },
 
