@@ -68,8 +68,9 @@ module.exports = React.createClass({
 
     auth.login(this.state.username, this.state.password, function(successful) {
       if (successful) {
+        self.props.setLoggedIn(true);
         self.props.showNotification("Successfully Logged In", true);
-        self.transitionTo('dashboard');
+        self.transitionTo('property-browse');
       } else {
         self.props.showNotification("Incorrect credentials, please try again.", false);
         self.setState(self.getInitialState());

@@ -4,13 +4,17 @@ var Router = require("react-router");
 var cx = React.addons.classSet;
 
 var vars = require("lib/vars");
+var auth = require("lib/auth");
 
 module.exports = React.createClass({
 
   mixins: [Router.Navigation, Router.State],
 
   getInitialState: function() {
-    return {selectedItem : "contract-management"};
+    return {
+      selectedItem : "contract-management",
+      loggedIn: false
+    };
   },
 
   render: function() {
@@ -53,10 +57,29 @@ module.exports = React.createClass({
               {route.text}
             </div>
           );
+
+
         });
       }
 
     });
+
+    if (self.state.loggedIn) {
+
+      var classes = cx({
+        'nav-bar-item': true,
+        'is-selected': false,
+        'z-1': true
+      });
+
+      menuItems.push(
+        <div
+          className={classes}
+          onClick={self.handleLogout} >
+          Logout
+        </div>
+      );
+    }
     
     return (
       <div className='nav-bar'>
@@ -69,6 +92,21 @@ module.exports = React.createClass({
 
   handleNavigation: function(route, params) {
     this.transitionTo(route, params);
+  },
+
+  handleLogout: function() {
+    var self = this;
+    auth.logout(function() {
+      self.props.showNotification("Successfully logged out", true);
+      self.setLoggedIn(false);
+      self.transitionTo('login');
+    });
+  },
+
+  setLoggedIn: function(loggedIn) {
+    this.setState({
+      loggedIn: loggedIn
+    })
   }
 
 });

@@ -38,6 +38,7 @@ module.exports = {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
 
+    cb();
   },
 
   loggedIn: function() {

@@ -18,7 +18,6 @@ module.exports = function (sequelize, DataTypes){
     classMethods: {
       associate: function (models){
         PropertyReport.belongsTo(models.Property);
-        PropertyReport.belongsTo(models.LandlordReport);
         PropertyReport.hasMany(models.Receipt);
         PropertyReport.hasMany(models.RentPayment);
         PropertyReport.hasMany(models.Fee);

@@ -37,9 +37,6 @@ module.exports = {
     });
 
     var navLinks = [{
-      text: "Dashboard",
-      route: "dashboard"
-    },{
       text: "Property Management",
       route: "property-management",
       children: [{
@@ -69,9 +66,6 @@ module.exports = {
         text: "New Receipt",
         route: "receipt-new"
       }]
-    }, {
-      text: "Settings",
-      route: "settings"
     }];
 
     return navLinks;

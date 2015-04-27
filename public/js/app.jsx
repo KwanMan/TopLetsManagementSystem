@@ -14,9 +14,9 @@ module.exports = React.createClass({
     return (
       <div className="main-wrapper">
         <NotificationBar ref="notificationBar" />
-        <NavBar currentPath={this.props.currentPath} />
+        <NavBar ref="navBar" currentPath={this.props.currentPath} showNotification={this.showNotification} />
         <div className="content-wrapper">
-          <RouteHandler params={this.props.params} showNotification={this.showNotification}/>
+          <RouteHandler params={this.props.params} showNotification={this.showNotification}  setLoggedIn={this.setLoggedIn} />
         </div>
       </div>
     );
@@ -24,6 +24,10 @@ module.exports = React.createClass({
 
   showNotification: function (message, positive) {
     this.refs.notificationBar.displayMessage(message, positive);
+  },
+
+  setLoggedIn: function(loggedIn) {
+    this.refs.navBar.setLoggedIn(loggedIn);
   }
 
 });

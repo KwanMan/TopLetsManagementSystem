@@ -13,8 +13,6 @@ var routes = (
 
     <Route name="login" handler={require("pages/login/login.jsx")} />
 
-    <Route name="dashboard" handler={require("pages/home/home.jsx")} />
-
     <Route name="property-management">
       <Route name="property-browse" path="browse" handler={require("pages/property-management/browse.jsx")} />
       <Route name="edit-landlord" path="edit-landlord/:id" handler={require("pages/property-management/edit-landlord.jsx")} />
@@ -46,9 +44,7 @@ var routes = (
       <Redirect from="*" to="report-browse" />
     </Route>
 
-    <Route name="settings" handler={require("pages/settings/settings.jsx")} />
-
-    <Redirect from="*" to="dashboard" />
+    <Redirect from="*" to="property-browse" />
   </Route>
 );
 

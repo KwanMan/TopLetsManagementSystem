@@ -120,12 +120,6 @@ module.exports = function(grunt) {
         });
       });
 
-      
-      models.User.create({
-        username: "tommy",
-        password: "password"
-      });
-
       models.Admin.create({
         username: "admin",
         password: "adminpass"
