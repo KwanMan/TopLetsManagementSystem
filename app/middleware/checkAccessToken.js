@@ -20,13 +20,13 @@ module.exports = function (req, res, next) {
   }).then(function(token) {
     if (!token) {
       console.log('Token not found');
-      res.status(401).end();
+      res.status(401).send({message: "Unauthorised access"});
       return;
     }
 
     if (token.expired()) {
       console.log("Token expired");
-      res.status(401).end();
+      res.status(401).send({message: "Unauthorised access"});
       return;
     }
 
